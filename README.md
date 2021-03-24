@@ -8,7 +8,7 @@ sincetill.com &amp; apps
 
 ## design
 
-- TODO: [interactive mockup on xiaopu]
+- TODO: [interactive mockup on xiaopu](https://www.xiaopiu.com/project?proid=605af7cef0574e77cb222d87)
 
 ## tech
 
