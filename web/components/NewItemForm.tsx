@@ -27,9 +27,6 @@ export default function NewItemForm({
     labelCol: { span: 4 },
     wrapperCol: { span: 20 },
   };
-  const tailLayout = {
-    wrapperCol: { span: 24 },
-  };
 
   const onFinish = async (values: any) => {
     console.log("Success:", values);
@@ -100,7 +97,7 @@ export default function NewItemForm({
         </Form.Item>
       )}
       <Form.Item label="Show as" name="formatType">
-        <Select style={{ width: 120 }}>
+        <Select>
           <Select.Option value={EFormatType.SECONDS}>Seconds</Select.Option>
           <Select.Option value={EFormatType.MINUTES}>Minutes</Select.Option>
           <Select.Option value={EFormatType.HOURS}>Hours</Select.Option>
@@ -110,7 +107,10 @@ export default function NewItemForm({
           <Select.Option value={EFormatType.YEARS}>Years</Select.Option>
         </Select>
       </Form.Item>
-      <Form.Item {...tailLayout}>
+      <Form.Item
+        // @ts-ignore */}
+        wrapperCol={{ align: "right" }}
+      >
         <Button type="primary" htmlType="submit">
           Add Item
         </Button>
