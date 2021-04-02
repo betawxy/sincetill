@@ -14,6 +14,7 @@ import {
 
 import "antd/dist/antd.css";
 import moment from "moment";
+import { genUniqueId } from "../lib/utils";
 
 export default function NewItemForm({
   appendItemToState,
@@ -55,15 +56,16 @@ export default function NewItemForm({
     }
 
     const item: TItem = {
+      id: genUniqueId(),
+      uid: "",
       title,
       ts: date.unix() * 1000 + date.millisecond(),
       isFullDayEvent: switchChecked,
       formatType: formatType,
       backgroundImage: "",
-      uid: "",
     };
 
-    await itemsRef.add(item);
+    await itemsRef.doc(item.id).set(item);
     appendItemToState(item);
   };
 
