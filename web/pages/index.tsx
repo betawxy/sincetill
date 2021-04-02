@@ -1,6 +1,6 @@
 import { Tag } from "antd";
 import moment from "moment";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NewItemForm from "../components/NewItemForm";
 import { itemsRef } from "../lib/firebase";
 import { TItem } from "../lib/types";
@@ -46,12 +46,22 @@ function ItemCard({ item }: { item: TItem }) {
 }
 
 export default function Home(props: Props) {
+  const [timer, setTimer] = useState(new Date());
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimer(new Date());
+    }, 500);
+    return () => clearInterval(interval);
+  }, []);
+
   const [items, setItems] = useState(props.items);
   const appendItemToState = (newItem: TItem) => setItems([...items, newItem]);
 
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-3xl py-6">since till</h1>
+      <h1 className="text-3xl py-6">
+        since till<span className="hidden">{timer.toISOString()}</span>
+      </h1>
       <div className="bg-yellow-100 p-6 rounded rounded-sm">
         <NewItemForm appendItemToState={appendItemToState} />
       </div>

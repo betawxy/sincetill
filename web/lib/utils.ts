@@ -68,5 +68,5 @@ export function getDateTimeString(item: TItem): string {
     }
   }
 
-  return arr.join(", ") + " [" + m.format("yyyy-MM-DD HH:mm:ss") + "]";
+  return arr.join(", ");
 }
