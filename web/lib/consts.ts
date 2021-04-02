@@ -1,11 +1,11 @@
-import { FormatType, TItem } from "./types";
+import { EFormatType, TItem } from "./types";
 
 export const defaultBackground = "";
 
 export const defaultNewItem: TItem = {
   title: "",
   ts: Date.now(),
-  isFullDateEvent: false,
-  formatType: FormatType.DAYS,
+  isFullDayEvent: false,
+  formatType: EFormatType.DAYS,
   backgroundImage: defaultBackground,
 };

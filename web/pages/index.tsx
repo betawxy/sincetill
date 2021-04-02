@@ -1,10 +1,18 @@
 import { useState } from "react";
 import { defaultNewItem } from "../lib/consts";
 import { itemsRef } from "../lib/firebase";
-import { TItem } from "../lib/types";
+import { EFormatType, TItem } from "../lib/types";
 
-import { Form, Input, Button, Checkbox } from "antd";
-
+import {
+  Form,
+  Input,
+  Button,
+  DatePicker,
+  TimePicker,
+  Switch,
+  Select,
+} from "antd";
+import { CloseOutlined, CheckOutlined } from "@ant-design/icons";
 import "antd/dist/antd.css";
 
 type Props = {
@@ -22,7 +30,23 @@ async function getItems(): Promise<TItem[]> {
   return (await itemsRef.get()).docs.map((doc) => doc.data() as TItem);
 }
 
-function NewItemForm() {
+function NewItemForm({
+  addItemToState,
+}: {
+  addItemToState: (newItem: TItem) => void;
+}) {
+  const [newItem, setNewItem] = useState({ ...defaultNewItem });
+
+  async function addItem() {
+    if (newItem.title.length === 0) {
+      alert("pls add title");
+      return;
+    }
+    await itemsRef.add(newItem);
+    addItemToState(newItem);
+    setNewItem({ ...defaultNewItem });
+  }
+
   const layout = {
     labelCol: { span: 4 },
     wrapperCol: { span: 20 },
@@ -32,6 +56,7 @@ function NewItemForm() {
   };
 
   const onFinish = (values: any) => {
+    addItem();
     console.log("Success:", values);
   };
 
@@ -48,28 +73,40 @@ function NewItemForm() {
       onFinishFailed={onFinishFailed}
     >
       <Form.Item
-        label="Username"
-        name="username"
-        rules={[{ required: true, message: "Please input your username!" }]}
+        label="Title"
+        name="title"
+        rules={[{ required: true, message: "Please provide title!" }]}
       >
         <Input />
       </Form.Item>
-
-      <Form.Item
-        label="Password"
-        name="password"
-        rules={[{ required: true, message: "Please input your password!" }]}
-      >
-        <Input.Password />
+      <Form.Item label="Full Day Event" name="isFullDayEvent">
+        <Switch
+          checkedChildren={<CheckOutlined />}
+          unCheckedChildren={<CloseOutlined />}
+          defaultChecked
+        />
       </Form.Item>
-
-      <Form.Item {...tailLayout} name="remember" valuePropName="checked">
-        <Checkbox>Remember me</Checkbox>
+      <Form.Item label="Date" name="date">
+        <DatePicker />
       </Form.Item>
-
+      <Form.Item label="Time" name="time">
+        <TimePicker />
+      </Form.Item>
+      <Form.Item label="Show as" name="formatType">
+        <Select defaultValue={EFormatType.DAYS} style={{ width: 120 }}>
+          <Select.Option value={EFormatType.SECONDS}>Seconds</Select.Option>
+          <Select.Option value={EFormatType.MINUTES}>Minutes</Select.Option>
+          <Select.Option value={EFormatType.HOURS}>Hours</Select.Option>
+          <Select.Option value={EFormatType.DAYS}>Days</Select.Option>
+          <Select.Option value={EFormatType.WEEKS}>Weeks</Select.Option>
+          <Select.Option value={EFormatType.MONTHS}>Months</Select.Option>
+          <Select.Option value={EFormatType.YEARS}>Years</Select.Option>
+          <Select.Option value="lucy">Lucy</Select.Option>
+        </Select>
+      </Form.Item>
       <Form.Item {...tailLayout}>
         <Button type="primary" htmlType="submit">
-          Submit
+          Add
         </Button>
       </Form.Item>
     </Form>
@@ -77,18 +114,8 @@ function NewItemForm() {
 }
 
 export default function Home(props: Props) {
-  const [newItem, setNewItem] = useState({ ...defaultNewItem });
   const [items, setItems] = useState(props.items);
-
-  async function addItem() {
-    if (newItem.title.length === 0) {
-      alert("pls add title");
-      return;
-    }
-    await itemsRef.add(newItem);
-    setItems([...items, newItem]);
-    setNewItem({ ...defaultNewItem });
-  }
+  const addItemToState = (newItem: TItem) => setItems([...items, newItem]);
 
   return (
     <div className="h-screen w-screen bg-blue-200">
@@ -96,26 +123,8 @@ export default function Home(props: Props) {
         <h1 className="text-3xl">since till</h1>
 
         <div className="mt-6 bg-red-100 p-6">
-          <NewItemForm />
+          <NewItemForm addItemToState={addItemToState} />
         </div>
-
-        <form className="flex flex-col p-6 bg-red-100 mt-6">
-          <label className="py-3">
-            <span className="inline-block w-32">title</span>
-            <input
-              type="text"
-              value={newItem.title}
-              onChange={(e) =>
-                setNewItem({ ...newItem, title: e.target.value })
-              }
-              placeholder="something"
-            />
-          </label>
-          <button className="mt-6 bg-red-500 cursor-pointer" onClick={addItem}>
-            add
-          </button>
-        </form>
-
         <div className="text-lg mt-6 font-bold">items</div>
         <ul>
           {items.map((item, key) => (

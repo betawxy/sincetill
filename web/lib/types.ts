@@ -1,4 +1,4 @@
-export enum FormatType {
+export enum EFormatType {
   SECONDS,
   MINUTES,
   HOURS,
@@ -11,8 +11,8 @@ export enum FormatType {
 export type TItem = {
   title: string;
   ts: number;
-  isFullDateEvent: boolean;
-  formatType: FormatType;
+  isFullDayEvent: boolean;
+  formatType: EFormatType;
   backgroundImage: string;
 };
 
