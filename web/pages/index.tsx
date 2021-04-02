@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { defaultNewItem } from "../lib/consts";
 import { itemsRef } from "../lib/firebase";
 import { TItem } from "../lib/types";
 
@@ -18,16 +19,17 @@ async function getItems(): Promise<TItem[]> {
 }
 
 export default function Home(props: Props) {
-  const [title, setTitle] = useState("");
+  const [newItem, setNewItem] = useState({ ...defaultNewItem });
   const [items, setItems] = useState(props.items);
 
-  async function addItem(title: string) {
-    const item: TItem = {
-      text: title,
-    };
-    await itemsRef.add(item);
-    setItems([...items, item]);
-    setTitle("");
+  async function addItem() {
+    if (newItem.title.length === 0) {
+      alert("pls add title");
+      return;
+    }
+    await itemsRef.add(newItem);
+    setItems([...items, newItem]);
+    setNewItem({ ...defaultNewItem });
   }
 
   return (
@@ -37,19 +39,19 @@ export default function Home(props: Props) {
         <label className="">
           <input
             type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={newItem.title}
+            onChange={(e) => setNewItem({ ...newItem, title: e.target.value })}
             placeholder="something"
           />
         </label>
-        <button className="mx-3 bg-red-500 px-3" onClick={() => addItem(title)}>
+        <button className="mx-3 bg-red-500 px-3" onClick={addItem}>
           add
         </button>
 
         <div>items</div>
         <ul>
           {items.map((item, key) => (
-            <li key={key}>{item.text}</li>
+            <li key={key}>{item.title}</li>
           ))}
         </ul>
       </div>
