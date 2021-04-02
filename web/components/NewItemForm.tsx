@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { defaultNewItem } from "../lib/consts";
 import { itemsRef } from "../lib/firebase";
 import { EFormatType, TItem } from "../lib/types";
 
@@ -12,38 +11,60 @@ import {
   Switch,
   Select,
 } from "antd";
-import { CloseOutlined, CheckOutlined } from "@ant-design/icons";
 
 import "antd/dist/antd.css";
+import moment from "moment";
 
 export default function NewItemForm({
   appendItemToState,
 }: {
   appendItemToState: (newItem: TItem) => void;
 }) {
-  const [newItem, setNewItem] = useState({ ...defaultNewItem });
-
-  async function addItem() {
-    if (newItem.title.length === 0) {
-      alert("pls add title");
-      return;
-    }
-    await itemsRef.add(newItem);
-    appendItemToState(newItem);
-    setNewItem({ ...defaultNewItem });
-  }
+  const [switchChecked, setSwitchChecked] = useState(true);
 
   const layout = {
     labelCol: { span: 4 },
     wrapperCol: { span: 20 },
   };
   const tailLayout = {
-    wrapperCol: { offset: 4, span: 20 },
+    wrapperCol: { span: 24 },
   };
 
-  const onFinish = (values: any) => {
-    addItem();
+  const onFinish = async (values: any) => {
     console.log("Success:", values);
+    let {
+      title,
+      date,
+      time,
+      formatType,
+    }: {
+      title: string;
+      date: moment.Moment | undefined;
+      time: moment.Moment | undefined;
+      formatType: EFormatType;
+    } = values;
+
+    date = date || moment();
+    time = time || moment();
+    if (!switchChecked) {
+      date = date.set({
+        hour: time.get("hour"),
+        minute: time.get("minute"),
+        second: time.get("second"),
+      });
+    }
+
+    const item: TItem = {
+      title,
+      ts: date.unix() * 1000 + date.millisecond(),
+      isFullDayEvent: switchChecked,
+      formatType: formatType,
+      backgroundImage: "",
+      uid: "",
+    };
+
+    await itemsRef.add(item);
+    appendItemToState(item);
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -54,32 +75,30 @@ export default function NewItemForm({
     <Form
       {...layout}
       name="basic"
-      initialValues={{ remember: true }}
+      initialValues={{ formatType: EFormatType.DAYS }}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
     >
       <Form.Item
         label="Title"
         name="title"
-        rules={[{ required: true, message: "Please provide title!" }]}
+        rules={[{ required: true, message: "Title is a required field." }]}
       >
         <Input />
       </Form.Item>
       <Form.Item label="Full Day Event" name="isFullDayEvent">
-        <Switch
-          checkedChildren={<CheckOutlined />}
-          unCheckedChildren={<CloseOutlined />}
-          defaultChecked
-        />
+        <Switch checked={switchChecked} onChange={setSwitchChecked} />
       </Form.Item>
       <Form.Item label="Date" name="date">
         <DatePicker />
       </Form.Item>
-      <Form.Item label="Time" name="time">
-        <TimePicker />
-      </Form.Item>
+      {!switchChecked && (
+        <Form.Item label="Time" name="time">
+          <TimePicker />
+        </Form.Item>
+      )}
       <Form.Item label="Show as" name="formatType">
-        <Select defaultValue={EFormatType.DAYS} style={{ width: 120 }}>
+        <Select style={{ width: 120 }}>
           <Select.Option value={EFormatType.SECONDS}>Seconds</Select.Option>
           <Select.Option value={EFormatType.MINUTES}>Minutes</Select.Option>
           <Select.Option value={EFormatType.HOURS}>Hours</Select.Option>

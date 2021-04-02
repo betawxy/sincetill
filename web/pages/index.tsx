@@ -28,7 +28,7 @@ export default function Home(props: Props) {
 
   return (
     <div className="h-screen w-screen bg-gray-100">
-      <div className="container mx-auto">
+      <div className="container mx-auto p-6">
         <h1 className="text-3xl py-6">since till</h1>
         <div className="bg-yellow-100 p-6 rounded rounded-sm">
           <NewItemForm appendItemToState={appendItemToState} />

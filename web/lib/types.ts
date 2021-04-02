@@ -14,6 +14,7 @@ export type TItem = {
   isFullDayEvent: boolean;
   formatType: EFormatType;
   backgroundImage: string;
+  uid: string;
 };
 
 export type TSettings = {

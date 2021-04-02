@@ -8,4 +8,5 @@ export const defaultNewItem: TItem = {
   isFullDayEvent: false,
   formatType: EFormatType.DAYS,
   backgroundImage: defaultBackground,
+  uid: "",
 };
