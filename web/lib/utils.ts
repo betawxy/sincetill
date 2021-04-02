@@ -1,3 +1,6 @@
+import moment from "moment";
+import { EFormatType, TItem } from "./types";
+
 export function genUniqueId(len: number = 6): string {
   let res = "";
   for (let i = 0; i < len; i++) {
@@ -12,4 +15,58 @@ export function genUniqueId(len: number = 6): string {
   }
 
   return res;
+}
+
+const tuples: [EFormatType, number, string][] = [
+  [EFormatType.YEARS, 3600 * 24 * 365, "year"],
+  [EFormatType.MONTHS, 3600 * 24 * 30, "month"],
+  [EFormatType.WEEKS, 3600 * 24 * 7, "week"],
+  [EFormatType.DAYS, 3600 * 24, "day"],
+  [EFormatType.HOURS, 3600, "hour"],
+  [EFormatType.MINUTES, 60, "minute"],
+  [EFormatType.SECONDS, 1, "second"],
+];
+
+export function getDateTimeString(item: TItem): string {
+  const m = moment(item.ts);
+  const mnow = moment();
+  let diff = Math.round(Math.abs(m.diff(mnow)) / 1000);
+
+  let arr = [];
+  let started = false;
+  for (const [t, mod, s] of tuples) {
+    if (t === item.formatType) {
+      started = true;
+    }
+
+    if (item.isFullDayEvent && t === EFormatType.HOURS) {
+      started = false;
+    }
+
+    if (started) {
+      const v = Math.floor(diff / mod);
+      if (v > 1) {
+        arr.push(v + " " + s + "s");
+      } else if (v == 1) {
+        arr.push(v + " " + s);
+      }
+
+      diff %= mod;
+    }
+  }
+
+  if (arr.length > 1) {
+    const last = arr.pop();
+    arr.push(arr.pop() + " and " + last);
+  }
+
+  if (arr.length === 0) {
+    if (item.isFullDayEvent) {
+      arr.push("today is the day!");
+    } else {
+      arr.push("right now!");
+    }
+  }
+
+  return arr.join(", ") + " [" + m.format("yyyy-MM-DD HH:mm:ss") + "]";
 }

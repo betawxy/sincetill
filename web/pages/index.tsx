@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import NewItemForm from "../components/NewItemForm";
 import { itemsRef } from "../lib/firebase";
 import { TItem } from "../lib/types";
+import { getDateTimeString } from "../lib/utils";
 
 type Props = {
   items: TItem[];
@@ -28,17 +29,17 @@ function ItemCard({ item }: { item: TItem }) {
             {isSince ? (
               <Tag color="cyan">since</Tag>
             ) : (
-              <Tag color="cyan">till</Tag>
+              <Tag color="magenta">till</Tag>
             )}
           </span>
           <span className="text-md font-bold">{item.title}</span>
         </div>
         <div className="flex-none">
-          {item.isFullDayEvent && <Tag color="cyan">full day</Tag>}
+          {item.isFullDayEvent && <Tag color="gold">full day</Tag>}
         </div>
       </div>
       <div className="mt-2 text-sm text-gray-500">
-        {m.format("MM/DD/yyyy HH:mm:ss")}
+        {getDateTimeString(item)}
       </div>
     </li>
   );
