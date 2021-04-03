@@ -5,6 +5,10 @@ import { TItem } from "../lib/types";
 import { getDateTimeString } from "../lib/utils";
 
 export default function ItemCard({ item }: { item: TItem }) {
+  if (!item.ts) {
+    return null;
+  }
+
   const m = moment(item.ts);
   const isSince = m.isBefore(moment());
 
