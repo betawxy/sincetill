@@ -11,7 +11,7 @@ export default function ItemCard({ item }: { item: TItem }) {
 
   return (
     <Link href={`/items/${item.id}`}>
-      <li className="rounded bg-gray-100 rounded-sm mb-3 p-3 cursor-pointer last:mb-0">
+      <li className="rounded bg-gray-100 mb-3 p-3 cursor-pointer last:mb-0">
         <div className="flex">
           <div className="flex-grow">
             <span>

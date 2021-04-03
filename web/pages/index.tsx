@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ItemCard from "../components/ItemCard";
 import NewItemForm from "../components/NewItemForm";
+import PageWrapper from "../components/PageWrapper";
 import { itemsRef } from "../lib/firebase";
 import { TItem } from "../lib/types";
 
@@ -28,11 +29,8 @@ export default function Home(props: Props) {
   const appendItemToState = (newItem: TItem) => setItems([...items, newItem]);
 
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-3xl py-6">
-        since till<span className="hidden">{timer.toISOString()}</span>
-      </h1>
-      <div className="bg-yellow-100 p-6 rounded rounded-sm">
+    <PageWrapper>
+      <div className="bg-yellow-100 p-6 rounded">
         <NewItemForm appendItemToState={appendItemToState} />
       </div>
       <div className="text-lg mt-6 mb-3 font-bold">Items</div>
@@ -41,6 +39,7 @@ export default function Home(props: Props) {
           <ItemCard item={item} key={key} />
         ))}
       </ul>
-    </div>
+      <div className="py-6">Updated at {timer.toUTCString()}</div>
+    </PageWrapper>
   );
 }
