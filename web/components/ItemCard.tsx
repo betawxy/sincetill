@@ -1,8 +1,8 @@
 import { Tag } from "antd";
 import moment from "moment";
 import React from "react";
-import { TItem } from "../lib/types";
-import { getDateTimeString } from "../lib/utils";
+import { TItem } from "lib/types";
+import { getDateTimeString } from "lib/utils";
 
 export default function ItemCard({ item }: { item: TItem }) {
   if (!item.ts) {

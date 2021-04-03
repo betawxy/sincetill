@@ -1,6 +1,6 @@
 import React from "react";
-import PageWrapper from "../../components/PageWrapper";
-import NewItemForm from "../../components/NewItemForm";
+import PageWrapper from "components/PageWrapper";
+import NewItemForm from "components/NewItemForm";
 
 export default function AddItemPage() {
   return (

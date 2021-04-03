@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 
-import { TItem } from "../lib/types";
-import { itemsRef } from "../lib/firebase";
+import { TItem } from "lib/types";
+import { itemsRef } from "lib/firebase";
 
-import ItemCard from "../components/ItemCard";
-import PageWrapper from "../components/PageWrapper";
+import ItemCard from "components/ItemCard";
+import PageWrapper from "components/PageWrapper";
 
 type Props = {
   items: TItem[];

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { itemsRef } from "../lib/firebase";
-import { EFormatType, TItem } from "../lib/types";
+import { itemsRef } from "lib/firebase";
+import { EFormatType, TItem } from "lib/types";
 
 import {
   Form,
@@ -13,7 +13,7 @@ import {
 } from "antd";
 
 import moment from "moment";
-import { genUniqueId } from "../lib/utils";
+import { genUniqueId } from "lib/utils";
 import { useRouter } from "next/router";
 
 export default function NewItemForm() {
