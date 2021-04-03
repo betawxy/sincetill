@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
+
+import { TItem } from "../lib/types";
+import { itemsRef } from "../lib/firebase";
+
 import ItemCard from "../components/ItemCard";
 import NewItemForm from "../components/NewItemForm";
 import PageWrapper from "../components/PageWrapper";
-import { itemsRef } from "../lib/firebase";
-import { TItem } from "../lib/types";
 
 type Props = {
   items: TItem[];
@@ -21,7 +24,7 @@ export default function Home(props: Props) {
   useEffect(() => {
     const interval = setInterval(() => {
       setTimer(new Date());
-    }, 500);
+    }, 1000);
     return () => clearInterval(interval);
   }, []);
 
@@ -36,7 +39,11 @@ export default function Home(props: Props) {
       <div className="text-lg mt-6 mb-3 font-bold">Items</div>
       <ul>
         {items.map((item, key) => (
-          <ItemCard item={item} key={key} />
+          <Link key={key} href={`/items/${item.id}`}>
+            <li className="cursor-pointer mb-3 last:mb-0">
+              <ItemCard item={item} />
+            </li>
+          </Link>
         ))}
       </ul>
       <div className="py-6">Updated at {timer.toUTCString()}</div>
