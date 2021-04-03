@@ -8,7 +8,7 @@ import { Input, DatePicker, TimePicker, Switch, Select } from "antd";
 
 type TProps = {
   item: TItem;
-  close: any;
+  cancel: any;
 };
 
 export default function ItemForm(props: TProps) {
@@ -22,11 +22,37 @@ export default function ItemForm(props: TProps) {
       : itemsRef.doc(item.id).set(item)
     )
       .then(() => {
-        props.close();
+        props.cancel();
       })
       .catch((e) => {
         console.error(e);
       });
+  };
+
+  const m2ts = (m: moment.Moment): number => {
+    return m.unix() * 1000 + m.millisecond();
+  };
+
+  const setDate = (e: moment.Moment) => {
+    const m = moment(item.ts);
+    m.set({
+      year: e.year(),
+      month: e.month(),
+      date: e.date(),
+    });
+
+    setItem({ ...item, ts: m2ts(m) });
+  };
+
+  const setTime = (e: moment.Moment) => {
+    const m = moment(item.ts);
+    m.set({
+      hour: e.hour(),
+      minute: e.minute(),
+      second: e.second(),
+    });
+
+    setItem({ ...item, ts: m2ts(m) });
   };
 
   return (
@@ -53,15 +79,12 @@ export default function ItemForm(props: TProps) {
         </div>
         <div className="flex items-center mb-4 last:mb-0">
           <div className="w-1/6 flex justify-end pr-2">Date:</div>
-          <DatePicker
-            value={moment(item.ts)}
-            // onChange={(e) => setItem({ ...item, ts: e.})}
-          />
+          <DatePicker value={moment(item.ts)} onChange={setDate} />
         </div>
         {!item.isFullDayEvent && (
           <div className="flex items-center mb-4 last:mb-0">
             <div className="w-1/6 flex justify-end pr-2">Time:</div>
-            <TimePicker value={moment(item.ts)} />
+            <TimePicker value={moment(item.ts)} onChange={setTime} />
           </div>
         )}
         <div className="flex items-center mb-4 last:mb-0">
@@ -87,7 +110,7 @@ export default function ItemForm(props: TProps) {
               type="button"
               className="beta-btn-red"
               value="Cancel"
-              onClick={props.close}
+              onClick={props.cancel}
             />
             <input
               type="submit"

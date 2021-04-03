@@ -12,8 +12,8 @@ export default function AddItemPage() {
     <PageWrapper>
       <ItemForm
         item={item}
-        close={() => {
-          router.push(`/items/${item.id}`);
+        cancel={() => {
+          router.back();
         }}
       />
     </PageWrapper>

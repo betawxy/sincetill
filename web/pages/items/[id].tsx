@@ -58,7 +58,7 @@ export default function ItemPage() {
               )}
               {showEditForm && (
                 <div className="mt-3">
-                  <ItemForm item={item} close={() => setShowEditForm(false)} />
+                  <ItemForm item={item} cancel={() => setShowEditForm(false)} />
                 </div>
               )}
             </>

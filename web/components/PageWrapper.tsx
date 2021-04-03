@@ -18,7 +18,7 @@ export default function PageWrapper({
         </div>
         <div className="flex-none">
           <Link href="/item/add">
-            <div className="beta-btn-blue">Add Item</div>
+            <div className="beta-link">Add Item</div>
           </Link>
         </div>
       </nav>
