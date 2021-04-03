@@ -41,7 +41,7 @@ export default function ItemPage() {
             <>
               <ItemCard item={item} />
               {!showEditForm && (
-                <div className="flex mt-3">
+                <div className="flex justify-between mt-3">
                   <input
                     type="button"
                     value="remove"

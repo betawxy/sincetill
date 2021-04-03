@@ -18,9 +18,9 @@ export default function ItemCard({ item }: { item: TItem }) {
         <div className="flex-grow">
           <span>
             {isSince ? (
-              <Tag color="cyan">since</Tag>
+              <Tag color="magenta">since</Tag>
             ) : (
-              <Tag color="magenta">till</Tag>
+              <Tag color="cyan">till</Tag>
             )}
           </span>
           <span className="text-md font-bold">{item.title}</span>

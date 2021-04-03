@@ -6,13 +6,14 @@ import { genNewItem } from "lib/utils";
 
 export default function AddItemPage() {
   const router = useRouter();
+  const item = genNewItem();
 
   return (
     <PageWrapper>
       <ItemForm
-        item={genNewItem()}
+        item={item}
         close={() => {
-          router.back();
+          router.push(`/items/${item.id}`);
         }}
       />
     </PageWrapper>

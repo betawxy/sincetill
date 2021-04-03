@@ -1,19 +1,10 @@
 import React, { useState } from "react";
+import moment from "moment";
+
 import { itemsRef } from "lib/firebase";
 import { EFormatType, TItem } from "lib/types";
 
-import {
-  Form,
-  Input,
-  Button,
-  DatePicker,
-  TimePicker,
-  Switch,
-  Select,
-} from "antd";
-
-import moment from "moment";
-import { useRouter } from "next/router";
+import { Input, DatePicker, TimePicker, Switch, Select } from "antd";
 
 type TProps = {
   item: TItem;
@@ -21,69 +12,33 @@ type TProps = {
 };
 
 export default function ItemForm(props: TProps) {
-  const router = useRouter();
-
   const isEdit = props.item.title.length > 0;
   const [item, setItem] = useState({ ...props.item });
 
-  const layout = {
-    labelCol: { span: 4 },
-    wrapperCol: { span: 20 },
-  };
-
-  const onFinish = async (values: any) => {
-    console.log("Success:", values);
-    let {
-      date,
-      time,
-      formatType,
-    }: {
-      date: moment.Moment | undefined;
-      time: moment.Moment | undefined;
-      formatType: EFormatType;
-    } = values;
-
-    date = date || moment();
-    time = time || moment();
-    if (!item.isFullDayEvent) {
-      date = date.set({
-        hour: time.get("hour"),
-        minute: time.get("minute"),
-        second: time.get("second"),
-      });
-    }
-
-    const newItem: TItem = {
-      ...item,
-      ts: date.unix() * 1000 + date.millisecond(),
-      formatType: formatType,
-    };
-
-    itemsRef
-      .doc(newItem.id)
-      .set(newItem)
+  const submit = (e: any) => {
+    e.preventDefault();
+    (isEdit
+      ? itemsRef.doc(item.id).update(item)
+      : itemsRef.doc(item.id).set(item)
+    )
       .then(() => {
-        router.push("/");
+        props.close();
       })
       .catch((e) => {
         console.error(e);
       });
   };
 
-  const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
-  };
-
   return (
     <div className="bg-yellow-100 p-6 rounded">
-      <form className="mb-8">
+      <form onSubmit={submit}>
         <div className="flex items-center mb-4 last:mb-0">
           <div className="w-1/6 flex justify-end pr-2">
             <span className="text-red-500 mr-1">*</span>Title:
           </div>
-          <input
+          <Input
+            className="w-5/6"
             type="text"
-            className="w-5/6 px-3 py-1"
             value={item.title}
             required={true}
             onChange={(e) => setItem({ ...item, title: e.target.value })}
@@ -103,13 +58,19 @@ export default function ItemForm(props: TProps) {
             // onChange={(e) => setItem({ ...item, ts: e.})}
           />
         </div>
-        <div className="flex items-center mb-4 last:mb-0">
-          <div className="w-1/6 flex justify-end pr-2">Time:</div>
-          <TimePicker value={moment(item.ts)} />
-        </div>
+        {!item.isFullDayEvent && (
+          <div className="flex items-center mb-4 last:mb-0">
+            <div className="w-1/6 flex justify-end pr-2">Time:</div>
+            <TimePicker value={moment(item.ts)} />
+          </div>
+        )}
         <div className="flex items-center mb-4 last:mb-0">
           <div className="w-1/6 flex justify-end pr-2">Show as:</div>
-          <Select className="w-5/6" value={item.formatType}>
+          <Select
+            className="w-5/6"
+            value={item.formatType}
+            onChange={(e) => setItem({ ...item, formatType: e })}
+          >
             <Select.Option value={EFormatType.SECONDS}>Seconds</Select.Option>
             <Select.Option value={EFormatType.MINUTES}>Minutes</Select.Option>
             <Select.Option value={EFormatType.HOURS}>Hours</Select.Option>
@@ -129,72 +90,13 @@ export default function ItemForm(props: TProps) {
               onClick={props.close}
             />
             <input
-              type="button"
+              type="submit"
               className="beta-btn-blue"
               value={isEdit ? "Update" : "Create"}
             />
           </div>
         </div>
       </form>
-
-      <Form
-        {...layout}
-        name="basic"
-        initialValues={{ formatType: EFormatType.DAYS }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-      >
-        <Form.Item
-          label="Title"
-          name="title"
-          rules={[{ required: true, message: "Title is a required field." }]}
-        >
-          <Input
-            value={item.title}
-            onChange={(e) => setItem({ ...item, title: e.target.value })}
-          />
-        </Form.Item>
-        <Form.Item label="Full Day Event" name="isFullDayEvent">
-          <Switch
-            checked={item.isFullDayEvent}
-            onChange={(e) => setItem({ ...item, isFullDayEvent: e })}
-          />
-        </Form.Item>
-        <Form.Item label="Date" name="date">
-          <DatePicker />
-        </Form.Item>
-        {!item.isFullDayEvent && (
-          <Form.Item label="Time" name="time">
-            <TimePicker />
-          </Form.Item>
-        )}
-        <Form.Item label="Show as" name="formatType">
-          <Select>
-            <Select.Option value={EFormatType.SECONDS}>Seconds</Select.Option>
-            <Select.Option value={EFormatType.MINUTES}>Minutes</Select.Option>
-            <Select.Option value={EFormatType.HOURS}>Hours</Select.Option>
-            <Select.Option value={EFormatType.DAYS}>Days</Select.Option>
-            <Select.Option value={EFormatType.WEEKS}>Weeks</Select.Option>
-            <Select.Option value={EFormatType.MONTHS}>Months</Select.Option>
-            <Select.Option value={EFormatType.YEARS}>Years</Select.Option>
-          </Select>
-        </Form.Item>
-        <div className="flex">
-          <div className="w-0 sm:w-1/6"></div>
-          <div className="w-full sm:w-5/6 flex justify-between">
-            <Form.Item>
-              <Button type="default" htmlType="button" onClick={props.close}>
-                Cancel
-              </Button>
-            </Form.Item>
-            <Form.Item>
-              <Button type="primary" htmlType="submit">
-                {isEdit ? "Update" : "Create"}
-              </Button>
-            </Form.Item>
-          </div>
-        </div>
-      </Form>
     </div>
   );
 }
