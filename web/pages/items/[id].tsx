@@ -16,12 +16,34 @@ export default function ItemPage() {
   );
   const item = resp.data;
 
+  const remove = () => {
+    itemsRef
+      .doc(itemId as string)
+      .delete()
+      .then(() => {
+        router.replace("/");
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+
   return (
     <PageWrapper>
       {resp.status === "loading" ? (
         <div>loading...</div>
       ) : (
-        <ItemCard item={item} />
+        <div>
+          <ItemCard item={item} />
+          <div className="flex mt-3">
+            <div
+              className="px-3 py-1 bg-red-500 text-white rounded cursor-pointer"
+              onClick={remove}
+            >
+              remove
+            </div>
+          </div>
+        </div>
       )}
     </PageWrapper>
   );
