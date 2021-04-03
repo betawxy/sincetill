@@ -39,7 +39,9 @@ export default function Home(props: Props) {
           </Link>
         ))}
       </ul>
-      <div className="py-6">Updated at {timer.toUTCString()}</div>
+      <div className="py-6 text-xs text-gray-400">
+        Updated at {timer.toUTCString()}
+      </div>
     </PageWrapper>
   );
 }

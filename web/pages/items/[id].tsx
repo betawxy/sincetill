@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ItemCard from "components/ItemCard";
 import PageWrapper from "components/PageWrapper";
 import { itemsRef } from "lib/firebase";
@@ -9,6 +9,14 @@ import { ObservableStatus, useFirestoreDocData } from "reactfire";
 import ItemForm from "components/ItemForm";
 
 export default function ItemPage() {
+  const [timer, setTimer] = useState(new Date());
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimer(new Date());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   const router = useRouter();
   const { id: itemId } = router.query;
 
@@ -61,6 +69,9 @@ export default function ItemPage() {
                   <ItemForm item={item} cancel={() => setShowEditForm(false)} />
                 </div>
               )}
+              <div className="py-6 text-xs text-gray-400">
+                Updated at {timer.toUTCString()}
+              </div>
             </>
           )}
         </div>
