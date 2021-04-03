@@ -14,12 +14,11 @@ import {
 
 import moment from "moment";
 import { genUniqueId } from "../lib/utils";
+import { useRouter } from "next/router";
 
-export default function NewItemForm({
-  appendItemToState,
-}: {
-  appendItemToState?: (newItem: TItem) => void;
-}) {
+export default function NewItemForm() {
+  const router = useRouter();
+
   const [switchChecked, setSwitchChecked] = useState(true);
 
   const layout = {
@@ -61,8 +60,15 @@ export default function NewItemForm({
       backgroundImage: "",
     };
 
-    await itemsRef.doc(item.id).set(item);
-    !!appendItemToState && appendItemToState(item);
+    itemsRef
+      .doc(item.id)
+      .set(item)
+      .then(() => {
+        router.push("/");
+      })
+      .catch((e) => {
+        console.error(e);
+      });
   };
 
   const onFinishFailed = (errorInfo: any) => {
