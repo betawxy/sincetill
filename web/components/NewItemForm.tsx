@@ -12,7 +12,6 @@ import {
   Select,
 } from "antd";
 
-import "antd/dist/antd.css";
 import moment from "moment";
 import { genUniqueId } from "../lib/utils";
 
