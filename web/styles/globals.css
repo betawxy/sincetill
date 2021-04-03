@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .beta-btn-base {
+    @apply py-1 px-3 cursor-pointer text-white font-semibold rounded shadow-md focus:outline-none focus:ring-2 focus:ring-opacity-75;
+  }
+  .beta-btn-blue {
+    @apply beta-btn-base bg-blue-500 hover:bg-blue-700 focus:ring-blue-400;
+  }
+  .beta-btn-red {
+    @apply beta-btn-base bg-red-500 hover:bg-red-700 focus:ring-red-400;
+  }
+}

@@ -18,7 +18,7 @@ import { genUniqueId } from "../lib/utils";
 export default function NewItemForm({
   appendItemToState,
 }: {
-  appendItemToState: (newItem: TItem) => void;
+  appendItemToState?: (newItem: TItem) => void;
 }) {
   const [switchChecked, setSwitchChecked] = useState(true);
 
@@ -62,7 +62,7 @@ export default function NewItemForm({
     };
 
     await itemsRef.doc(item.id).set(item);
-    appendItemToState(item);
+    !!appendItemToState && appendItemToState(item);
   };
 
   const onFinishFailed = (errorInfo: any) => {

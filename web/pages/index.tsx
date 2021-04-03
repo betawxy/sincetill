@@ -33,6 +33,7 @@ export default function Home(props: Props) {
 
   return (
     <PageWrapper>
+      <input type="button" className="beta-btn-blue" value="Add Item" />
       <div className="bg-yellow-100 p-6 rounded">
         <NewItemForm appendItemToState={appendItemToState} />
       </div>

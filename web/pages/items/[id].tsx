@@ -38,15 +38,17 @@ export default function ItemPage() {
             <>
               <ItemCard item={item} />
               <div className="flex mt-3">
-                <div
-                  className="px-3 py-1 bg-red-500 text-white rounded cursor-pointer"
+                <input
+                  type="button"
+                  value="remove"
+                  className="beta-btn-red"
                   onClick={remove}
-                >
-                  remove
-                </div>
-                <div className="px-3 py-1 bg-blue-500 text-white rounded cursor-pointer ml-6">
-                  edit
-                </div>
+                />
+                <input
+                  type="button"
+                  value="edit"
+                  className="beta-btn-blue ml-6"
+                />
               </div>
             </>
           )}
