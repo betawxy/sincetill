@@ -13,20 +13,18 @@ import {
 } from "antd";
 
 import moment from "moment";
-import { genUniqueId } from "lib/utils";
 import { useRouter } from "next/router";
 
 type TProps = {
   item: TItem;
-  close: Function;
+  close: any;
 };
 
 export default function ItemForm(props: TProps) {
   const router = useRouter();
 
   const isEdit = props.item.title.length > 0;
-
-  const [switchChecked, setSwitchChecked] = useState(true);
+  const [item, setItem] = useState({ ...props.item });
 
   const layout = {
     labelCol: { span: 4 },
@@ -36,12 +34,10 @@ export default function ItemForm(props: TProps) {
   const onFinish = async (values: any) => {
     console.log("Success:", values);
     let {
-      title,
       date,
       time,
       formatType,
     }: {
-      title: string;
       date: moment.Moment | undefined;
       time: moment.Moment | undefined;
       formatType: EFormatType;
@@ -49,7 +45,7 @@ export default function ItemForm(props: TProps) {
 
     date = date || moment();
     time = time || moment();
-    if (!switchChecked) {
+    if (!item.isFullDayEvent) {
       date = date.set({
         hour: time.get("hour"),
         minute: time.get("minute"),
@@ -57,19 +53,15 @@ export default function ItemForm(props: TProps) {
       });
     }
 
-    const item: TItem = {
-      id: genUniqueId(),
-      uid: "",
-      title,
+    const newItem: TItem = {
+      ...item,
       ts: date.unix() * 1000 + date.millisecond(),
-      isFullDayEvent: switchChecked,
       formatType: formatType,
-      backgroundImage: "",
     };
 
     itemsRef
-      .doc(item.id)
-      .set(item)
+      .doc(newItem.id)
+      .set(newItem)
       .then(() => {
         router.push("/");
       })
@@ -96,15 +88,21 @@ export default function ItemForm(props: TProps) {
           name="title"
           rules={[{ required: true, message: "Title is a required field." }]}
         >
-          <Input />
+          <Input
+            value={item.title}
+            onChange={(e) => setItem({ ...item, title: e.target.value })}
+          />
         </Form.Item>
         <Form.Item label="Full Day Event" name="isFullDayEvent">
-          <Switch checked={switchChecked} onChange={setSwitchChecked} />
+          <Switch
+            checked={item.isFullDayEvent}
+            onChange={(e) => setItem({ ...item, isFullDayEvent: e })}
+          />
         </Form.Item>
         <Form.Item label="Date" name="date">
           <DatePicker />
         </Form.Item>
-        {!switchChecked && (
+        {!item.isFullDayEvent && (
           <Form.Item label="Time" name="time">
             <TimePicker />
           </Form.Item>
@@ -124,7 +122,7 @@ export default function ItemForm(props: TProps) {
           <div className="w-0 sm:w-1/6"></div>
           <div className="w-full sm:w-5/6 flex justify-between">
             <Form.Item>
-              <Button type="default" htmlType="button">
+              <Button type="default" htmlType="button" onClick={props.close}>
                 Cancel
               </Button>
             </Form.Item>
