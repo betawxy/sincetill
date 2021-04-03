@@ -4,7 +4,7 @@ import moment from "moment";
 import { itemsRef } from "lib/firebase";
 import { EFormatType, TItem } from "lib/types";
 
-import { Input, DatePicker, TimePicker, Switch, Select } from "antd";
+import { Input, DatePicker, TimePicker, Switch, Select, Form } from "antd";
 
 type TProps = {
   item: TItem;
@@ -15,11 +15,42 @@ export default function ItemForm(props: TProps) {
   const isEdit = props.item.title.length > 0;
   const [item, setItem] = useState({ ...props.item });
 
-  const submit = (e: any) => {
-    e.preventDefault();
+  const onFinish = (values: { date: moment.Moment; time: moment.Moment }) => {
+    console.log(values);
+
+    let m = moment(item.ts);
+    const { date, time } = values;
+
+    if (!!date) {
+      m = m.set({
+        year: date.year(),
+        month: date.month(),
+        date: date.date(),
+      });
+    }
+
+    if (item.isFullDayEvent) {
+      m = m.set({
+        hour: 0,
+        minute: 0,
+        second: 0,
+      });
+    } else {
+      if (!!time) {
+        m = m.set({
+          hour: time.hour(),
+          minute: time.minute(),
+          second: time.second(),
+        });
+      }
+    }
+
+    const newItem = { ...item, ts: m2ts(m) };
+    setItem(newItem);
+
     (isEdit
-      ? itemsRef.doc(item.id).update(item)
-      : itemsRef.doc(item.id).set(item)
+      ? itemsRef.doc(item.id).update(newItem)
+      : itemsRef.doc(item.id).set(newItem)
     )
       .then(() => {
         props.cancel();
@@ -29,35 +60,21 @@ export default function ItemForm(props: TProps) {
       });
   };
 
+  const onFinishFailed = (e: any) => {
+    console.error(e);
+  };
+
   const m2ts = (m: moment.Moment): number => {
     return m.unix() * 1000 + m.millisecond();
   };
 
-  const setDate = (e: moment.Moment) => {
-    const m = moment(item.ts);
-    m.set({
-      year: e.year(),
-      month: e.month(),
-      date: e.date(),
-    });
-
-    setItem({ ...item, ts: m2ts(m) });
-  };
-
-  const setTime = (e: moment.Moment) => {
-    const m = moment(item.ts);
-    m.set({
-      hour: e.hour(),
-      minute: e.minute(),
-      second: e.second(),
-    });
-
-    setItem({ ...item, ts: m2ts(m) });
-  };
-
   return (
     <div className="bg-yellow-100 p-6 rounded">
-      <form onSubmit={submit}>
+      <Form
+        initialValues={{ date: moment(item.ts), time: moment(item.ts) }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+      >
         <div className="flex items-center mb-4 last:mb-0">
           <div className="w-1/6 flex justify-end pr-2">
             <span className="text-red-500 mr-1">*</span>Title:
@@ -79,12 +96,16 @@ export default function ItemForm(props: TProps) {
         </div>
         <div className="flex items-center mb-4 last:mb-0">
           <div className="w-1/6 flex justify-end pr-2">Date:</div>
-          <DatePicker value={moment(item.ts)} onChange={setDate} />
+          <Form.Item name="date" noStyle={true}>
+            <DatePicker />
+          </Form.Item>
         </div>
         {!item.isFullDayEvent && (
           <div className="flex items-center mb-4 last:mb-0">
             <div className="w-1/6 flex justify-end pr-2">Time:</div>
-            <TimePicker value={moment(item.ts)} onChange={setTime} />
+            <Form.Item name="time" noStyle={true}>
+              <TimePicker />
+            </Form.Item>
           </div>
         )}
         <div className="flex items-center mb-4 last:mb-0">
@@ -119,7 +140,7 @@ export default function ItemForm(props: TProps) {
             />
           </div>
         </div>
-      </form>
+      </Form>
     </div>
   );
 }
