@@ -1,6 +1,8 @@
 import Link from "next/link";
 import React from "react";
 
+import NextNprogress from "nextjs-progressbar";
+
 export default function PageWrapper({
   children,
 }: {
@@ -24,6 +26,12 @@ export default function PageWrapper({
       </nav>
       <main>{children}</main>
       <footer></footer>
+      <NextNprogress
+        color="#00afb9"
+        startPosition={0}
+        stopDelayMs={50}
+        height={2}
+      />
     </div>
   );
 }
