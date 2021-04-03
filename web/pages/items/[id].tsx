@@ -1,11 +1,12 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 import ItemCard from "components/ItemCard";
 import PageWrapper from "components/PageWrapper";
 import { itemsRef } from "lib/firebase";
 import { TItem } from "lib/types";
 
 import { ObservableStatus, useFirestoreDocData } from "reactfire";
+import ItemForm from "components/ItemForm";
 
 export default function ItemPage() {
   const router = useRouter();
@@ -28,6 +29,8 @@ export default function ItemPage() {
       });
   };
 
+  const [showEditForm, setShowEditForm] = useState(false);
+
   return (
     <PageWrapper>
       {resp.status === "loading" ? (
@@ -37,19 +40,27 @@ export default function ItemPage() {
           {!!item.ts && (
             <>
               <ItemCard item={item} />
-              <div className="flex mt-3">
-                <input
-                  type="button"
-                  value="remove"
-                  className="beta-btn-red"
-                  onClick={remove}
-                />
-                <input
-                  type="button"
-                  value="edit"
-                  className="beta-btn-blue ml-6"
-                />
-              </div>
+              {!showEditForm && (
+                <div className="flex mt-3">
+                  <input
+                    type="button"
+                    value="remove"
+                    className="beta-btn-red"
+                    onClick={remove}
+                  />
+                  <input
+                    type="button"
+                    value="edit"
+                    className="beta-btn-blue ml-6"
+                    onClick={() => setShowEditForm(true)}
+                  />
+                </div>
+              )}
+              {showEditForm && (
+                <div className="mt-3">
+                  <ItemForm item={item} close={() => setShowEditForm(false)} />
+                </div>
+              )}
             </>
           )}
         </div>

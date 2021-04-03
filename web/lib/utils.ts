@@ -17,6 +17,18 @@ export function genUniqueId(len: number = 6): string {
   return res;
 }
 
+export function genNewItem(): TItem {
+  return {
+    id: genUniqueId(),
+    uid: "",
+    title: "",
+    ts: Date.now(),
+    isFullDayEvent: true,
+    formatType: EFormatType.DAYS,
+    backgroundImage: "",
+  };
+}
+
 const tuples: [EFormatType, number, string][] = [
   [EFormatType.YEARS, 3600 * 24 * 365, "year"],
   [EFormatType.MONTHS, 3600 * 24 * 30, "month"],

@@ -1,13 +1,20 @@
 import React from "react";
 import PageWrapper from "components/PageWrapper";
-import NewItemForm from "components/NewItemForm";
+import ItemForm from "components/ItemForm";
+import { useRouter } from "next/router";
+import { genNewItem } from "lib/utils";
 
 export default function AddItemPage() {
+  const router = useRouter();
+
   return (
     <PageWrapper>
-      <div className="bg-yellow-100 p-6 rounded">
-        <NewItemForm />
-      </div>
+      <ItemForm
+        item={genNewItem()}
+        close={() => {
+          router.back();
+        }}
+      />
     </PageWrapper>
   );
 }
