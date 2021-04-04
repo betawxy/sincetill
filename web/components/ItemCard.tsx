@@ -13,24 +13,27 @@ export default function ItemCard({ item }: { item: TItem }) {
   const isSince = m.isBefore(moment());
 
   return (
-    <div className="rounded bg-gray-100 p-3">
-      <div className="flex">
-        <div className="flex-grow">
-          <span>
-            {isSince ? (
-              <Tag color="magenta">since</Tag>
-            ) : (
-              <Tag color="cyan">till</Tag>
-            )}
-          </span>
-          <span className="text-md font-bold">{item.title}</span>
-        </div>
-        <div className="flex-none">
-          {item.isFullDayEvent && <Tag color="gold">full day</Tag>}
-        </div>
+    <div className="flex rounded bg-gray-100 p-3">
+      <div className="flex-none w-16 h-16 overflow-hidden rounded">
+        <img src={item.backgroundImage} />
       </div>
-      <div className="mt-2 text-sm text-gray-500">
-        {getDateTimeString(item)}
+      <div className="flex-grow ml-3">
+        <div className="flex justify-between mt-1">
+          <div>
+            <span>
+              {isSince ? (
+                <Tag color="magenta">since</Tag>
+              ) : (
+                <Tag color="cyan">till</Tag>
+              )}
+            </span>
+            <span className="text-md font-bold">{item.title}</span>
+          </div>
+          <div>{item.isFullDayEvent && <Tag color="gold">full day</Tag>}</div>
+        </div>
+        <div className="mt-2 text-sm text-gray-500">
+          {getDateTimeString(item)}
+        </div>
       </div>
     </div>
   );
