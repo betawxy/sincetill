@@ -30,6 +30,7 @@ export const increment = firebase.firestore.FieldValue.increment;
 
 // Storage exports
 export const storage = firebase.storage();
+export const imagesStorage = storage.ref("images");
 export const STATE_CHANGED = firebase.storage.TaskEvent.STATE_CHANGED;
 
 // Collections

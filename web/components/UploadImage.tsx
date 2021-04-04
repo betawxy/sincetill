@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import { Upload, message } from "antd";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
+import { UploadChangeParam } from "antd/lib/upload";
 
 function getBase64(img, callback) {
   const reader = new FileReader();
@@ -23,9 +24,9 @@ function beforeUpload(file) {
 
 export default function UploadImage() {
   const [loading, setLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState(null);
+  const [imageUrl, setImageUrl] = useState("");
 
-  const handleChange = (info) => {
+  const handleChange = (info: UploadChangeParam) => {
     if (info.file.status === "uploading") {
       setLoading(true);
     } else if (info.file.status === "done") {
@@ -39,7 +40,7 @@ export default function UploadImage() {
 
   return (
     <Upload
-      name="avatar"
+      name="image"
       listType="picture-card"
       className="avatar-uploader"
       showUploadList={false}

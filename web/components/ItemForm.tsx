@@ -6,6 +6,7 @@ import { EFormatType, TItem } from "lib/types";
 
 import { Input, DatePicker, TimePicker, Switch, Select, Form } from "antd";
 import UploadImage from "./UploadImage";
+import ImageUploader from "./ImageUploader";
 
 type TProps = {
   item: TItem;
@@ -132,7 +133,8 @@ export default function ItemForm(props: TProps) {
         </div>
         <div className="flex items-center mb-4 last:mb-0">
           <div className="w-1/6 flex justify-end pr-2 flex-none">Image: </div>
-          <UploadImage />
+          {/* <UploadImage /> */}
+          <ImageUploader />
         </div>
         <div className="flex items-center mb-4 last:mb-0">
           <div className="w-0 sm:w-1/6"></div>
