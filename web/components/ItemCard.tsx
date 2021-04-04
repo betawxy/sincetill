@@ -15,29 +15,28 @@ export default function ItemCard({ item }: { item: TItem }) {
 
   return (
     <div className="flex rounded bg-gray-100 p-3">
-      <div className="flex-none w-16 h-16 bg-white rounded overflow-hidden">
+      <div className="flex-none flex items-center w-16 h-16 rounded overflow-hidden">
         <img
           className="object-cover"
           src={item.backgroundImage || DEFAULT_IMAGE}
+          alt="background image"
         />
       </div>
-      <div className="flex-grow ml-3">
+      <div className="flex-grow ml-4">
         <div className="flex justify-between mt-1">
-          <div>
-            <span>
+          <div className="flex">
+            <div>
               {isSince ? (
                 <Tag color="magenta">since</Tag>
               ) : (
                 <Tag color="cyan">till</Tag>
               )}
-            </span>
-            <span className="text-md font-bold">{item.title}</span>
+            </div>
+            <div className="text-lg">{item.title}</div>
           </div>
           <div>{item.isFullDayEvent && <Tag color="gold">full day</Tag>}</div>
         </div>
-        <div className="mt-2 text-sm text-gray-500">
-          {getDateTimeString(item)}
-        </div>
+        <div className="mt-2 text-gray-500">{getDateTimeString(item)}</div>
       </div>
     </div>
   );

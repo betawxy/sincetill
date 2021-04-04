@@ -43,8 +43,13 @@ export default function ImageUploader({
 
   return (
     <div>
-      {uploading && <p>Progress: {progress}</p>}
-      {imageUrl && <img src={imageUrl} />}
+      {uploading && <div className="text-gray-500">Progress: {progress}%</div>}
+      {imageUrl && (
+        <img
+          src={imageUrl}
+          className="w-60 h-60 bg-white border-2 border-dashed mb-3"
+        />
+      )}
       <FileUploader
         accept="image/*"
         name="image"

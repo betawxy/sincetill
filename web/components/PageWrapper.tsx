@@ -11,7 +11,7 @@ export default function PageWrapper({
   return (
     <div>
       <nav className="mb-3 bg-indigo-500 p-4">
-        <div className="container mx-auto flex items-center">
+        <div className="container mx-auto max-w-screen-md flex items-center">
           <NextNprogress
             color="#a8dadc"
             startPosition={0}
@@ -34,7 +34,7 @@ export default function PageWrapper({
           </div>
         </div>
       </nav>
-      <div className="container mx-auto">
+      <div className="container mx-auto max-w-screen-md">
         <main>{children}</main>
         <footer></footer>
       </div>

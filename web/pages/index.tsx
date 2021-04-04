@@ -31,7 +31,9 @@ export default function Home(props: Props) {
 
   return (
     <PageWrapper>
-      <div className="text-lg mt-6 mb-3 font-bold">Items</div>
+      <div className="text-lg text-gray-600 mt-6 mb-3 border-b-2 border-dashed">
+        Items
+      </div>
       <ul>
         {props.items.map((item, key) => (
           <Link key={key} href={`/items/${item.id}`}>

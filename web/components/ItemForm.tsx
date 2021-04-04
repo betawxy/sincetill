@@ -73,7 +73,7 @@ export default function ItemForm(props: TProps) {
   };
 
   return (
-    <div className="bg-yellow-50 p-6 rounded">
+    <div className="bg-yellow-50 p-8 rounded">
       <Form
         initialValues={{ date: moment(item.ts), time: moment(item.ts) }}
         onFinish={onFinish}
@@ -137,7 +137,7 @@ export default function ItemForm(props: TProps) {
             currentImageUrl={item.backgroundImage}
           />
         </div>
-        <div className="flex items-center mb-4 last:mb-0">
+        <div className="flex items-center mt-8 last:mb-0">
           <div className="w-0 sm:w-1/6"></div>
           <div className="w-full sm:w-5/6 flex justify-between">
             <input
