@@ -6,7 +6,7 @@ export default function Tag({
   className,
 }: {
   text: string;
-  color: "green" | "red" | "yellow" | "magenta" | "cyan";
+  color: string;
   className: string;
 }) {
   const cx =

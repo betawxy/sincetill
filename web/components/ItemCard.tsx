@@ -28,7 +28,7 @@ export default function ItemCard({ item }: { item: TItem }) {
           <div className="flex">
             <div className="leading-6">
               {isSince ? (
-                <Tag text="since" color="red" className="w-12 mr-3" />
+                <Tag text="since" color="pink" className="w-12 mr-3" />
               ) : (
                 <Tag text="till" color="green" className="w-12 mr-3" />
               )}
