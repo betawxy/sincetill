@@ -1,9 +1,10 @@
-import { Tag } from "antd";
 import moment from "moment";
 import React from "react";
 import { TItem } from "lib/types";
 import { getDateTimeString } from "lib/utils";
 import { DEFAULT_IMAGE } from "lib/consts";
+
+import Tag from "components/Tag";
 
 export default function ItemCard({ item }: { item: TItem }) {
   if (!item.ts) {
@@ -25,18 +26,22 @@ export default function ItemCard({ item }: { item: TItem }) {
       <div className="flex-grow ml-4">
         <div className="flex justify-between mt-1">
           <div className="flex">
-            <div>
+            <div className="leading-6">
               {isSince ? (
-                <Tag color="magenta">since</Tag>
+                <Tag text="since" color="red" className="w-12 mr-3" />
               ) : (
-                <Tag color="cyan">till</Tag>
+                <Tag text="till" color="green" className="w-12 mr-3" />
               )}
             </div>
             <div className="text-lg">{item.title}</div>
           </div>
-          <div>{item.isFullDayEvent && <Tag color="gold">full day</Tag>}</div>
+          <div>
+            {item.isFullDayEvent && (
+              <Tag text="full day" color="yellow" className="w-14" />
+            )}
+          </div>
         </div>
-        <div className="mt-2 text-gray-500">{getDateTimeString(item)}</div>
+        <div className="mt-1 text-gray-500">{getDateTimeString(item)}</div>
       </div>
     </div>
   );
