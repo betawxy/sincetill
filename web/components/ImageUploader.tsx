@@ -24,7 +24,7 @@ export default function ImageUploader({
 
   const handleUploadError = (error) => {
     setUploading(false);
-    console.log(error);
+    console.error(error);
   };
 
   const handleUploadSuccess = (filename) => {

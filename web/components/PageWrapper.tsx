@@ -29,9 +29,7 @@ export default function PageWrapper({
           </div>
           <div className="flex-none">
             <Link href="/item/add">
-              <div className="beta-link text-indigo-50 hover:text-white">
-                Add Item
-              </div>
+              <div className="beta-link-light">Add Item</div>
             </Link>
           </div>
         </div>

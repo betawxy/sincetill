@@ -17,8 +17,6 @@ export default function ItemForm(props: TProps) {
   const [item, setItem] = useState({ ...props.item });
 
   const onFinish = (values: { date: moment.Moment; time: moment.Moment }) => {
-    console.log(values);
-
     let m = moment(item.ts);
     const { date, time } = values;
 
@@ -75,7 +73,7 @@ export default function ItemForm(props: TProps) {
   };
 
   return (
-    <div className="bg-yellow-100 p-6 rounded">
+    <div className="bg-yellow-50 p-6 rounded">
       <Form
         initialValues={{ date: moment(item.ts), time: moment(item.ts) }}
         onFinish={onFinish}
