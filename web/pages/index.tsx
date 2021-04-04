@@ -12,7 +12,9 @@ type Props = {
 };
 
 export async function getServerSideProps(): Promise<{ props: Props }> {
-  const items = (await itemsRef.get()).docs.map((doc) => doc.data() as TItem);
+  const items = (await itemsRef.orderBy("mtime", "desc").get()).docs.map(
+    (doc) => doc.data() as TItem
+  );
   return {
     props: { items },
   };

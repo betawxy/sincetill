@@ -26,6 +26,8 @@ export function genNewItem(): TItem {
     isFullDayEvent: true,
     formatType: EFormatType.DAYS,
     backgroundImage: "",
+    ctime: Date.now(),
+    mtime: Date.now(),
   };
 }
 

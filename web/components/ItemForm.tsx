@@ -45,6 +45,11 @@ export default function ItemForm(props: TProps) {
       }
     }
 
+    item.mtime = Date.now();
+    if (!isEdit) {
+      item.ctime = Date.now();
+    }
+
     const newItem = { ...item, ts: m2ts(m) };
     setItem(newItem);
 
