@@ -5,6 +5,7 @@ import { itemsRef } from "lib/firebase";
 import { EFormatType, TItem } from "lib/types";
 
 import { Input, DatePicker, TimePicker, Switch, Select, Form } from "antd";
+import UploadImage from "./UploadImage";
 
 type TProps = {
   item: TItem;
@@ -128,6 +129,10 @@ export default function ItemForm(props: TProps) {
             <Select.Option value={EFormatType.MONTHS}>Months</Select.Option>
             <Select.Option value={EFormatType.YEARS}>Years</Select.Option>
           </Select>
+        </div>
+        <div className="flex items-center mb-4 last:mb-0">
+          <div className="w-1/6 flex justify-end pr-2 flex-none">Image: </div>
+          <UploadImage />
         </div>
         <div className="flex items-center mb-4 last:mb-0">
           <div className="w-0 sm:w-1/6"></div>
