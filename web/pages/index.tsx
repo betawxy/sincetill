@@ -5,6 +5,7 @@ import { TItem } from "lib/types";
 import { itemsRef } from "lib/firebase";
 
 import ItemCard from "components/ItemCard";
+import MetaTags from "components/MetaTags";
 
 type Props = {
   items: TItem[];
@@ -30,6 +31,7 @@ export default function Home(props: Props) {
 
   return (
     <>
+      <MetaTags title="Home" description="List of your personal items" />
       <div className="text-lg text-gray-600 mt-6 mb-3 border-b-2 border-dashed">
         Items
       </div>

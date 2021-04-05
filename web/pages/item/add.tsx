@@ -3,17 +3,21 @@ import { useRouter } from "next/router";
 
 import ItemForm from "components/ItemForm";
 import { genNewItem } from "lib/utils";
+import MetaTags from "components/MetaTags";
 
 export default function AddItemPage() {
   const router = useRouter();
   const item = genNewItem();
 
   return (
-    <ItemForm
-      item={item}
-      cancel={() => {
-        router.back();
-      }}
-    />
+    <>
+      <MetaTags title="Add item" />
+      <ItemForm
+        item={item}
+        cancel={() => {
+          router.back();
+        }}
+      />
+    </>
   );
 }

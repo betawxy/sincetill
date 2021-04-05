@@ -7,6 +7,7 @@ import { TItem } from "lib/types";
 
 import ItemCard from "components/ItemCard";
 import ItemForm from "components/ItemForm";
+import MetaTags from "components/MetaTags";
 
 export default function ItemPage() {
   const [timer, setTimer] = useState(new Date());
@@ -47,6 +48,8 @@ export default function ItemPage() {
         <div>
           {!!item.ts && (
             <>
+              <MetaTags title={`Item "${item.title}"`} />
+
               <ItemCard item={item} />
               {!showEditForm && (
                 <div className="flex justify-between mt-3">
