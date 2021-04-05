@@ -2,9 +2,15 @@ import "antd/dist/antd.css";
 import "styles/globals.css";
 
 import type { AppProps /*, AppContext */ } from "next/app";
+import React from "react";
+import PageWrapper from "components/PageWrapper";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  return (
+    <PageWrapper>
+      <Component {...pageProps} />
+    </PageWrapper>
+  );
 }
 
 // Only uncomment this method if you have blocking data requirements for

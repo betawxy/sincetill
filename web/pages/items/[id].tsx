@@ -1,11 +1,11 @@
-import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import ItemCard from "components/ItemCard";
-import PageWrapper from "components/PageWrapper";
+import { useRouter } from "next/router";
+import { ObservableStatus, useFirestoreDocData } from "reactfire";
+
 import { itemsRef } from "lib/firebase";
 import { TItem } from "lib/types";
 
-import { ObservableStatus, useFirestoreDocData } from "reactfire";
+import ItemCard from "components/ItemCard";
 import ItemForm from "components/ItemForm";
 
 export default function ItemPage() {
@@ -40,7 +40,7 @@ export default function ItemPage() {
   const [showEditForm, setShowEditForm] = useState(false);
 
   return (
-    <PageWrapper>
+    <>
       {resp.status === "loading" ? (
         <div>loading...</div>
       ) : (
@@ -76,6 +76,6 @@ export default function ItemPage() {
           )}
         </div>
       )}
-    </PageWrapper>
+    </>
   );
 }
