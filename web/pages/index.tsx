@@ -8,7 +8,7 @@ import ItemCard from "components/ItemCard";
 import MetaTags from "components/MetaTags";
 
 // Max items to retrieve per page
-const LIMIT = 3;
+const LIMIT = 8;
 
 type Props = {
   items: TItem[];
@@ -16,7 +16,7 @@ type Props = {
 
 export async function getServerSideProps(): Promise<{ props: Props }> {
   const itemsQuery = firestore
-    .collectionGroup("items")
+    .collection("items")
     .orderBy("mtime", "desc")
     .limit(LIMIT);
   const items = (await itemsQuery.get()).docs.map((doc) => doc.data() as TItem);
@@ -43,7 +43,7 @@ export default function Home(props: Props) {
 
     const lastItem = items[items.length - 1];
     const itemsQuery = firestore
-      .collectionGroup("items")
+      .collection("items")
       .orderBy("mtime", "desc")
       .startAfter(lastItem.mtime)
       .limit(LIMIT);
@@ -52,7 +52,7 @@ export default function Home(props: Props) {
       (doc) => doc.data() as TItem
     );
 
-    setItems(items.concat(newItems));
+    setItems([...items, ...newItems]);
     setIsLoading(false);
     if (newItems.length < LIMIT) {
       setReachedItemsEnd(true);
@@ -66,7 +66,7 @@ export default function Home(props: Props) {
         Items
       </div>
       <ul>
-        {props.items.map((item, key) => (
+        {items.map((item, key) => (
           <Link key={key} href={`/items/${item.id}`}>
             <li className="cursor-pointer mb-3 last:mb-0">
               <ItemCard item={item} />
@@ -76,11 +76,9 @@ export default function Home(props: Props) {
       </ul>
 
       {!isLoading && !reachedItemsEnd && (
-        <button
-          className="beta-btn-blue"
-          value="Load more"
-          onClick={loadMorePosts}
-        />
+        <button className="beta-btn-blue" onClick={loadMorePosts}>
+          Load More
+        </button>
       )}
 
       {isLoading && <div>Loading...</div>}
