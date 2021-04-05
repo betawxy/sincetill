@@ -16,9 +16,9 @@ export default function ItemCard({ item }: { item: TItem }) {
 
   return (
     <div className="flex rounded bg-gray-100 p-3">
-      <div className="flex-none flex items-center w-16 h-16 rounded overflow-hidden">
+      <div className="flex-none flex items-center rounded overflow-hidden">
         <img
-          className="object-cover"
+          className="w-16 h-16 object-cover bg-gray-50"
           src={item.backgroundImage || DEFAULT_IMAGE}
           alt="background image"
         />

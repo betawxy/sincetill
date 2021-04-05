@@ -47,7 +47,7 @@ export default function ImageUploader({
       {imageUrl && (
         <img
           src={imageUrl}
-          className="w-60 h-60 bg-white border-2 border-dashed mb-3"
+          className="w-60 h-60 p-1 object-cover border-2 border-dashed mb-3"
         />
       )}
       <FileUploader
