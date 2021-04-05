@@ -1,3 +1,5 @@
+import { User } from "./firebase";
+
 export enum EFormatType {
   SECONDS,
   MINUTES,
@@ -32,4 +34,9 @@ export type TUser = {
 
   settings: TSettings;
   items: TItem[];
+};
+
+export type TUserContext = {
+  user: User | null;
+  userData: TUser | null;
 };

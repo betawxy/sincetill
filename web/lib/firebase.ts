@@ -36,3 +36,10 @@ export const STATE_CHANGED = firebase.storage.TaskEvent.STATE_CHANGED;
 // Collections
 export const itemsRef = firestore.collection("items");
 export const usersRef = firestore.collection("users");
+
+// Collection Groups
+export const itemsGroupRef = firestore.collectionGroup("items");
+export const usersGroupRef = firestore.collectionGroup("users");
+
+// Misc
+export type User = firebase.User;

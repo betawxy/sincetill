@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 
 import { TItem } from "lib/types";
-import { firestore, itemsRef } from "lib/firebase";
+import { itemsRef } from "lib/firebase";
 
 import ItemCard from "components/ItemCard";
 import MetaTags from "components/MetaTags";
+import { UserContext } from "lib/context";
 
 // Max items to retrieve per page
 const LIMIT = 8;
@@ -15,10 +16,7 @@ type Props = {
 };
 
 export async function getServerSideProps(): Promise<{ props: Props }> {
-  const itemsQuery = firestore
-    .collection("items")
-    .orderBy("mtime", "desc")
-    .limit(LIMIT);
+  const itemsQuery = itemsRef.orderBy("mtime", "desc").limit(LIMIT);
   const items = (await itemsQuery.get()).docs.map((doc) => doc.data() as TItem);
   return {
     props: { items },
@@ -26,6 +24,8 @@ export async function getServerSideProps(): Promise<{ props: Props }> {
 }
 
 export default function Home(props: Props) {
+  const { user } = useContext(UserContext);
+
   const [timer, setTimer] = useState(new Date());
   useEffect(() => {
     const interval = setInterval(() => {
@@ -42,8 +42,7 @@ export default function Home(props: Props) {
     setIsLoading(true);
 
     const lastItem = items[items.length - 1];
-    const itemsQuery = firestore
-      .collection("items")
+    const itemsQuery = itemsRef
       .orderBy("mtime", "desc")
       .startAfter(lastItem.mtime)
       .limit(LIMIT);
@@ -58,6 +57,10 @@ export default function Home(props: Props) {
       setReachedItemsEnd(true);
     }
   };
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <>
