@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import moment from "moment";
 
-import { itemsRef } from "lib/firebase";
 import { EFormatType, TItem } from "lib/types";
 
 import { Input, DatePicker, TimePicker, Switch, Select, Form } from "antd";
 import ImageUploader from "./ImageUploader";
 
 import "antd/dist/antd.css";
+import { UserContext } from "lib/context";
+import { firestore } from "lib/firebase";
 
 type TProps = {
   item: TItem;
@@ -15,8 +16,15 @@ type TProps = {
 };
 
 export default function ItemForm(props: TProps) {
+  const { user } = useContext(UserContext);
+
   const isEdit = props.item.title.length > 0;
   const [item, setItem] = useState({ ...props.item });
+
+  const itemsRef = firestore
+    .collection("users")
+    .doc(user.uid)
+    .collection("items");
 
   const onFinish = (values: { date: moment.Moment; time: moment.Moment }) => {
     let m = moment(item.ts);

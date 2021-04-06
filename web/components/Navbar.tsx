@@ -1,13 +1,11 @@
 import { UserContext } from "lib/context";
 import { auth } from "lib/firebase";
 import Link from "next/link";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import ProgressBar from "./ProgressBar";
-import SignInDialog from "./SignInDialog";
 
 export default function Navbar() {
-  const { user, userData } = useContext(UserContext);
-  const [showSignInDialog, setShowSignInDialog] = useState(false);
+  const { user } = useContext(UserContext);
 
   const signOut = () => {
     auth.signOut();
@@ -26,7 +24,7 @@ export default function Navbar() {
           </Link>
         </div>
         <div className="flex-none">
-          {!!userData ? (
+          {!!user && (
             <div className="flex">
               <Link href="/items/add">
                 <div className="beta-link-light">Add Item</div>
@@ -34,28 +32,8 @@ export default function Navbar() {
               <button className="beta-btn-red" onClick={signOut}>
                 Sign Out
               </button>
-              <div className="text-white">{userData.displayName}</div>
+              <div className="text-white">{user.displayName}</div>
             </div>
-          ) : (
-            <>
-              <button
-                className="beta-btn-red"
-                onClick={() => {
-                  setShowSignInDialog(true);
-                  document.body.classList.add("overflow-hidden");
-                }}
-              >
-                Sign In
-              </button>
-              {showSignInDialog && (
-                <SignInDialog
-                  close={() => {
-                    setShowSignInDialog(false);
-                    document.body.classList.remove("overflow-hidden");
-                  }}
-                />
-              )}
-            </>
           )}
         </div>
       </div>

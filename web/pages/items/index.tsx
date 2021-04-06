@@ -21,9 +21,6 @@ export default function Home() {
     }, 1000);
     return () => clearInterval(interval);
   }, []);
-  console.log(user);
-
-  userData !== null && console.log(Object.values(userData.items));
 
   // const [items, setItems] = useState([]);
   // const [isLoading, setIsLoading] = useState(false);
@@ -82,16 +79,6 @@ export default function Home() {
             </Link>
           ))}
       </ul>
-
-      {/* {!isLoading && !reachedItemsEnd && (
-        <button className="beta-btn-blue" onClick={loadMorePosts}>
-          Load More
-        </button>
-      )}
-
-      {isLoading && <div>Loading...</div>}
-      {reachedItemsEnd && <div>You have reached the end.</div>} */}
-
       <div className="py-6 text-xs text-gray-400">
         Updated at {timer.toUTCString()}
       </div>
