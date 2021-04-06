@@ -4,9 +4,9 @@ import React from "react";
 export default function LandingPage() {
   return (
     <div>
-      <div>Landing Page</div>
+      <div className="w-full bg-green-100 p-10">Landing Page</div>
       <Link href="/items">
-        <div className="beta-link">Open web app</div>
+        <span className="beta-link m-10">Go to web app</span>
       </Link>
     </div>
   );

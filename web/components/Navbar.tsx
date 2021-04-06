@@ -19,8 +19,11 @@ export default function Navbar() {
         <ProgressBar />
         <div className="flex-grow">
           <div className="inline-block">
-            <Link href="/">
-              <h1 className="text-white text-3xl cursor-pointer">since till</h1>
+            <Link href="/items">
+              <div className="flex text-white text-2xl cursor-pointer overflow-hidden rounded">
+                <div className="h-10 bg-pink-500 pl-2 pb-1">since</div>
+                <div className="h-10 bg-green-500 pr-2 pb-1">till</div>
+              </div>
             </Link>
           </div>
         </div>

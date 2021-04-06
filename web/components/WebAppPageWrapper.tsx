@@ -5,6 +5,7 @@ import { useUserData } from "lib/hooks";
 
 import Navbar from "components/Navbar";
 import AuthRedirect from "components/AuthRedirect";
+import Link from "next/link";
 
 export default function PageWrapper({
   children,
@@ -20,7 +21,11 @@ export default function PageWrapper({
         <main>
           <div className="container mx-auto max-w-screen-md">{children}</div>
         </main>
-        <footer></footer>
+        <footer>
+          <Link href="/">
+            <div className="beta-link h-4 bg-blue-100">///</div>
+          </Link>
+        </footer>
       </AuthRedirect>
     </UserContext.Provider>
   );
