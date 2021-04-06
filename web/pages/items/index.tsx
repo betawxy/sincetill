@@ -2,14 +2,24 @@ import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 
 import { TItem } from "lib/types";
-import { firestore } from "lib/firebase";
+import { getItemsRef } from "lib/firebase";
 import { UserContext } from "lib/context";
 
 import ItemCard from "components/ItemCard";
 import MetaTags from "components/MetaTags";
 import WebAppPageWrapper from "components/WebAppPageWrapper";
 
-const LIMIT = 2;
+const LIMIT = 8;
+
+async function loadNextPage(uid: string, lastItem?: TItem): Promise<TItem[]> {
+  let query = getItemsRef(uid).orderBy("mtime", "desc");
+  if (!!lastItem) {
+    query = query.startAfter(lastItem.mtime);
+  }
+  query = query.limit(LIMIT);
+
+  return (await query.get()).docs.map((doc) => doc.data() as TItem);
+}
 
 export default function Home() {
   const { user } = useContext(UserContext);
@@ -26,22 +36,8 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [reachedItemsEnd, setReachedItemsEnd] = useState(false);
 
-  async function loadNextPage(uid: string, lastItem?: TItem): Promise<TItem[]> {
-    let query = firestore
-      .collection("users")
-      .doc(uid)
-      .collection("items")
-      .orderBy("mtime", "desc");
-    if (!!lastItem) {
-      query = query.startAfter(lastItem.mtime);
-    }
-    query = query.limit(LIMIT);
-
-    return (await query.get()).docs.map((doc) => doc.data() as TItem);
-  }
-
   useEffect(() => {
-    if (!!user)
+    if (!!user && items.length === 0)
       loadNextPage(user.uid).then((newItems) => {
         setIsLoading(true);
         setItems(newItems);
@@ -54,8 +50,13 @@ export default function Home() {
 
   const loadMoreItems = async () => {
     setIsLoading(true);
-    const lastItem = items[items.length - 1];
-    const newItems = await loadNextPage(user.uid, lastItem);
+    let newItems;
+    if (items.length) {
+      const lastItem = items[items.length - 1];
+      newItems = await loadNextPage(user.uid, lastItem);
+    } else {
+      newItems = await loadNextPage(user.uid);
+    }
     setItems([...items, ...newItems]);
     setIsLoading(false);
     if (newItems.length < LIMIT) {

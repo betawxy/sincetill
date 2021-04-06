@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { ObservableStatus, useFirestoreDocData } from "reactfire";
 
-import { itemsRef } from "lib/firebase";
 import { TItem } from "lib/types";
 
 import ItemCard from "components/ItemCard";
 import ItemForm from "components/ItemForm";
 import MetaTags from "components/MetaTags";
 import WebAppPageWrapper from "components/WebAppPageWrapper";
+import { getItemsRef } from "lib/firebase";
+import { UserContext } from "lib/context";
 
-export default function ItemPage() {
+function Content() {
+  const { user } = useContext(UserContext);
+
   const [timer, setTimer] = useState(new Date());
   useEffect(() => {
     const interval = setInterval(() => {
@@ -21,6 +24,11 @@ export default function ItemPage() {
 
   const router = useRouter();
   const { id: itemId } = router.query;
+
+  if (!user) {
+  }
+
+  const itemsRef = getItemsRef(user.uid);
 
   const resp: ObservableStatus<TItem> = useFirestoreDocData(
     itemsRef.doc(itemId as string)
@@ -42,7 +50,7 @@ export default function ItemPage() {
   const [showEditForm, setShowEditForm] = useState(false);
 
   return (
-    <WebAppPageWrapper>
+    <>
       {resp.status === "loading" ? (
         <div>loading...</div>
       ) : (
@@ -80,6 +88,12 @@ export default function ItemPage() {
           )}
         </div>
       )}
-    </WebAppPageWrapper>
+    </>
   );
+}
+
+export default function ItemPage() {
+  const { user } = useContext(UserContext);
+
+  return <WebAppPageWrapper>{!!user && <Content />}</WebAppPageWrapper>;
 }

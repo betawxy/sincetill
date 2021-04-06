@@ -34,8 +34,10 @@ export const imagesStorage = storage.ref("images");
 export const STATE_CHANGED = firebase.storage.TaskEvent.STATE_CHANGED;
 
 // Collections
-export const itemsRef = firestore.collection("items");
 export const usersRef = firestore.collection("users");
+export function getItemsRef(uid: string) {
+  return usersRef.doc(uid).collection("items");
+}
 
 // Collection Groups
 export const itemsGroupRef = firestore.collectionGroup("items");
