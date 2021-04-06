@@ -27,7 +27,7 @@ export default function Navbar() {
         <div className="flex-none">
           {!!user ? (
             <div className="flex">
-              <Link href="/item/add">
+              <Link href="/items/add">
                 <div className="beta-link-light">Add Item</div>
               </Link>
               <button className="beta-btn-red" onClick={signOut}>
