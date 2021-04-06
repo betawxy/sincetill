@@ -9,10 +9,10 @@ import ItemCard from "components/ItemCard";
 import MetaTags from "components/MetaTags";
 import WebAppPageWrapper from "components/WebAppPageWrapper";
 
-const LIMIT = 8;
+const LIMIT = 2;
 
 export default function Home() {
-  const { user, userData } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   const [timer, setTimer] = useState(new Date());
   useEffect(() => {
@@ -22,46 +22,46 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  // const [items, setItems] = useState([]);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [reachedItemsEnd, setReachedItemsEnd] = useState(false);
+  const [items, setItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [reachedItemsEnd, setReachedItemsEnd] = useState(false);
 
-  // async function loadNextPage(uid: string, lastItem?: TItem): Promise<TItem[]> {
-  //   let query = firestore
-  //     .collection("users")
-  //     .doc(uid)
-  //     .collection("items")
-  //     .orderBy("mtime", "desc");
-  //   if (!!lastItem) {
-  //     query = query.startAfter(lastItem.mtime);
-  //   }
-  //   query = query.limit(LIMIT);
+  async function loadNextPage(uid: string, lastItem?: TItem): Promise<TItem[]> {
+    let query = firestore
+      .collection("users")
+      .doc(uid)
+      .collection("items")
+      .orderBy("mtime", "desc");
+    if (!!lastItem) {
+      query = query.startAfter(lastItem.mtime);
+    }
+    query = query.limit(LIMIT);
 
-  //   return (await query.get()).docs.map((doc) => doc.data() as TItem);
-  // }
+    return (await query.get()).docs.map((doc) => doc.data() as TItem);
+  }
 
-  // useEffect(() => {
-  //   if (!!user)
-  //     loadNextPage(user.uid).then((newItems) => {
-  //       setIsLoading(true);
-  //       setItems(newItems);
-  //       setIsLoading(false);
-  //       if (newItems.length < LIMIT) {
-  //         setReachedItemsEnd(true);
-  //       }
-  //     });
-  // });
+  useEffect(() => {
+    if (!!user)
+      loadNextPage(user.uid).then((newItems) => {
+        setIsLoading(true);
+        setItems(newItems);
+        setIsLoading(false);
+        if (newItems.length < LIMIT) {
+          setReachedItemsEnd(true);
+        }
+      });
+  });
 
-  // const loadMorePosts = async () => {
-  //   setIsLoading(true);
-  //   const lastItem = items[items.length - 1];
-  //   const newItems = await loadNextPage(user.uid, lastItem);
-  //   setItems([...items, ...newItems]);
-  //   setIsLoading(false);
-  //   if (newItems.length < LIMIT) {
-  //     setReachedItemsEnd(true);
-  //   }
-  // };
+  const loadMoreItems = async () => {
+    setIsLoading(true);
+    const lastItem = items[items.length - 1];
+    const newItems = await loadNextPage(user.uid, lastItem);
+    setItems([...items, ...newItems]);
+    setIsLoading(false);
+    if (newItems.length < LIMIT) {
+      setReachedItemsEnd(true);
+    }
+  };
 
   return (
     <WebAppPageWrapper>
@@ -70,15 +70,23 @@ export default function Home() {
         Items
       </div>
       <ul>
-        {!!userData &&
-          Object.values(userData.items).map((item, key) => (
-            <Link key={key} href={`/items/${item.id}`}>
-              <li className="cursor-pointer mb-3 last:mb-0">
-                <ItemCard item={item} />
-              </li>
-            </Link>
-          ))}
+        {items.map((item, key) => (
+          <Link key={key} href={`/items/${item.id}`}>
+            <li className="cursor-pointer mb-3 last:mb-0">
+              <ItemCard item={item} />
+            </li>
+          </Link>
+        ))}
       </ul>
+      {isLoading && <div>Loading...</div>}
+      {!isLoading && !reachedItemsEnd && (
+        <div>
+          <button className="beta-btn-blue" onClick={loadMoreItems}>
+            Get more items
+          </button>
+        </div>
+      )}
+      {reachedItemsEnd && <div>You have reached the end</div>}
       <div className="py-6 text-xs text-gray-400">
         Updated at {timer.toUTCString()}
       </div>
