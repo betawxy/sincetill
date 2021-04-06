@@ -21,6 +21,10 @@ export default function ItemForm(props: TProps) {
   const isEdit = props.item.title.length > 0;
   const [item, setItem] = useState({ ...props.item });
 
+  if (!user) {
+    return null;
+  }
+
   const itemsRef = firestore
     .collection("users")
     .doc(user.uid)
