@@ -1,22 +1,10 @@
-import "antd/dist/antd.css";
 import "styles/globals.css";
 
 import type { AppProps /*, AppContext */ } from "next/app";
 import React from "react";
-import PageWrapper from "components/PageWrapper";
-import { UserContext } from "lib/context";
-import { useUserData } from "lib/hooks";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const userData = useUserData();
-
-  return (
-    <UserContext.Provider value={userData}>
-      <PageWrapper>
-        <Component {...pageProps} />
-      </PageWrapper>
-    </UserContext.Provider>
-  );
+  return <Component {...pageProps} />;
 }
 
 // Only uncomment this method if you have blocking data requirements for

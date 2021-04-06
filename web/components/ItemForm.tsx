@@ -7,6 +7,8 @@ import { EFormatType, TItem } from "lib/types";
 import { Input, DatePicker, TimePicker, Switch, Select, Form } from "antd";
 import ImageUploader from "./ImageUploader";
 
+import "antd/dist/antd.css";
+
 type TProps = {
   item: TItem;
   cancel: any;

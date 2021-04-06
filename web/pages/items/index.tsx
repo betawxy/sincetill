@@ -3,10 +3,11 @@ import Link from "next/link";
 
 import { TItem } from "lib/types";
 import { itemsRef } from "lib/firebase";
+import { UserContext } from "lib/context";
 
 import ItemCard from "components/ItemCard";
 import MetaTags from "components/MetaTags";
-import { UserContext } from "lib/context";
+import WebAppPageWrapper from "components/WebAppPageWrapper";
 
 // Max items to retrieve per page
 const LIMIT = 8;
@@ -58,12 +59,8 @@ export default function Home(props: Props) {
     }
   };
 
-  if (!user) {
-    return null;
-  }
-
   return (
-    <>
+    <WebAppPageWrapper>
       <MetaTags title="Home" description="List of your personal items" />
       <div className="text-lg text-gray-600 mt-6 mb-3 border-b-2 border-dashed">
         Items
@@ -90,6 +87,6 @@ export default function Home(props: Props) {
       <div className="py-6 text-xs text-gray-400">
         Updated at {timer.toUTCString()}
       </div>
-    </>
+    </WebAppPageWrapper>
   );
 }

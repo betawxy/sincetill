@@ -8,6 +8,7 @@ import { TItem } from "lib/types";
 import ItemCard from "components/ItemCard";
 import ItemForm from "components/ItemForm";
 import MetaTags from "components/MetaTags";
+import WebAppPageWrapper from "components/WebAppPageWrapper";
 
 export default function ItemPage() {
   const [timer, setTimer] = useState(new Date());
@@ -41,7 +42,7 @@ export default function ItemPage() {
   const [showEditForm, setShowEditForm] = useState(false);
 
   return (
-    <>
+    <WebAppPageWrapper>
       {resp.status === "loading" ? (
         <div>loading...</div>
       ) : (
@@ -79,6 +80,6 @@ export default function ItemPage() {
           )}
         </div>
       )}
-    </>
+    </WebAppPageWrapper>
   );
 }

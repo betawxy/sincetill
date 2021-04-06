@@ -1,10 +1,14 @@
 import React from "react";
 import { auth, googleAuthProvider } from "lib/firebase";
+import { useRouter } from "next/router";
 
 export default function AuthPage() {
+  const router = useRouter();
+
   const signInWithGoogle = () => {
     auth.signInWithPopup(googleAuthProvider).then(() => {
-      close();
+      router.query;
+      router.back();
     });
   };
 
