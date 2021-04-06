@@ -12,10 +12,10 @@ export default function PageWrapper({
 }: {
   children: JSX.Element | JSX.Element[];
 }) {
-  const userData = useUserData();
+  const { user, userData } = useUserData();
 
   return (
-    <UserContext.Provider value={userData}>
+    <UserContext.Provider value={{ user, userData }}>
       <AuthRedirect>
         <Navbar />
         <main>
@@ -23,7 +23,7 @@ export default function PageWrapper({
         </main>
         <footer>
           <Link href="/">
-            <div className="beta-link h-4 bg-blue-100">///</div>
+            <div className="beta-link h-10 bg-blue-100"></div>
           </Link>
         </footer>
       </AuthRedirect>

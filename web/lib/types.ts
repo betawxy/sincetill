@@ -30,10 +30,12 @@ export type TUser = {
   uid: string;
   email: string;
   displayName: string;
-  photoUrl: string;
+  photoURL: string;
 
   settings: TSettings;
-  items: TItem[];
+  items: {
+    [key: string]: TItem;
+  };
 };
 
 export type TUserContext = {

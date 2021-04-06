@@ -6,7 +6,6 @@ type TProps = {
   children: JSX.Element | JSX.Element[];
 };
 
-// Component's children only shown to logged-in users
 export default function AuthRedirect(props: TProps) {
   const router = useRouter();
   const { user } = useContext(UserContext);
@@ -14,7 +13,7 @@ export default function AuthRedirect(props: TProps) {
 
   useEffect(() => {
     if (!user) {
-      router.push("/auth?" + "redirect=" + router.pathname);
+      router.push("/auth?" + "next=" + router.asPath);
     } else {
       setChecked(true);
     }

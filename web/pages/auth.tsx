@@ -7,14 +7,15 @@ export default function AuthPage() {
 
   const signInWithGoogle = () => {
     auth.signInWithPopup(googleAuthProvider).then(() => {
-      router.query;
-      router.back();
+      const nextPage = router.query.next as string;
+      router.push(nextPage);
     });
   };
+  console.log(router.query);
 
   return (
     <div>
-      <button className="beta-btn-blue" onClick={signInWithGoogle}>
+      <button className="beta-btn-blue m-10" onClick={signInWithGoogle}>
         sign in with google
       </button>
     </div>
