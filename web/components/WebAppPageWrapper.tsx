@@ -12,10 +12,8 @@ export default function PageWrapper({
 }: {
   children: JSX.Element | JSX.Element[];
 }) {
-  const { user, userData } = useUserData();
-
   return (
-    <UserContext.Provider value={{ user, userData }}>
+    <UserContext.Provider value={useUserData()}>
       <AuthRedirect>
         <Navbar />
         <main>
