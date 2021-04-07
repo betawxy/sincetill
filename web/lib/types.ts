@@ -31,11 +31,7 @@ export type TUser = {
   email: string;
   displayName: string;
   photoURL: string;
-
   settings: TSettings;
-  items: {
-    [key: string]: TItem;
-  };
 };
 
 export type TUserContext = {

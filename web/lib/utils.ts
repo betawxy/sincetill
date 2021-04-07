@@ -88,19 +88,11 @@ export function getDateTimeString(item: TItem): string {
 }
 
 export function createTUserFromUser(user: User): TUser {
-  const item = genNewItem();
-  item.uid = user.uid;
-  item.title = "Started using SinceTill";
-  item.isFullDayEvent = false;
-  item.formatType = EFormatType.DAYS;
-  item.backgroundImage = DEFAULT_IMAGE;
-
   return {
     uid: user.uid,
     email: user.email,
     displayName: user.displayName,
     photoURL: user.photoURL,
     settings: { defaultBackground: DEFAULT_IMAGE },
-    items: { [item.id]: item },
   };
 }
