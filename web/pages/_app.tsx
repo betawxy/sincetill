@@ -1,13 +1,15 @@
 import "styles/globals.css";
 
 import type { AppProps } from "next/app";
-import React from "react";
+import React, { useEffect } from "react";
 
 import { UserContext } from "lib/context";
 import { useUserData } from "lib/hooks";
 
 import * as Sentry from "@sentry/react";
 import { Integrations } from "@sentry/tracing";
+import { useRouter } from "next/router";
+import { analytics } from "lib/firebase";
 
 Sentry.init({
   dsn:
@@ -21,6 +23,26 @@ Sentry.init({
 });
 
 export default function App({ Component, pageProps }: AppProps) {
+  const routers = useRouter();
+
+  useEffect(() => {
+    if (process.env.NODE_ENV === "production") {
+      const logEvent = (url) => {
+        analytics().setCurrentScreen(url);
+        analytics().logEvent("screen_view");
+      };
+
+      routers.events.on("routeChangeComplete", logEvent);
+      //For First Page
+      logEvent(window.location.pathname);
+
+      //Remvove Event Listener after un-mount
+      return () => {
+        routers.events.off("routeChangeComplete", logEvent);
+      };
+    }
+  }, []);
+
   return (
     <UserContext.Provider value={useUserData()}>
       <Component {...pageProps} />

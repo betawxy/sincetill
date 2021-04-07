@@ -103,7 +103,7 @@ export default function Home() {
           </button>
         </div>
       )}
-      {!isLoading && items.length === 0 && (
+      {!isLoading && items.length === 0 && reachedItemsEnd && (
         <div>
           You don't have any items yet. Create a new one with "Add Item" above.
         </div>
