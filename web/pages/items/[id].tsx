@@ -10,6 +10,7 @@ import MetaTags from "components/MetaTags";
 import WebAppPageWrapper from "components/WebAppPageWrapper";
 import { getItemsRef } from "lib/firebase";
 import { UserContext } from "lib/context";
+import ItemCardSkeleton from "components/ItemCardSkeleton";
 
 function Content() {
   const { user } = useContext(UserContext);
@@ -49,13 +50,12 @@ function Content() {
   return (
     <>
       {resp.status === "loading" ? (
-        <div>loading...</div>
+        <ItemCardSkeleton />
       ) : (
         <div>
           {!!item.ts && (
             <>
               <MetaTags title={`Item "${item.title}"`} />
-
               <ItemCard item={item} />
               {!showEditForm && (
                 <div className="flex justify-between mt-3">

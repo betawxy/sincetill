@@ -8,6 +8,7 @@ import { UserContext } from "lib/context";
 import ItemCard from "components/ItemCard";
 import MetaTags from "components/MetaTags";
 import WebAppPageWrapper from "components/WebAppPageWrapper";
+import ItemCardSkeleton from "components/ItemCardSkeleton";
 
 const LIMIT = 8;
 
@@ -85,7 +86,19 @@ export default function Home() {
           </Link>
         ))}
       </ul>
-      {isLoading && <div>Loading...</div>}
+      {isLoading && (
+        <ul className="space-y-3">
+          <li>
+            <ItemCardSkeleton />
+          </li>
+          <li>
+            <ItemCardSkeleton />
+          </li>
+          <li>
+            <ItemCardSkeleton />
+          </li>
+        </ul>
+      )}
       {!isLoading && !reachedItemsEnd && (
         <div>
           <button className="beta-btn-blue" onClick={loadMoreItems}>
