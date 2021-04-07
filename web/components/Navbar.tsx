@@ -7,7 +7,7 @@ import ProgressBar from "./ProgressBar";
 function HamburgerIcon({ show }) {
   if (show) {
     return (
-      <div className="w-6 h-6 flex flex-col pt-1.25">
+      <div className="w-6 h-6 flex flex-col pt-1.5">
         <div className="absolute h-0.5 w-4 bg-white transform transition duration-200 ease-in-out translate-x-1 translate-y-1.5 rotate-45"></div>
         <div className="absolute h-0.5 w-4 bg-white transform transition duration-200 ease-in-out translate-x-1 translate-y-1.5 opacity-0"></div>
         <div className="absolute h-0.5 w-4 bg-white transform transition duration-200 ease-in-out translate-x-1 translate-y-1.5 -rotate-45"></div>
@@ -15,7 +15,7 @@ function HamburgerIcon({ show }) {
     );
   }
   return (
-    <div className="w-6 h-6 flex flex-col pt-1.25">
+    <div className="w-6 h-6 flex flex-col pt-1.5">
       <div className="absolute h-0.5 w-4 bg-white transform transition duration-200 ease-in-out translate-x-1 translate-y-0"></div>
       <div className="absolute h-0.5 w-4 bg-white transform transition duration-200 ease-in-out translate-x-1 translate-y-1.5"></div>
       <div className="absolute h-0.5 w-4 bg-white transform transition duration-200 ease-in-out translate-x-1 translate-y-3"></div>
