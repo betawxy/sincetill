@@ -11,7 +11,6 @@ export default function AuthPage() {
       router.replace(nextPage);
     });
   };
-  console.log(router.query);
 
   return (
     <div className="w-screen h-screen flex">

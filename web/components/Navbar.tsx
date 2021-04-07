@@ -4,6 +4,25 @@ import Link from "next/link";
 import React, { useContext, useState } from "react";
 import ProgressBar from "./ProgressBar";
 
+function MenuIcon({ show }) {
+  if (show) {
+    return (
+      <div className="w-6 h-6 flex flex-col pt-1.25">
+        <div className="absolute h-0.5 w-4 bg-white transform transition duration-200 ease-in-out translate-x-1 translate-y-1.5 rotate-45"></div>
+        <div className="absolute h-0.5 w-4 bg-white transform transition duration-200 ease-in-out translate-x-1 translate-y-1.5 opacity-0"></div>
+        <div className="absolute h-0.5 w-4 bg-white transform transition duration-200 ease-in-out translate-x-1 translate-y-1.5 -rotate-45"></div>
+      </div>
+    );
+  }
+  return (
+    <div className="w-6 h-6 flex flex-col pt-1.25">
+      <div className="absolute h-0.5 w-4 bg-white transform transition duration-200 ease-in-out translate-x-1 translate-y-0"></div>
+      <div className="absolute h-0.5 w-4 bg-white transform transition duration-200 ease-in-out translate-x-1 translate-y-1.5"></div>
+      <div className="absolute h-0.5 w-4 bg-white transform transition duration-200 ease-in-out translate-x-1 translate-y-3"></div>
+    </div>
+  );
+}
+
 export default function Navbar() {
   const { user } = useContext(UserContext);
 
@@ -36,14 +55,10 @@ export default function Navbar() {
                     </Link>
                   </div>
                   <div
-                    className="w-6 h-6 bg-indigo-600 rounded cursor-pointer ml-3"
+                    className="bg-indigo-600 rounded cursor-pointer ml-3"
                     onClick={() => setShowDropdown(!showDropdown)}
                   >
-                    <div className="w-6 h-6 px-1 py-1.5 flex flex-col justify-between">
-                      <div className="h-0.5 w-4 bg-white"></div>
-                      <div className="h-0.5 w-4 bg-white"></div>
-                      <div className="h-0.5 w-4 bg-white"></div>
-                    </div>
+                    <MenuIcon show={showDropdown} />
                   </div>
                 </div>
               </>
