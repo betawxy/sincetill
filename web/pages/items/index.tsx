@@ -70,10 +70,10 @@ export default function Home() {
       <div className="text-lg text-gray-600 mt-6 mb-3 border-b-2 border-dashed">
         Items
       </div>
-      <ul>
+      <ul className="space-y-3">
         {items.map((item, key) => (
           <Link key={key} href={`/items/${item.id}`}>
-            <li className="cursor-pointer mb-3 last:mb-0">
+            <li className="cursor-pointer">
               <ItemCard item={item} />
             </li>
           </Link>

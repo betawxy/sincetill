@@ -17,7 +17,7 @@ export default function AuthPage() {
     <div className="w-screen h-screen flex">
       <div className="mx-auto self-center">
         <button className="beta-btn-blue m-10" onClick={signInWithGoogle}>
-          Sign in with Google
+          Continue with Google
         </button>
       </div>
     </div>
