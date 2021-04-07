@@ -33,7 +33,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="mb-3">
+    <nav>
       <div className="bg-indigo-800 p-3">
         <div className="container mx-auto max-w-screen-md flex items-center">
           <ProgressBar />

@@ -85,22 +85,19 @@ export default function Home() {
             </li>
           </Link>
         ))}
+        {isLoading && (
+          <>
+            <li>
+              <ItemCardSkeleton />
+            </li>
+            <li>
+              <ItemCardSkeleton />
+            </li>
+          </>
+        )}
       </ul>
-      {isLoading && (
-        <ul className="space-y-3">
-          <li>
-            <ItemCardSkeleton />
-          </li>
-          <li>
-            <ItemCardSkeleton />
-          </li>
-          <li>
-            <ItemCardSkeleton />
-          </li>
-        </ul>
-      )}
       {!isLoading && !reachedItemsEnd && (
-        <div>
+        <div className="my-3">
           <button className="beta-btn-blue" onClick={loadMoreItems}>
             Load More
           </button>
@@ -111,10 +108,6 @@ export default function Home() {
           You don't have any items yet. Create a new one with "Add Item" above.
         </div>
       )}
-
-      <div className="py-6 text-xs text-gray-400">
-        Updated at {timer.toUTCString()}
-      </div>
     </WebAppPageWrapper>
   );
 }

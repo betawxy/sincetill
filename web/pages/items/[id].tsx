@@ -48,7 +48,7 @@ function Content() {
   const [showEditForm, setShowEditForm] = useState(false);
 
   return (
-    <>
+    <div className={showEditForm ? "mb-20" : "mb-60"}>
       {resp.status === "loading" ? (
         <ItemCardSkeleton />
       ) : (
@@ -78,14 +78,11 @@ function Content() {
                   <ItemForm item={item} cancel={() => setShowEditForm(false)} />
                 </div>
               )}
-              <div className="py-6 text-xs text-gray-400">
-                Updated at {timer.toUTCString()}
-              </div>
             </>
           )}
         </div>
       )}
-    </>
+    </div>
   );
 }
 
