@@ -4,7 +4,7 @@ import Link from "next/link";
 import React, { useContext, useState } from "react";
 import ProgressBar from "./ProgressBar";
 
-function MenuIcon({ show }) {
+function HamburgerIcon({ show }) {
   if (show) {
     return (
       <div className="w-6 h-6 flex flex-col pt-1.25">
@@ -58,7 +58,7 @@ export default function Navbar() {
                     className="bg-indigo-600 rounded cursor-pointer ml-3"
                     onClick={() => setShowDropdown(!showDropdown)}
                   >
-                    <MenuIcon show={showDropdown} />
+                    <HamburgerIcon show={showDropdown} />
                   </div>
                 </div>
               </>
@@ -66,12 +66,19 @@ export default function Navbar() {
           </div>
         </div>
       </div>
-      {showDropdown && (
-        <div className="container mx-auto max-w-screen-md flex flex-col items-end bg-indigo-200">
-          <div className="">{user.displayName}</div>
-          <button className=" " onClick={signOut}>
-            Sign Out
-          </button>
+      {!!user && showDropdown && (
+        <div className="container mx-auto max-w-screen-md bg-indigo-50 select-none">
+          <div className="border-b-2 border-gray-300 w-full border-dashed text-right text-indigo-600 p-2">
+            {user.displayName}
+          </div>
+          <div className="w-full text-right">
+            <div
+              className="inline-block text-pink-500 p-2 underline cursor-pointer"
+              onClick={signOut}
+            >
+              Sign Out
+            </div>
+          </div>
         </div>
       )}
     </nav>

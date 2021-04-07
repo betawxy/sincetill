@@ -37,7 +37,7 @@ function Content() {
       .doc(itemId as string)
       .delete()
       .then(() => {
-        router.replace("/");
+        router.replace("/items");
       })
       .catch((e) => {
         console.error(e);

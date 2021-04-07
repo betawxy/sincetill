@@ -67,7 +67,7 @@ export default function Home() {
   return (
     <WebAppPageWrapper>
       <MetaTags title="Home" description="List of your personal items" />
-      <div className="text-lg text-gray-600 mt-6 mb-3 border-b-2 border-dashed">
+      <div className="text-lg text-gray-600 my-3 border-b-2 border-dashed">
         Items
       </div>
       <ul className="space-y-3">

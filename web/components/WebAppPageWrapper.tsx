@@ -13,7 +13,7 @@ export default function WebAppPageWrapper({
     <AuthRedirect>
       <Navbar />
       <main>
-        <div className="container mx-auto max-w-screen-md">{children}</div>
+        <div className="container mx-auto max-w-screen-md mt-6">{children}</div>
       </main>
       <footer className="h-16 mt-20 bg-indigo-100 border-t-2 border-indigo-200 border-dashed">
         <div className="flex container max-w-screen-md mx-auto h-16">
