@@ -20,7 +20,11 @@ export default function WebAppPageWrapper({
           <div className="flex self-center">
             <span className="text-indigo-600 text-sm">
               &copy;{new Date().getFullYear() + " "}
-              <Link href="/">SinceTill.com</Link>
+              <Link href="/">
+                <span className="text-indigo-600 text-sm cursor-pointer hover:underline">
+                  SinceTill.com
+                </span>
+              </Link>
             </span>
           </div>
         </div>

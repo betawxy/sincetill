@@ -25,9 +25,6 @@ function Content() {
   const router = useRouter();
   const { id: itemId } = router.query;
 
-  if (!user) {
-  }
-
   const itemsRef = getItemsRef(user.uid);
 
   const resp: ObservableStatus<TItem> = useFirestoreDocData(
@@ -94,6 +91,5 @@ function Content() {
 
 export default function ItemPage() {
   const { user } = useContext(UserContext);
-
   return <WebAppPageWrapper>{!!user && <Content />}</WebAppPageWrapper>;
 }

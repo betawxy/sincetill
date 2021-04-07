@@ -8,7 +8,7 @@ export default function AuthPage() {
   const signInWithGoogle = () => {
     auth.signInWithPopup(googleAuthProvider).then(() => {
       const nextPage = router.query.next as string;
-      router.push(nextPage);
+      router.replace(nextPage);
     });
   };
   console.log(router.query);
