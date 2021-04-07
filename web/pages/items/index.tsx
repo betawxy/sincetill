@@ -83,11 +83,10 @@ export default function Home() {
       {!isLoading && !reachedItemsEnd && (
         <div>
           <button className="beta-btn-blue" onClick={loadMoreItems}>
-            Get more items
+            Load More
           </button>
         </div>
       )}
-      {reachedItemsEnd && <div>You have reached the end</div>}
       <div className="py-6 text-xs text-gray-400">
         Updated at {timer.toUTCString()}
       </div>

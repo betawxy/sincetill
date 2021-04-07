@@ -14,10 +14,12 @@ export default function AuthPage() {
   console.log(router.query);
 
   return (
-    <div>
-      <button className="beta-btn-blue m-10" onClick={signInWithGoogle}>
-        sign in with google
-      </button>
+    <div className="w-screen h-screen flex">
+      <div className="mx-auto self-center">
+        <button className="beta-btn-blue m-10" onClick={signInWithGoogle}>
+          Sign in with Google
+        </button>
+      </div>
     </div>
   );
 }

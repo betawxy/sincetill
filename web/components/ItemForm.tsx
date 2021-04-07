@@ -9,6 +9,7 @@ import ImageUploader from "./ImageUploader";
 import "antd/dist/antd.css";
 import { UserContext } from "lib/context";
 import { firestore } from "lib/firebase";
+import router from "next/router";
 
 type TProps = {
   item: TItem;
@@ -66,16 +67,27 @@ export default function ItemForm(props: TProps) {
     const newItem = { ...item, ts: m2ts(m) };
     setItem(newItem);
 
-    (isEdit
-      ? itemsRef.doc(item.id).update(newItem)
-      : itemsRef.doc(item.id).set(newItem)
-    )
-      .then(() => {
-        props.cancel();
-      })
-      .catch((e) => {
-        console.error(e);
-      });
+    if (isEdit) {
+      itemsRef
+        .doc(item.id)
+        .update(newItem)
+        .then(() => {
+          props.cancel();
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+    } else {
+      itemsRef
+        .doc(item.id)
+        .set(newItem)
+        .then(() => {
+          router.replace(`/items/${item.id}`);
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+    }
   };
 
   const onFinishFailed = (e: any) => {

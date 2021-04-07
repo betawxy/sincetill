@@ -10,7 +10,7 @@ export default function LandingPage() {
         </div>
       </nav>
       <main className="container mx-auto max-w-screen-lg">
-        <div className="flex my-6">
+        <section className="flex my-6">
           <div className="w-2/3 bg-yellow-100 p-10 rounded mr-3">
             <h1 className="text-xl mb-3">Landing Page</h1>
             <Link href="/items">
@@ -20,7 +20,7 @@ export default function LandingPage() {
           <div className="w-1/3 bg-yellow-100 p-10 rounded ml-3">
             <div>Download Apps</div>
           </div>
-        </div>
+        </section>
       </main>
     </div>
   );
