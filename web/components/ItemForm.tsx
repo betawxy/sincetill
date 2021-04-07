@@ -106,7 +106,7 @@ export default function ItemForm(props: TProps) {
         onFinishFailed={onFinishFailed}
       >
         <div className="flex items-center mb-4 last:mb-0">
-          <div className="w-1/6 flex justify-end pr-2">
+          <div className="w-1/6 flex flex-none justify-end pr-2">
             <span className="text-red-500 mr-1">*</span>Title:
           </div>
           <Input
@@ -118,28 +118,30 @@ export default function ItemForm(props: TProps) {
           />
         </div>
         <div className="flex items-center mb-4 last:mb-0">
-          <div className="w-1/6 flex justify-end pr-2">Full Day Event:</div>
+          <div className="w-1/6 flex flex-none justify-end pr-2">
+            Full Day Event:
+          </div>
           <Switch
             checked={item.isFullDayEvent}
             onChange={(e) => setItem({ ...item, isFullDayEvent: e })}
           />
         </div>
         <div className="flex items-center mb-4 last:mb-0">
-          <div className="w-1/6 flex justify-end pr-2">Date:</div>
+          <div className="w-1/6 flex flex-none justify-end pr-2">Date:</div>
           <Form.Item name="date" noStyle={true}>
             <DatePicker />
           </Form.Item>
         </div>
         {!item.isFullDayEvent && (
           <div className="flex items-center mb-4 last:mb-0">
-            <div className="w-1/6 flex justify-end pr-2">Time:</div>
+            <div className="w-1/6 flex flex-none justify-end pr-2">Time:</div>
             <Form.Item name="time" noStyle={true}>
               <TimePicker />
             </Form.Item>
           </div>
         )}
         <div className="flex items-center mb-4 last:mb-0">
-          <div className="w-1/6 flex justify-end pr-2">Show as:</div>
+          <div className="w-1/6 flex flex-none justify-end pr-2">Show as:</div>
           <Select
             className="w-5/6"
             value={item.formatType}

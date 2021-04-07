@@ -96,3 +96,17 @@ export function createTUserFromUser(user: User): TUser {
     settings: { defaultBackground: DEFAULT_IMAGE },
   };
 }
+
+export function getFirstItem(): TItem {
+  return {
+    id: genUniqueId(),
+    uid: "",
+    title: "Started using SinceTill",
+    ts: Date.now(),
+    isFullDayEvent: false,
+    formatType: EFormatType.DAYS,
+    backgroundImage: "",
+    ctime: Date.now(),
+    mtime: Date.now(),
+  };
+}

@@ -1,7 +1,7 @@
 import React from "react";
 import { auth, googleAuthProvider, usersRef } from "lib/firebase";
 import { useRouter } from "next/router";
-import { createTUserFromUser } from "lib/utils";
+import { createTUserFromUser, getFirstItem } from "lib/utils";
 
 export default function AuthPage() {
   const router = useRouter();
@@ -16,6 +16,13 @@ export default function AuthPage() {
             usersRef
               .doc(credentials.user.uid)
               .set(createTUserFromUser(credentials.user));
+            const item = getFirstItem();
+            item.uid = credentials.user.uid;
+            usersRef
+              .doc(credentials.user.uid)
+              .collection("items")
+              .doc(item.id)
+              .set(item);
           }
         });
       const nextPage = router.query.next as string;
