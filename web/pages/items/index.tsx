@@ -37,15 +37,21 @@ export default function Home() {
   const [reachedItemsEnd, setReachedItemsEnd] = useState(false);
 
   useEffect(() => {
-    if (!!user && items.length === 0)
-      loadNextPage(user.uid).then((newItems) => {
-        setIsLoading(true);
-        setItems(newItems);
-        setIsLoading(false);
-        if (newItems.length < LIMIT) {
-          setReachedItemsEnd(true);
-        }
-      });
+    if (!!user && items.length === 0) {
+      setIsLoading(true);
+      loadNextPage(user.uid)
+        .then((newItems) => {
+          setItems(newItems);
+          if (newItems.length < LIMIT) {
+            setReachedItemsEnd(true);
+          }
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.error(error);
+          setIsLoading(false);
+        });
+    }
   });
 
   const loadMoreItems = async () => {
@@ -87,6 +93,12 @@ export default function Home() {
           </button>
         </div>
       )}
+      {!isLoading && items.length === 0 && (
+        <div>
+          You don't have any items yet. Create a new one with "Add Item" above.
+        </div>
+      )}
+
       <div className="py-6 text-xs text-gray-400">
         Updated at {timer.toUTCString()}
       </div>

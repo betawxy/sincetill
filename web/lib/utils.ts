@@ -1,5 +1,7 @@
 import moment from "moment";
-import { EFormatType, TItem } from "./types";
+import { DEFAULT_IMAGE } from "./consts";
+import { User } from "./firebase";
+import { EFormatType, TItem, TUser } from "./types";
 
 export function genUniqueId(len: number = 6): string {
   let res = "";
@@ -83,4 +85,22 @@ export function getDateTimeString(item: TItem): string {
   }
 
   return arr.join(", ");
+}
+
+export function createTUserFromUser(user: User): TUser {
+  const item = genNewItem();
+  item.uid = user.uid;
+  item.title = "Started using SinceTill";
+  item.isFullDayEvent = false;
+  item.formatType = EFormatType.DAYS;
+  item.backgroundImage = DEFAULT_IMAGE;
+
+  return {
+    uid: user.uid,
+    email: user.email,
+    displayName: user.displayName,
+    photoURL: user.photoURL,
+    settings: { defaultBackground: DEFAULT_IMAGE },
+    items: { [item.id]: item },
+  };
 }
