@@ -74,10 +74,10 @@ export default function Home() {
   return (
     <WebAppPageWrapper>
       <MetaTags title="Home" description="List of your personal items" />
-      <div className="text-lg text-gray-600 my-3 border-b-2 border-dashed">
+      <div className="text-lg text-gray-600 md:my-3 px-3 md:px-0 border-b-2 border-dashed">
         Items
       </div>
-      <ul className="space-y-3">
+      <ul className="md:space-y-3">
         {items.map((item, key) => (
           <Link key={key} href={`/items/${item.id}`}>
             <li className="cursor-pointer">
@@ -97,7 +97,7 @@ export default function Home() {
         )}
       </ul>
       {!isLoading && !reachedItemsEnd && (
-        <div className="my-3">
+        <div className="my-3 mx-3 md:mx-0">
           <button className="beta-btn-blue" onClick={loadMoreItems}>
             Load More
           </button>

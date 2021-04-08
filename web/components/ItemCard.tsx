@@ -15,7 +15,7 @@ export default function ItemCard({ item }: { item: TItem }) {
   const isSince = m.isBefore(moment());
 
   return (
-    <div className="flex rounded bg-gray-100 p-3">
+    <div className="flex md:rounded bg-gray-100 p-3 border-b-2 border-dashed border-gray-200 md:border-b-0">
       <div className="flex-none flex items-center rounded overflow-hidden">
         <img
           className="w-16 h-16 object-cover bg-gray-50"

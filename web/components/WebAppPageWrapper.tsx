@@ -17,7 +17,7 @@ export default function WebAppPageWrapper({
       </main>
       <footer className="h-16 mt-12 bg-indigo-100 border-t-2 border-indigo-200 border-dashed">
         <div className="flex container max-w-screen-md mx-auto h-16">
-          <div className="flex self-center">
+          <div className="flex self-center px-3 md:px-0">
             <span className="text-indigo-600 text-sm">
               &copy;{new Date().getFullYear() + " "}
               <Link href="/">
