@@ -1,5 +1,6 @@
+import { UserContext } from "lib/context";
 import { storage } from "lib/firebase";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import FileUploader from "react-firebase-file-uploader";
 
 type TProps = {
@@ -14,6 +15,11 @@ export default function ImageUploader({
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [imageUrl, setImageUrl] = useState(currentImageUrl);
+  const { user } = useContext(UserContext);
+
+  if (!user) {
+    return;
+  }
 
   const handleUploadStart = () => {
     setUploading(true);
@@ -33,7 +39,7 @@ export default function ImageUploader({
 
     storage
       .ref("images")
-      .child(filename)
+      .child(`${user.uid}/${filename}`)
       .getDownloadURL()
       .then((url) => {
         setImageUrl(url);
@@ -54,7 +60,7 @@ export default function ImageUploader({
         accept="image/*"
         name="image"
         randomizeFilename
-        storageRef={storage.ref("images")}
+        storageRef={storage.ref(`images/${user.uid}`)}
         onUploadStart={handleUploadStart}
         onUploadError={handleUploadError}
         onUploadSuccess={handleUploadSuccess}
