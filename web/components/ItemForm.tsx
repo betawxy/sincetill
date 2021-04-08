@@ -3,7 +3,7 @@ import moment from "moment";
 
 import { EFormatType, TItem } from "lib/types";
 
-import { Input, DatePicker, TimePicker, Switch, Select, Form } from "antd";
+import { Input, DatePicker, Switch, Select, Form } from "antd";
 import ImageUploader from "./ImageUploader";
 
 import "antd/dist/antd.css";
@@ -31,9 +31,9 @@ export default function ItemForm(props: TProps) {
     .doc(user.uid)
     .collection("items");
 
-  const onFinish = (values: { date: moment.Moment; time: moment.Moment }) => {
+  const onFinish = (values: { date: moment.Moment }) => {
     let m = moment(item.ts);
-    const { date, time } = values;
+    const { date } = values;
 
     if (!!date) {
       m = m.set({
@@ -43,20 +43,12 @@ export default function ItemForm(props: TProps) {
       });
     }
 
-    if (item.isFullDayEvent) {
+    if (!item.isFullDayEvent) {
       m = m.set({
-        hour: 0,
-        minute: 0,
-        second: 0,
+        hour: date.hour(),
+        minute: date.minute(),
+        second: date.second(),
       });
-    } else {
-      if (!!time) {
-        m = m.set({
-          hour: time.hour(),
-          minute: time.minute(),
-          second: time.second(),
-        });
-      }
     }
 
     item.mtime = Date.now();
@@ -129,17 +121,9 @@ export default function ItemForm(props: TProps) {
         <div className="flex items-center mb-4 last:mb-0">
           <div className="w-1/6 flex flex-none justify-end pr-2">Date:</div>
           <Form.Item name="date" noStyle={true}>
-            <DatePicker />
+            <DatePicker showTime={!item.isFullDayEvent} />
           </Form.Item>
         </div>
-        {!item.isFullDayEvent && (
-          <div className="flex items-center mb-4 last:mb-0">
-            <div className="w-1/6 flex flex-none justify-end pr-2">Time:</div>
-            <Form.Item name="time" noStyle={true}>
-              <TimePicker />
-            </Form.Item>
-          </div>
-        )}
         <div className="flex items-center mb-4 last:mb-0">
           <div className="w-1/6 flex flex-none justify-end pr-2">Show as:</div>
           <Select
