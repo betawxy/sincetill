@@ -25,7 +25,7 @@ export default function ItemCardBig({ item }: { item: TItem }) {
       }}
     >
       <div
-        className="flex flex-col p-3 w-1/2 mx-auto border rounded-lg self-center"
+        className="flex flex-col m-6 p-3 w-1/2 mx-auto border rounded-lg self-center"
         style={{
           backdropFilter: "blur(30px)",
         }}
