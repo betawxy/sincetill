@@ -11,9 +11,12 @@ import { getItemsRef } from "lib/firebase";
 import { UserContext } from "lib/context";
 import ItemCardSkeleton from "components/ItemCardSkeleton";
 import ItemCardBig from "components/ItemCardBig";
+import Dialog from "components/Dialog";
 
 function Content() {
   const { user } = useContext(UserContext);
+
+  const [showConfirmRemoveDialog, setShowConfirmRemoveDialog] = useState(false);
 
   const [timer, setTimer] = useState(new Date());
   useEffect(() => {
@@ -63,7 +66,7 @@ function Content() {
                     type="button"
                     value="remove"
                     className="beta-btn-red"
-                    onClick={remove}
+                    onClick={() => setShowConfirmRemoveDialog(true)}
                   />
                   <input
                     type="button"
@@ -71,6 +74,30 @@ function Content() {
                     className="beta-btn-blue ml-6"
                     onClick={() => setShowEditForm(true)}
                   />
+                  {showConfirmRemoveDialog && (
+                    <Dialog onCancel={() => setShowConfirmRemoveDialog(false)}>
+                      <div className="w-80 h-40 border-2 rounded bg-white p-6">
+                        <div className="text-xl font-bold text-gray-600">
+                          Are you sure you want to remove this item?
+                        </div>
+
+                        <div className="flex justify-between mt-6">
+                          <button
+                            className="beta-btn-red"
+                            onClick={() => setShowConfirmRemoveDialog(false)}
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            className="beta-btn-blue"
+                            onClick={() => remove()}
+                          >
+                            Confirm
+                          </button>
+                        </div>
+                      </div>
+                    </Dialog>
+                  )}
                 </div>
               )}
               {showEditForm && (
