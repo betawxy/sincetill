@@ -39,9 +39,8 @@ export default function Navbar() {
           <ProgressBar />
           <div className="flex-grow">
             <Link href="/items">
-              <span className="text-white text-2xl cursor-pointer overflow-hidden rounded">
-                <span className="h-10 text-pink-200">since</span>
-                <span className="h-10 text-green-200">till</span>
+              <span className="text-2xl font-extrabold cursor-pointer bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-green-300">
+                sincetill
               </span>
             </Link>
           </div>
