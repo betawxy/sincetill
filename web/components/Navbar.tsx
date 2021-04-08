@@ -34,7 +34,7 @@ export default function Navbar() {
 
   return (
     <nav>
-      <div className="bg-indigo-800 p-3">
+      <div className="h-14 bg-indigo-800 p-3">
         <div className="container mx-auto max-w-screen-md flex items-center">
           <ProgressBar />
           <div className="flex-grow">
@@ -67,12 +67,12 @@ export default function Navbar() {
       </div>
       {!!user && showDropdown && (
         <div className="container mx-auto max-w-screen-md bg-indigo-50 select-none">
-          <div className="border-b-2 border-gray-300 w-full border-dashed text-right text-indigo-600 p-2">
+          <div className="border-b-2 border-gray-300 w-full border-dashed text-right text-indigo-600 p-3">
             {user.displayName}
           </div>
           <div className="w-full text-right">
             <div
-              className="inline-block text-pink-500 p-2 underline cursor-pointer"
+              className="inline-block text-pink-500 p-3 underline cursor-pointer"
               onClick={signOut}
             >
               Sign Out

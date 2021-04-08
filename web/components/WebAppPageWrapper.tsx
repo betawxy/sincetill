@@ -12,10 +12,10 @@ export default function WebAppPageWrapper({
   return (
     <AuthRedirect>
       <Navbar />
-      <main>
+      <main style={{ minHeight: "calc(100vh - 12.125rem)" }}>
         <div className="container mx-auto max-w-screen-md mt-6">{children}</div>
       </main>
-      <footer className="h-16 mt-20 bg-indigo-100 border-t-2 border-indigo-200 border-dashed">
+      <footer className="h-16 mt-12 bg-indigo-100 border-t-2 border-indigo-200 border-dashed">
         <div className="flex container max-w-screen-md mx-auto h-16">
           <div className="flex self-center">
             <span className="text-indigo-600 text-sm">

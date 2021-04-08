@@ -4,13 +4,13 @@ import { ObservableStatus, useFirestoreDocData } from "reactfire";
 
 import { TItem } from "lib/types";
 
-import ItemCard from "components/ItemCard";
 import ItemForm from "components/ItemForm";
 import MetaTags from "components/MetaTags";
 import WebAppPageWrapper from "components/WebAppPageWrapper";
 import { getItemsRef } from "lib/firebase";
 import { UserContext } from "lib/context";
 import ItemCardSkeleton from "components/ItemCardSkeleton";
+import ItemCardBig from "components/ItemCardBig";
 
 function Content() {
   const { user } = useContext(UserContext);
@@ -56,7 +56,7 @@ function Content() {
           {!!item.ts && (
             <>
               <MetaTags title={`Item "${item.title}"`} />
-              <ItemCard item={item} />
+              <ItemCardBig item={item} />
               {!showEditForm && (
                 <div className="flex justify-between mt-3">
                   <input
