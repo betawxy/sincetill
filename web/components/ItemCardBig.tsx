@@ -25,7 +25,7 @@ export default function ItemCardBig({ item }: { item: TItem }) {
       }}
     >
       <div
-        className="flex flex-col h-40 w-1/2 mx-auto border rounded-lg self-center bg-clip-padding bg-gray-100 bg-opacity-30"
+        className="flex flex-col p-3 w-1/2 mx-auto border rounded-lg self-center"
         style={{
           backdropFilter: "blur(30px)",
         }}
@@ -41,7 +41,7 @@ export default function ItemCardBig({ item }: { item: TItem }) {
           )}
         </div>
         <div className="w-full text-3xl text-center mt-2">{item.title}</div>
-        <div className="w-full text-md text-center mt-3 text-gray-900">
+        <div className="w-full text-md text-center mt-3 mb-6 text-gray-900">
           {getDateTimeString(item)}
         </div>
       </div>
