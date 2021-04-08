@@ -16,7 +16,7 @@ export default function ItemCardBig({ item }: { item: TItem }) {
 
   return (
     <div
-      className="flex rounded border bg-gray-100 w-full object-cover"
+      className="flex md:rounded md:border bg-gray-100 w-full object-cover"
       style={{
         minHeight: "calc(100vh - 20rem)",
         backgroundImage: `url("${item.backgroundImage || DEFAULT_IMAGE}")`,

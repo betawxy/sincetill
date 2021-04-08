@@ -48,7 +48,7 @@ function Content() {
   const [showEditForm, setShowEditForm] = useState(false);
 
   return (
-    <div className={showEditForm ? "mb-20" : "mb-60"}>
+    <div className="mb-20 -mt-6 md:mt-0">
       {resp.status === "loading" ? (
         <ItemCardSkeleton />
       ) : (
@@ -58,7 +58,7 @@ function Content() {
               <MetaTags title={`Item "${item.title}"`} />
               <ItemCardBig item={item} />
               {!showEditForm && (
-                <div className="flex justify-between mt-3">
+                <div className="flex justify-between mt-3 mx-3 md:mx-0">
                   <input
                     type="button"
                     value="remove"
@@ -74,7 +74,7 @@ function Content() {
                 </div>
               )}
               {showEditForm && (
-                <div className="mt-3">
+                <div className="md:mt-3">
                   <ItemForm item={item} cancel={() => setShowEditForm(false)} />
                 </div>
               )}

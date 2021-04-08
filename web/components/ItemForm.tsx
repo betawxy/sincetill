@@ -91,7 +91,7 @@ export default function ItemForm(props: TProps) {
   };
 
   return (
-    <div className="bg-yellow-50 p-8 rounded">
+    <div className="bg-yellow-50 p-8 md:rounded">
       <Form
         initialValues={{ date: moment(item.ts), time: moment(item.ts) }}
         onFinish={onFinish}
