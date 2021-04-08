@@ -35,11 +35,13 @@ export default function Home() {
 
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [startedLoading, setStartedLoading] = useState(false);
   const [reachedItemsEnd, setReachedItemsEnd] = useState(false);
 
   useEffect(() => {
     if (!!user && items.length === 0) {
       setIsLoading(true);
+      setStartedLoading(true);
       loadNextPage(user.uid)
         .then((newItems) => {
           setItems(newItems);
@@ -85,7 +87,7 @@ export default function Home() {
             </li>
           </Link>
         ))}
-        {isLoading && (
+        {(!startedLoading || isLoading) && (
           <>
             <li>
               <ItemCardSkeleton />
@@ -96,18 +98,22 @@ export default function Home() {
           </>
         )}
       </ul>
-      {!isLoading && !reachedItemsEnd && (
+      {startedLoading && !isLoading && !reachedItemsEnd && (
         <div className="my-3 mx-3 md:mx-0">
           <button className="beta-btn-blue" onClick={loadMoreItems}>
             Load More
           </button>
         </div>
       )}
-      {!isLoading && items.length === 0 && reachedItemsEnd && (
-        <div>
-          You don't have any items yet. Create a new one with "Add Item" above.
-        </div>
-      )}
+      {startedLoading &&
+        !isLoading &&
+        items.length === 0 &&
+        reachedItemsEnd && (
+          <div>
+            You don't have any items yet. Create a new one with "Add Item"
+            above.
+          </div>
+        )}
     </WebAppPageWrapper>
   );
 }
