@@ -12,6 +12,9 @@
   .beta-btn-red {
     @apply beta-btn-base bg-red-500 hover:bg-red-700 focus:ring-red-400;
   }
+  .beta-btn-gray {
+    @apply beta-btn-base bg-gray-500 hover:bg-gray-700 focus:ring-gray-400;
+  }
   .beta-link {
     @apply text-blue-600 border-b-2 border-blue-300 border-dashed cursor-pointer hover:text-blue-500;
   }

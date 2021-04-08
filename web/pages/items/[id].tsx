@@ -83,16 +83,16 @@ function Content() {
 
                         <div className="flex justify-between mt-6">
                           <button
-                            className="beta-btn-red"
+                            className="beta-btn-gray"
                             onClick={() => setShowConfirmRemoveDialog(false)}
                           >
                             Cancel
                           </button>
                           <button
-                            className="beta-btn-blue"
+                            className="beta-btn-red"
                             onClick={() => remove()}
                           >
-                            Confirm
+                            Remove
                           </button>
                         </div>
                       </div>
