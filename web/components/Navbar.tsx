@@ -46,7 +46,7 @@ export default function Navbar() {
           </div>
           <div className="flex-none">
             {!!user && (
-              <div className="flex">
+              <div className="flex align-center">
                 <div>
                   <Link href="/items/add">
                     <div className="beta-link-light mr-3">Add Item</div>

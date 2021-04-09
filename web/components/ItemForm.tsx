@@ -6,7 +6,6 @@ import { EFormatType, TItem } from "lib/types";
 import { Input, DatePicker, Switch, Select, Form } from "antd";
 import ImageUploader from "./ImageUploader";
 
-import "antd/dist/antd.css";
 import { UserContext } from "lib/context";
 import { firestore } from "lib/firebase";
 import router from "next/router";
