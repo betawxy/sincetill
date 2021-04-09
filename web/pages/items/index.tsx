@@ -10,6 +10,7 @@ import MetaTags from "components/MetaTags";
 import WebAppPageWrapper from "components/WebAppPageWrapper";
 import ItemCardSkeleton from "components/ItemCardSkeleton";
 import SearchIcon from "components/icons/search";
+import SortAscIcon from "components/icons/sortAsc";
 
 const LIMIT = 9999;
 
@@ -94,14 +95,27 @@ export default function Home() {
       <MetaTags title="Home" description="List of your personal items" />
       <div className="flex border-b-2 border-dashed md:my-3 justify-between pb-2">
         <div className="text-lg text-gray-600 px-3 md:px-0 ">Items</div>
-        <div className="flex px-4 md:px-1">
-          <input
-            type="search"
-            className="rounded w-40 pl-2 pr-5 ring-2 ring-indigo-200 text-indigo-800 outline-none py-0"
-            onChange={search}
-          />
-          <div className="self-right -ml-5 mt-0.5 text-indigo-800">
-            <SearchIcon />
+        <div className="flex px-3 md:px-0">
+          <div className="flex mr-6">
+            <input
+              type="search"
+              className="rounded w-28 md:w-40 pl-2 pr-5 ring-2 ring-gray-200 text-indigo-800 outline-none py-0"
+              onChange={search}
+            />
+            <div className="self-right -ml-5 mt-0.5 text-gray-600">
+              <SearchIcon />
+            </div>
+          </div>
+          <div className="flex">
+            <select className="rounded ring-2 ring-gray-200 text-gray-600 outline-none">
+              <option value="name">Name</option>
+              <option value="eventTime">Event Time</option>
+              <option value="ctime">Create Time</option>
+              <option value="utime">Update Time</option>
+            </select>
+            <div className="ml-1 text-gray-600 mt-1">
+              <SortAscIcon />
+            </div>
           </div>
         </div>
       </div>
