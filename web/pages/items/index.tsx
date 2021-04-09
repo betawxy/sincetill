@@ -10,7 +10,7 @@ import MetaTags from "components/MetaTags";
 import WebAppPageWrapper from "components/WebAppPageWrapper";
 import ItemCardSkeleton from "components/ItemCardSkeleton";
 
-const LIMIT = 6;
+const LIMIT = 9999;
 
 async function loadNextPage(uid: string, lastItem?: TItem): Promise<TItem[]> {
   let query = getItemsRef(uid).orderBy("mtime", "desc");
