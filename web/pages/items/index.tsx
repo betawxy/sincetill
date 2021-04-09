@@ -38,6 +38,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [startedLoading, setStartedLoading] = useState(false);
   const [reachedItemsEnd, setReachedItemsEnd] = useState(false);
+  const [searchPattern, setSearchPattern] = useState("");
 
   useEffect(() => {
     if (!!user && items.length === 0) {
@@ -74,6 +75,17 @@ export default function Home() {
     }
   };
 
+  const search = (e) => {
+    setSearchPattern(e.target.value);
+  };
+
+  const filterItems = (items: TItem[]): TItem[] => {
+    if (searchPattern.length === 0) {
+      return items;
+    }
+    return items.filter((item) => item.title.indexOf(searchPattern) !== -1);
+  };
+
   return (
     <WebAppPageWrapper>
       <MetaTags title="Home" description="List of your personal items" />
@@ -82,7 +94,8 @@ export default function Home() {
         <div className="flex px-4 md:px-1">
           <input
             type="search"
-            className="rounded pl-2 pr-5 ring-2 ring-indigo-200 text-indigo-800 outline-none py-0"
+            className="rounded w-40 pl-2 pr-5 ring-2 ring-indigo-200 text-indigo-800 outline-none py-0"
+            onChange={search}
           />
           <div className="self-right -ml-5 mt-0.5 text-indigo-800">
             <SearchIcon />
@@ -90,7 +103,7 @@ export default function Home() {
         </div>
       </div>
       <ul className="md:space-y-3">
-        {items.map((item, key) => (
+        {filterItems(items).map((item, key) => (
           <Link key={key} href={`/items/${item.id}`}>
             <li className="cursor-pointer">
               <ItemCard item={item} />
