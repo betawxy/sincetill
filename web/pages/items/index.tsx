@@ -83,7 +83,10 @@ export default function Home() {
     if (searchPattern.length === 0) {
       return items;
     }
-    return items.filter((item) => item.title.indexOf(searchPattern) !== -1);
+    return items.filter(
+      (item) =>
+        item.title.toLowerCase().indexOf(searchPattern.toLowerCase()) !== -1
+    );
   };
 
   return (
