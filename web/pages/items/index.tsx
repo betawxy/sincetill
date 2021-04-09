@@ -9,6 +9,7 @@ import ItemCard from "components/ItemCard";
 import MetaTags from "components/MetaTags";
 import WebAppPageWrapper from "components/WebAppPageWrapper";
 import ItemCardSkeleton from "components/ItemCardSkeleton";
+import SearchIcon from "components/icons/search";
 
 const LIMIT = 9999;
 
@@ -76,8 +77,17 @@ export default function Home() {
   return (
     <WebAppPageWrapper>
       <MetaTags title="Home" description="List of your personal items" />
-      <div className="text-lg text-gray-600 md:my-3 px-3 md:px-0 border-b-2 border-dashed">
-        Items
+      <div className="flex border-b-2 border-dashed md:my-3 justify-between pb-2">
+        <div className="text-lg text-gray-600 px-3 md:px-0 ">Items</div>
+        <div className="flex px-4 md:px-1">
+          <input
+            type="search"
+            className="rounded pl-2 pr-5 ring-2 ring-indigo-200 text-indigo-800 outline-none py-0"
+          />
+          <div className="self-right -ml-5 mt-0.5 text-indigo-800">
+            <SearchIcon />
+          </div>
+        </div>
       </div>
       <ul className="md:space-y-3">
         {items.map((item, key) => (

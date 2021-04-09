@@ -46,21 +46,21 @@ export default function Navbar() {
           </div>
           <div className="flex-none">
             {!!user && (
-              <>
-                <div className="flex">
-                  <div>
-                    <Link href="/items/add">
-                      <div className="beta-link-light">Add Item</div>
-                    </Link>
-                  </div>
+              <div className="flex">
+                <div>
+                  <Link href="/items/add">
+                    <div className="beta-link-light mr-3">Add Item</div>
+                  </Link>
+                </div>
+                <div>
                   <div
-                    className="bg-indigo-600 rounded cursor-pointer ml-3"
+                    className="bg-indigo-600 rounded cursor-pointer"
                     onClick={() => setShowDropdown(!showDropdown)}
                   >
                     <HamburgerIcon show={showDropdown} />
                   </div>
                 </div>
-              </>
+              </div>
             )}
           </div>
         </div>
