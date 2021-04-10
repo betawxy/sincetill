@@ -29,6 +29,7 @@ export default function Home() {
   const { user, userData } = useContext(UserContext);
   const [sortType, setSortType] = useState(ESortType.MTIME);
   const [sortDirection, setSortDirection] = useState(ESortDirection.DESC);
+  const [updated, setUpdated] = useState(false);
 
   const [timer, setTimer] = useState(new Date());
   useEffect(() => {
@@ -61,15 +62,13 @@ export default function Home() {
           setIsLoading(false);
         });
     }
-    if (
-      !!userData &&
-      userData.settings.sortType !== null &&
-      userData.settings.sortType !== undefined
-    ) {
-      setSortType(userData.settings.sortType);
-      setSortDirection(userData.settings.sortDirection);
-    }
   });
+
+  if (!!userData && !updated) {
+    setSortType(userData.settings.sortType);
+    setSortDirection(userData.settings.sortDirection);
+    setUpdated(true);
+  }
 
   const loadMoreItems = async () => {
     setIsLoading(true);
@@ -92,13 +91,13 @@ export default function Home() {
   };
 
   const processItems = (items: TItem[]): TItem[] => {
-    if (searchPattern.length === 0) {
-      return items;
+    let res = items;
+    if (searchPattern.length !== 0) {
+      res = res.filter(
+        (item) =>
+          item.title.toLowerCase().indexOf(searchPattern.toLowerCase()) !== -1
+      );
     }
-    let res = items.filter(
-      (item) =>
-        item.title.toLowerCase().indexOf(searchPattern.toLowerCase()) !== -1
-    );
 
     if (sortType === ESortType.TIME) {
       res = res.sort((a, b) => a.ts - b.ts);
@@ -119,12 +118,14 @@ export default function Home() {
     return res;
   };
 
-  const syncSortSettings = (
-    sortType: ESortType,
-    sortDirection: ESortDirection
-  ) => {
+  const syncSortTypeSetting = async (sortType: ESortType) => {
     if (!userData) return;
-    usersRef.doc(userData.uid).update({ sortType, sortDirection });
+    await usersRef.doc(userData.uid).update({ sortType });
+  };
+
+  const syncSortDirSetting = async (sortDirection: ESortDirection) => {
+    if (!userData) return;
+    await usersRef.doc(userData.uid).update({ sortDirection });
   };
 
   return (
@@ -148,10 +149,10 @@ export default function Home() {
               <select
                 className="rounded ring-2 ring-gray-200 text-gray-600 outline-none"
                 value={sortType}
-                onChange={(e) => {
+                onChange={async (e) => {
                   const newSortType = parseInt(e.target.value);
                   setSortType(newSortType);
-                  syncSortSettings(newSortType, sortDirection);
+                  await syncSortTypeSetting(newSortType);
                 }}
               >
                 <option value={ESortType.TITLE}>Name</option>
@@ -161,13 +162,13 @@ export default function Home() {
               </select>
               <div
                 className="ml-1 text-gray-600 mt-1 cursor-pointer"
-                onClick={() => {
+                onClick={async () => {
                   const newSortDir =
                     sortDirection === ESortDirection.ASC
                       ? ESortDirection.DESC
                       : ESortDirection.ASC;
                   setSortDirection(newSortDir);
-                  syncSortSettings(sortType, newSortDir);
+                  await syncSortDirSetting(newSortDir);
                 }}
               >
                 {sortDirection === ESortDirection.ASC ? (
