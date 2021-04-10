@@ -10,6 +10,18 @@ export enum EFormatType {
   YEARS,
 }
 
+export enum ESortType {
+  TITLE,
+  TIME,
+  CTIME,
+  MTIME,
+}
+
+export enum ESortDirection {
+  ASC,
+  DESC,
+}
+
 export type TItem = {
   id: string;
   uid: string;
@@ -24,6 +36,8 @@ export type TItem = {
 
 export type TSettings = {
   defaultBackground: string;
+  sortType: ESortType;
+  sortDirection: ESortDirection;
 };
 
 export type TUser = {

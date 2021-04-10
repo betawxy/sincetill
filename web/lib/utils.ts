@@ -1,7 +1,7 @@
 import moment from "moment";
 import { DEFAULT_IMAGE } from "./consts";
 import { User } from "./firebase";
-import { EFormatType, TItem, TUser } from "./types";
+import { EFormatType, ESortDirection, ESortType, TItem, TUser } from "./types";
 
 export function genUniqueId(len: number = 6): string {
   let res = "";
@@ -93,7 +93,11 @@ export function createTUserFromUser(user: User): TUser {
     email: user.email,
     displayName: user.displayName,
     photoURL: user.photoURL,
-    settings: { defaultBackground: DEFAULT_IMAGE },
+    settings: {
+      defaultBackground: DEFAULT_IMAGE,
+      sortType: ESortType.MTIME,
+      sortDirection: ESortDirection.DESC,
+    },
   };
 }
 
