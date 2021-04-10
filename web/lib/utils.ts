@@ -55,7 +55,13 @@ export function getDateTimeString(item: TItem): string {
       started = true;
     }
 
-    if (item.isFullDayEvent && t === EFormatType.HOURS) {
+    if (
+      item.isFullDayEvent &&
+      t === EFormatType.HOURS &&
+      item.formatType !== EFormatType.HOURS &&
+      item.formatType !== EFormatType.MINUTES &&
+      item.formatType !== EFormatType.SECONDS
+    ) {
       started = false;
     }
 
