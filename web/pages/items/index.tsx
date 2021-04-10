@@ -13,15 +13,8 @@ import SearchIcon from "components/icons/search";
 import SortAscIcon from "components/icons/sortAsc";
 import SortDescIcon from "components/icons/sortDesc";
 
-const LIMIT = 9999;
-
-async function loadNextPage(uid: string, lastItem?: TItem): Promise<TItem[]> {
+async function loadItems(uid: string): Promise<TItem[]> {
   let query = getItemsRef(uid).orderBy("mtime", "desc");
-  if (!!lastItem) {
-    query = query.startAfter(lastItem.mtime);
-  }
-  query = query.limit(LIMIT);
-
   return (await query.get()).docs.map((doc) => doc.data() as TItem);
 }
 
@@ -42,23 +35,20 @@ export default function Home() {
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [startedLoading, setStartedLoading] = useState(false);
-  const [reachedItemsEnd, setReachedItemsEnd] = useState(false);
   const [searchPattern, setSearchPattern] = useState("");
 
   useEffect(() => {
     if (!!user && items.length === 0) {
       setIsLoading(true);
       setStartedLoading(true);
-      loadNextPage(user.uid)
+      loadItems(user.uid)
         .then((newItems) => {
           setItems(newItems);
-          if (newItems.length < LIMIT) {
-            setReachedItemsEnd(true);
-          }
-          setIsLoading(false);
         })
         .catch((error) => {
           console.error(error);
+        })
+        .finally(() => {
           setIsLoading(false);
         });
     }
@@ -69,22 +59,6 @@ export default function Home() {
     setSortDirection(userData.settings.sortDirection);
     setUpdated(true);
   }
-
-  const loadMoreItems = async () => {
-    setIsLoading(true);
-    let newItems;
-    if (items.length) {
-      const lastItem = items[items.length - 1];
-      newItems = await loadNextPage(user.uid, lastItem);
-    } else {
-      newItems = await loadNextPage(user.uid);
-    }
-    setItems([...items, ...newItems]);
-    setIsLoading(false);
-    if (newItems.length < LIMIT) {
-      setReachedItemsEnd(true);
-    }
-  };
 
   const search = (e) => {
     setSearchPattern(e.target.value);
@@ -105,7 +79,7 @@ export default function Home() {
       res = res.sort((a, b) => a.ctime - b.ctime);
     } else if (sortType === ESortType.MTIME) {
       res = res.sort((a, b) => a.mtime - b.mtime);
-    } else if (sortType === ESortType.TITLE) {
+    } else {
       res = res.sort((a, b) =>
         a.title > b.title ? 1 : a.title < b.title ? -1 : 0
       );
@@ -120,12 +94,14 @@ export default function Home() {
 
   const syncSortTypeSetting = async (sortType: ESortType) => {
     if (!userData) return;
-    await usersRef.doc(userData.uid).update({ sortType });
+    await usersRef.doc(userData.uid).update({ "settings.sortType": sortType });
   };
 
   const syncSortDirSetting = async (sortDirection: ESortDirection) => {
     if (!userData) return;
-    await usersRef.doc(userData.uid).update({ sortDirection });
+    await usersRef
+      .doc(userData.uid)
+      .update({ "settings.sortDirection": sortDirection });
   };
 
   return (
@@ -200,22 +176,11 @@ export default function Home() {
           </>
         )}
       </ul>
-      {startedLoading && !isLoading && !reachedItemsEnd && (
-        <div className="my-3 mx-3 md:mx-0">
-          <button className="beta-btn-blue" onClick={loadMoreItems}>
-            Load More
-          </button>
+      {startedLoading && !isLoading && items.length === 0 && (
+        <div>
+          You don't have any items yet. Create a new one with "Add Item" above.
         </div>
       )}
-      {startedLoading &&
-        !isLoading &&
-        items.length === 0 &&
-        reachedItemsEnd && (
-          <div>
-            You don't have any items yet. Create a new one with "Add Item"
-            above.
-          </div>
-        )}
     </WebAppPageWrapper>
   );
 }
