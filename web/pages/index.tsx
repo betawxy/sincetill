@@ -1,3 +1,4 @@
+import Logo from "components/icons/logo";
 import Link from "next/link";
 import React from "react";
 
@@ -5,8 +6,11 @@ export default function LandingPage() {
   return (
     <div className="w-screen h-screen bg-gray-50">
       <nav className="w-full h-16 bg-indigo-800">
-        <div className="container w-full h-16 mx-auto flex max-w-screen-lg">
-          <div className="flex self-center text-white text-3xl">since till</div>
+        <div className="container w-full h-16 mx-auto flex max-w-screen-lg items-center">
+          <div className="w-12 h-12 flex items-center mr-3">
+            <Logo />
+          </div>
+          <div className="text-white text-3xl">since till</div>
         </div>
       </nav>
       <main className="container mx-auto max-w-screen-lg">
