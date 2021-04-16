@@ -1,6 +1,7 @@
 import Logo from "components/icons/logo";
 import Link from "next/link";
 import React from "react";
+import Image from "next/image";
 
 export default function LandingPage() {
   return (
@@ -15,14 +16,22 @@ export default function LandingPage() {
       </nav>
       <main className="container mx-auto max-w-screen-lg">
         <section className="flex my-6">
-          <div className="w-2/3 bg-yellow-100 p-10 rounded mr-3">
-            <h1 className="text-xl mb-3">Landing Page</h1>
-            <Link href="/items">
-              <span className="beta-link">Open web app</span>
-            </Link>
+          <div className="w-2/3 bg-blue-100 border overflow-hidden rounded mr-3">
+            <Image src="/webapp.png" alt="webapp" width="680" height="400" />
+            <div className="m-6 text-center text-lg text-gray-600">
+              Screenshot
+            </div>
           </div>
-          <div className="w-1/3 bg-yellow-100 p-10 rounded ml-3">
-            <div>Download Apps</div>
+          <div className="w-1/3 bg-blue-100 rounded ml-3 ">
+            <div className="p-10 text-xl text-gray-600">
+              A simple app to track date &amp; time since/till an event.
+              Supports webapp currently. Android/iOS coming soon.
+            </div>
+            <div className="m-6 text-center">
+              <Link href="/items">
+                <span className="beta-link text-xl">Open webapp</span>
+              </Link>
+            </div>
           </div>
         </section>
       </main>
