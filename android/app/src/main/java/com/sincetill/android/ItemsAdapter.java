@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,7 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class ItemsAdapter extends ArrayAdapter<Item> implements Filterable {
     private List<Item> items;
@@ -54,6 +56,7 @@ public class ItemsAdapter extends ArrayAdapter<Item> implements Filterable {
             convertView = layoutInflater.inflate(R.layout.item_item, null);
             viewHolder = new ViewHolder();
             viewHolder.titleTextView = (TextView) convertView.findViewById(R.id.titleTextView);
+            viewHolder.imageView = (ImageView) convertView.findViewById(R.id.imageView);
 
             convertView.setTag(viewHolder);
         } else {
@@ -61,6 +64,14 @@ public class ItemsAdapter extends ArrayAdapter<Item> implements Filterable {
         }
 
         viewHolder.titleTextView.setText(filteredItems.get(position).title);
+        try {
+            ImageDownloader imageDownloader = new ImageDownloader();
+            viewHolder.imageView.setImageBitmap(
+                    imageDownloader.execute(filteredItems.get(position).backgroundImage).get());
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
         return convertView;
     }
 
@@ -72,6 +83,7 @@ public class ItemsAdapter extends ArrayAdapter<Item> implements Filterable {
 
     static class ViewHolder {
         TextView titleTextView;
+        ImageView imageView;
     }
 
     private class ItemFilter extends Filter {
