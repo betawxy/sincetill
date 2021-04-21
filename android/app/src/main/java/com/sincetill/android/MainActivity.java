@@ -8,7 +8,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -41,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     private CollectionReference userItemsRef;
     private ArrayList<Item> userItems;
-    private ArrayAdapter<Item> arrayAdapter;
+    private ItemsAdapter itemsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,13 +65,12 @@ public class MainActivity extends AppCompatActivity {
         userItems = new ArrayList<>();
         loadAndSyncUserItems();
 
-        arrayAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, userItems);
-        mBinding.listView.setAdapter(arrayAdapter);
+        itemsAdapter = new ItemsAdapter(MainActivity.this, 0, userItems);
+        mBinding.listView.setAdapter(itemsAdapter);
         mBinding.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), userItems.get(position).getTitle(),
+                Toast.makeText(getApplicationContext(), userItems.get(position).title,
                         Toast.LENGTH_SHORT).show();
             }
         });
@@ -98,14 +96,14 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         case MODIFIED:
                             Log.d(TAG, "Modified item: " + dc.getDocument().getData());
-                            i = findItem(item.getId());
+                            i = findItem(item.id);
                             if (i != -1) {
                                 userItems.set(i, item);
                             }
                             break;
                         case REMOVED:
                             Log.d(TAG, "Removed item: " + dc.getDocument().getData());
-                            i = findItem(item.getId());
+                            i = findItem(item.id);
                             if (i != -1) {
                                 userItems.remove(i);
                             }
@@ -118,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
             private int findItem(String id) {
                 for (int i = 0; i < userItems.size(); i++) {
-                    if (userItems.get(i).getId().equals(id)) {
+                    if (userItems.get(i).id.equals(id)) {
                         return i;
                     }
                 }
@@ -128,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateUI() {
-        arrayAdapter.notifyDataSetChanged();
+        itemsAdapter.notifyDataSetChanged();
     }
 
     @Override

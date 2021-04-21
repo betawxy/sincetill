@@ -1,15 +1,15 @@
 package com.sincetill.android;
 
 public class Item {
-    private String backgroundImage;
-    private long ctime;
-    private int formatType;
-    private String id;
-    private boolean isFullDayEvent;
-    private long mtime;
-    private String title;
-    private long ts;
-    private String uid;
+    public String backgroundImage;
+    public long ctime;
+    public int formatType;
+    public String id;
+    public boolean isFullDayEvent;
+    public long mtime;
+    public String title;
+    public long ts;
+    public String uid;
 
     public Item() {
     }
@@ -33,41 +33,5 @@ public class Item {
         this.title = title;
         this.ts = ts;
         this.uid = uid;
-    }
-
-    public String getBackgroundImage() {
-        return backgroundImage;
-    }
-
-    public long getCtime() {
-        return ctime;
-    }
-
-    public int getFormatType() {
-        return formatType;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public boolean isFullDayEvent() {
-        return isFullDayEvent;
-    }
-
-    public long getMtime() {
-        return mtime;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public long getTs() {
-        return ts;
-    }
-
-    public String getUid() {
-        return uid;
     }
 }
