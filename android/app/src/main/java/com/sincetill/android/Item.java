@@ -11,6 +11,9 @@ public class Item {
     private long ts;
     private String uid;
 
+    public Item() {
+    }
+
     public Item(String backgroundImage,
                 long ctime,
                 int formatType,

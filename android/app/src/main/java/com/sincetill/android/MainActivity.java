@@ -6,6 +6,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,15 +18,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.sincetill.android.databinding.ActivityMainBinding;
 
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
     private CollectionReference userItemsRef;
     private ArrayList<Item> userItems;
+    private ArrayAdapter<Item> arrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,29 +60,25 @@ public class MainActivity extends AppCompatActivity {
 
         mFireStore = FirebaseFirestore.getInstance();
 
-        final CollectionReference userItemsRef =
-                mFireStore.collection("users")
-                        .document(mFirebaseAuth.getCurrentUser().getUid())
-                        .collection("items");
+        userItemsRef = mFireStore.collection("users")
+                .document(mFirebaseAuth.getCurrentUser().getUid())
+                .collection("items");
+        userItems = new ArrayList<>();
         loadAndSyncUserItems();
+
+        arrayAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, userItems);
+        mBinding.listView.setAdapter(arrayAdapter);
+        mBinding.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(), userItems.get(position).getTitle(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void loadAndSyncUserItems() {
-        userItemsRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Log.d(TAG, document.getId() + " => " + document.getData());
-                        Item item = document.toObject(Item.class);
-                        userItems.add(item);
-                    }
-                } else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
-                }
-            }
-        });
-
         userItemsRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot snapshots,
@@ -114,6 +112,8 @@ public class MainActivity extends AppCompatActivity {
                             break;
                     }
                 }
+
+                updateUI();
             }
 
             private int findItem(String id) {
@@ -125,6 +125,10 @@ public class MainActivity extends AppCompatActivity {
                 return -1;
             }
         });
+    }
+
+    private void updateUI() {
+        arrayAdapter.notifyDataSetChanged();
     }
 
     @Override
