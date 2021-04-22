@@ -1,5 +1,7 @@
 package com.sincetill.android;
 
+import android.graphics.Bitmap;
+
 public class Item {
     public String backgroundImage;
     public long ctime;
@@ -10,6 +12,7 @@ public class Item {
     public String title;
     public long ts;
     public String uid;
+    public Bitmap bitmap = null;
 
     public Item() {
     }

@@ -68,13 +68,16 @@ public class ItemsAdapter extends ArrayAdapter<Item> implements Filterable {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        try {
-            ImageDownloader imageDownloader = new ImageDownloader();
-            viewHolder.imageView.setImageBitmap(
-                    imageDownloader.execute(filteredItems.get(position).backgroundImage).get());
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
+        if (filteredItems.get(position).bitmap == null) {
+            try {
+                ImageDownloader imageDownloader = new ImageDownloader();
+                filteredItems.get(position).bitmap =
+                        imageDownloader.execute(filteredItems.get(position).backgroundImage).get();
+            } catch (ExecutionException | InterruptedException e) {
+                e.printStackTrace();
+            }
         }
+        viewHolder.imageView.setImageBitmap(filteredItems.get(position).bitmap);
         viewHolder.titleTextView.setText(filteredItems.get(position).title);
         if (Utils.isSince(filteredItems.get(position))) {
             viewHolder.tillTextView.setVisibility(View.GONE);

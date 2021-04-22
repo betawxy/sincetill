@@ -7,7 +7,6 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -72,12 +71,14 @@ public class ItemActivity extends AppCompatActivity {
         if (item != null) {
             binding.itemTitleTextView.setText(item.title);
 
-            try {
-                binding.itemImageView.setImageBitmap(
-                        new ImageDownloader().execute(item.backgroundImage).get());
-            } catch (ExecutionException | InterruptedException e) {
-                e.printStackTrace();
+            if (item.bitmap == null) {
+                try {
+                    item.bitmap = new ImageDownloader().execute(item.backgroundImage).get();
+                } catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+            binding.itemImageView.setImageBitmap(item.bitmap);
         }
     }
 
