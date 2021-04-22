@@ -39,6 +39,7 @@ public class ItemActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("");
 
         item = null;
         mFireStore = FirebaseFirestore.getInstance();
@@ -106,6 +107,8 @@ public class ItemActivity extends AppCompatActivity {
 
     private void updateUI() {
         if (item != null) {
+            getSupportActionBar().setTitle(item.title);
+
             binding.itemTitleTextView.setText(item.title);
 
             if (item.bitmap == null) {
