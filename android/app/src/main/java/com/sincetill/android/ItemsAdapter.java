@@ -14,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -24,6 +26,9 @@ public class ItemsAdapter extends ArrayAdapter<Item> implements Filterable {
     private final LayoutInflater layoutInflater;
     private final ItemFilter filter = new ItemFilter();
 
+    private long sortDirection;
+    private long sortType;
+
     public ItemsAdapter(@NonNull Context context, int resource, @NonNull List<Item> items) {
         super(context, resource, items);
         this.items = items;
@@ -33,6 +38,7 @@ public class ItemsAdapter extends ArrayAdapter<Item> implements Filterable {
 
     @Override
     public int getCount() {
+        if (filteredItems == null) return 0;
         return filteredItems.size();
     }
 
@@ -100,6 +106,14 @@ public class ItemsAdapter extends ArrayAdapter<Item> implements Filterable {
         return filter;
     }
 
+    public void setSortDirection(long sortDirection) {
+        this.sortDirection = sortDirection;
+    }
+
+    public void setSortType(long sortType) {
+        this.sortType = sortType;
+    }
+
     static class ViewHolder {
         ImageView imageView;
         TextView titleTextView;
@@ -119,6 +133,60 @@ public class ItemsAdapter extends ArrayAdapter<Item> implements Filterable {
             for (int i = 0; i < items.size(); i++) {
                 if (items.get(i).title.toLowerCase().contains(key)) {
                     values.add(items.get(i));
+                }
+            }
+
+            Item[] valuesArr = new Item[values.size()];
+            for (int i = 0; i < values.size(); i++) {
+                valuesArr[i] = values.get(i);
+            }
+
+            switch ((int) sortType) {
+                case 0: // Title
+                    Arrays.sort(valuesArr, new Comparator<Item>() {
+                        @Override
+                        public int compare(Item o1, Item o2) {
+                            return o1.title.compareTo(o2.title);
+                        }
+                    });
+                    values = Arrays.asList(valuesArr);
+                    break;
+                case 1: // TS
+                    Arrays.sort(valuesArr, new Comparator<Item>() {
+                        @Override
+                        public int compare(Item o1, Item o2) {
+                            return Long.compare(o1.ts, o2.ts);
+                        }
+                    });
+                    values = Arrays.asList(valuesArr);
+                    break;
+                case 2: // CTIME
+                    Arrays.sort(valuesArr, new Comparator<Item>() {
+                        @Override
+                        public int compare(Item o1, Item o2) {
+                            return Long.compare(o1.ctime, o2.ctime);
+                        }
+                    });
+                    values = Arrays.asList(valuesArr);
+                    break;
+                case 3: // MTIME
+                    Arrays.sort(valuesArr, new Comparator<Item>() {
+                        @Override
+                        public int compare(Item o1, Item o2) {
+                            return Long.compare(o1.mtime, o2.mtime);
+                        }
+                    });
+                    values = Arrays.asList(valuesArr);
+                    break;
+                default:
+                    break;
+            }
+
+            if (sortDirection == 1L) {
+                for (int i = 0, j = values.size() - 1; i < j; i++, j--) {
+                    Item t = values.get(i);
+                    values.set(i, values.get(j));
+                    values.set(j, t);
                 }
             }
 

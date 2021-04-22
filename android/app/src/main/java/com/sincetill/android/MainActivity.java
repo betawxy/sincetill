@@ -16,7 +16,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Auth auth;
     private FirebaseFirestore mFireStore;
+    private UserSettings userSettings;
 
     private CollectionReference userItemsRef;
     private ArrayList<Item> userItems;
@@ -49,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         signInIfNecessary();
 
         mFireStore = FirebaseFirestore.getInstance();
+        userSettings = new UserSettings();
 
         userItemsRef = mFireStore.collection("users")
                 .document(auth.getCurrentUser().getUid())
@@ -80,6 +84,14 @@ public class MainActivity extends AppCompatActivity {
                 itemsAdapter.getFilter().filter(newText);
                 return true;
             }
+        });
+
+        loadAndSyncUserSettings();
+
+        mBinding.imageButton.setOnClickListener(v -> {
+            userSettings.sortDirection = 1 - userSettings.sortDirection;
+            updateUI();
+//            updateServerSide();
         });
     }
 
@@ -132,8 +144,38 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void loadAndSyncUserSettings() {
+        mFireStore.collection("users")
+                .document(auth.getCurrentUser().getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    Log.w(TAG, "Listen failed.", error);
+                    return;
+                }
+                if (snapshot.exists()) {
+                    userSettings.sortDirection = (long) snapshot.get(FieldPath.of("settings",
+                            "sortDirection"));
+                    userSettings.sortType = (long) snapshot.get(FieldPath.of("settings",
+                            "sortType"));
+                }
+
+                updateUI();
+            }
+        });
+    }
+
     private void updateUI() {
-        itemsAdapter.notifyDataSetChanged();
+        if (userSettings.sortDirection == 0) {
+            mBinding.imageButton.setImageResource(R.drawable.ic_sort_asc);
+        } else {
+            mBinding.imageButton.setImageResource(R.drawable.ic_sort_desc);
+        }
+
+        itemsAdapter.setSortDirection(userSettings.sortDirection);
+        itemsAdapter.setSortType(userSettings.sortType);
+        itemsAdapter.getFilter().filter(mBinding.searchInput.getQuery());
     }
 
     @Override
