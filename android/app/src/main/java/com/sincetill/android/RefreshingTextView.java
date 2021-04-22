@@ -12,25 +12,22 @@ import java.util.TimerTask;
 
 public class RefreshingTextView extends androidx.appcompat.widget.AppCompatTextView {
     private Item item;
-    private final Timer timer;
+    private Timer timer = null;
     private final Context context;
 
     public RefreshingTextView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
-        timer = new Timer();
     }
 
     public RefreshingTextView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
-        timer = new Timer();
     }
 
     public RefreshingTextView(@NonNull Context context) {
         super(context);
         this.context = context;
-        timer = new Timer();
     }
 
     public void setItem(Item it) {
@@ -41,6 +38,9 @@ public class RefreshingTextView extends androidx.appcompat.widget.AppCompatTextV
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
 
+        if (timer == null) {
+            timer = new Timer();
+        }
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -57,6 +57,7 @@ public class RefreshingTextView extends androidx.appcompat.widget.AppCompatTextV
     @Override
     protected void onDetachedFromWindow() {
         timer.cancel();
+        timer = null;
         super.onDetachedFromWindow();
     }
 }
