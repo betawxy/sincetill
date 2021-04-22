@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -71,8 +70,10 @@ public class MainActivity extends AppCompatActivity {
         mBinding.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), userItems.get(position).title,
-                        Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, ItemActivity.class);
+                intent.putExtra("uid", userItems.get(position).uid);
+                intent.putExtra("id", userItems.get(position).id);
+                startActivity(intent);
             }
         });
 
