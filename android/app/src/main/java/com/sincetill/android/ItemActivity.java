@@ -79,14 +79,15 @@ public class ItemActivity extends AppCompatActivity {
                 }
             }
             binding.itemImageView.setImageBitmap(item.bitmap);
+            binding.itemDiffTextView.setItem(item);
         }
     }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         if (registration != null) {
             registration.remove();
         }
+        super.onDestroy();
     }
 }
