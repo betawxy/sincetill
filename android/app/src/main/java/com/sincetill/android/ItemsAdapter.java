@@ -60,6 +60,7 @@ public class ItemsAdapter extends ArrayAdapter<Item> implements Filterable {
             viewHolder.sinceTextView = (TextView) convertView.findViewById(R.id.sinceTextView);
             viewHolder.tillTextView = (TextView) convertView.findViewById(R.id.tillTextView);
             viewHolder.fullDayTextView = (TextView) convertView.findViewById(R.id.fullDayTextView);
+            viewHolder.diffTextView = (TextView) convertView.findViewById(R.id.diffTextView);
 
             convertView.setTag(viewHolder);
         } else {
@@ -84,6 +85,7 @@ public class ItemsAdapter extends ArrayAdapter<Item> implements Filterable {
             viewHolder.fullDayTextView.setHeight(0);
             viewHolder.fullDayTextView.setVisibility(View.INVISIBLE);
         }
+        viewHolder.diffTextView.setText(Utils.getDateTimeString(filteredItems.get(position)));
 
         return convertView;
     }
@@ -100,6 +102,7 @@ public class ItemsAdapter extends ArrayAdapter<Item> implements Filterable {
         TextView sinceTextView;
         TextView tillTextView;
         TextView fullDayTextView;
+        TextView diffTextView;
     }
 
     private class ItemFilter extends Filter {
