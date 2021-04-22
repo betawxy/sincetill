@@ -15,6 +15,8 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
 public class ItemsAdapter extends ArrayAdapter<Item> implements Filterable {
@@ -85,7 +87,12 @@ public class ItemsAdapter extends ArrayAdapter<Item> implements Filterable {
             viewHolder.fullDayTextView.setHeight(0);
             viewHolder.fullDayTextView.setVisibility(View.INVISIBLE);
         }
-        viewHolder.diffTextView.setText(Utils.getDateTimeString(filteredItems.get(position)));
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                viewHolder.diffTextView.setText(Utils.getDateTimeString(filteredItems.get(position)));
+            }
+        }, 0, 1000);
 
         return convertView;
     }
