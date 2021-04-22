@@ -13,7 +13,11 @@ public class ImageDownloader extends AsyncTask<String, Void, Bitmap> {
     @Override
     protected Bitmap doInBackground(String... strings) {
         try {
-            URL url = new URL(strings[0]);
+            String s = strings[0];
+            if (s == null || s.length() == 0) {
+                s = Utils.defaultImage;
+            }
+            URL url = new URL(s);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.connect();
             InputStream in = connection.getInputStream();

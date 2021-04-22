@@ -55,21 +55,28 @@ public class ItemsAdapter extends ArrayAdapter<Item> implements Filterable {
         if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.item_item, null);
             viewHolder = new ViewHolder();
-            viewHolder.titleTextView = (TextView) convertView.findViewById(R.id.titleTextView);
             viewHolder.imageView = (ImageView) convertView.findViewById(R.id.imageView);
+            viewHolder.titleTextView = (TextView) convertView.findViewById(R.id.titleTextView);
+            viewHolder.sinceTextView = (TextView) convertView.findViewById(R.id.sinceTextView);
+            viewHolder.tillTextView = (TextView) convertView.findViewById(R.id.tillTextView);
 
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.titleTextView.setText(filteredItems.get(position).title);
         try {
             ImageDownloader imageDownloader = new ImageDownloader();
             viewHolder.imageView.setImageBitmap(
                     imageDownloader.execute(filteredItems.get(position).backgroundImage).get());
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
+        }
+        viewHolder.titleTextView.setText(filteredItems.get(position).title);
+        if (Utils.isSince(filteredItems.get(position))) {
+            viewHolder.tillTextView.setVisibility(View.GONE);
+        } else {
+            viewHolder.sinceTextView.setVisibility(View.GONE);
         }
 
         return convertView;
@@ -82,8 +89,10 @@ public class ItemsAdapter extends ArrayAdapter<Item> implements Filterable {
     }
 
     static class ViewHolder {
-        TextView titleTextView;
         ImageView imageView;
+        TextView titleTextView;
+        TextView sinceTextView;
+        TextView tillTextView;
     }
 
     private class ItemFilter extends Filter {
