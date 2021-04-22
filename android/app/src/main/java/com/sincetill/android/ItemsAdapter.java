@@ -59,6 +59,7 @@ public class ItemsAdapter extends ArrayAdapter<Item> implements Filterable {
             viewHolder.titleTextView = (TextView) convertView.findViewById(R.id.titleTextView);
             viewHolder.sinceTextView = (TextView) convertView.findViewById(R.id.sinceTextView);
             viewHolder.tillTextView = (TextView) convertView.findViewById(R.id.tillTextView);
+            viewHolder.fullDayTextView = (TextView) convertView.findViewById(R.id.fullDayTextView);
 
             convertView.setTag(viewHolder);
         } else {
@@ -78,6 +79,11 @@ public class ItemsAdapter extends ArrayAdapter<Item> implements Filterable {
         } else {
             viewHolder.sinceTextView.setVisibility(View.GONE);
         }
+        if (!filteredItems.get(position).isFullDayEvent) {
+            viewHolder.fullDayTextView.setWidth(0);
+            viewHolder.fullDayTextView.setHeight(0);
+            viewHolder.fullDayTextView.setVisibility(View.INVISIBLE);
+        }
 
         return convertView;
     }
@@ -93,6 +99,7 @@ public class ItemsAdapter extends ArrayAdapter<Item> implements Filterable {
         TextView titleTextView;
         TextView sinceTextView;
         TextView tillTextView;
+        TextView fullDayTextView;
     }
 
     private class ItemFilter extends Filter {
