@@ -19,7 +19,7 @@ import java.util.concurrent.ExecutionException;
 
 public class ItemsAdapter extends ArrayAdapter<Item> implements Filterable {
     private List<Item> items;
-    private List<Item> filteredItems;
+    public List<Item> filteredItems;
 
     private final LayoutInflater layoutInflater;
     private final ItemFilter filter = new ItemFilter();

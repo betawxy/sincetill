@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MainActivity.this, ItemActivity.class);
                 intent.putExtra("uid", mFirebaseAuth.getCurrentUser().getUid());
-                intent.putExtra("id", userItems.get(position).id);
+                intent.putExtra("id", itemsAdapter.filteredItems.get(position).id);
                 startActivity(intent);
             }
         });
