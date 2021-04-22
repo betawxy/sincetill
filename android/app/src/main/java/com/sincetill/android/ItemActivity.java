@@ -28,6 +28,7 @@ public class ItemActivity extends AppCompatActivity {
 
     private ActivityItemBinding binding;
     private FirebaseFirestore mFireStore;
+    private Auth auth;
 
     private ListenerRegistration registration = null;
 
@@ -41,6 +42,7 @@ public class ItemActivity extends AppCompatActivity {
 
         item = null;
         mFireStore = FirebaseFirestore.getInstance();
+        auth = new Auth(this);
 
         Intent intent = getIntent();
         String uid = intent.getStringExtra("uid");
@@ -73,7 +75,9 @@ public class ItemActivity extends AppCompatActivity {
     }
 
     private void signOut() {
-        //TODO
+        auth.signOut();
+        startActivity(new Intent(this, SignInActivity.class));
+        finish();
     }
 
     private void loadItem(String uid, String id) {

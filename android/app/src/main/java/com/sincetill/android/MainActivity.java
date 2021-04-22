@@ -14,10 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
@@ -34,10 +30,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding mBinding;
 
-    private FirebaseAuth mFirebaseAuth;
+    private Auth auth;
     private FirebaseFirestore mFireStore;
-
-    private GoogleSignInClient mSignInClient;
 
     private CollectionReference userItemsRef;
     private ArrayList<Item> userItems;
@@ -51,19 +45,13 @@ public class MainActivity extends AppCompatActivity {
         mBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
 
-        mFirebaseAuth = FirebaseAuth.getInstance();
+        auth = new Auth(this);
         signInIfNecessary();
-
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        mSignInClient = GoogleSignIn.getClient(this, gso);
 
         mFireStore = FirebaseFirestore.getInstance();
 
         userItemsRef = mFireStore.collection("users")
-                .document(mFirebaseAuth.getCurrentUser().getUid())
+                .document(auth.getCurrentUser().getUid())
                 .collection("items");
         userItems = new ArrayList<>();
         loadAndSyncUserItems();
@@ -74,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MainActivity.this, ItemActivity.class);
-                intent.putExtra("uid", mFirebaseAuth.getCurrentUser().getUid());
+                intent.putExtra("uid", auth.getCurrentUser().getUid());
                 intent.putExtra("id", itemsAdapter.filteredItems.get(position).id);
                 startActivity(intent);
             }
@@ -174,21 +162,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.sign_out_menu) {
-            signOut();
+            auth.signOut();
+            startActivity(new Intent(this, SignInActivity.class));
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void signOut() {
-        mFirebaseAuth.signOut();
-        mSignInClient.signOut();
-        startActivity(new Intent(this, SignInActivity.class));
-        finish();
-    }
-
     private void signInIfNecessary() {
-        if (mFirebaseAuth.getCurrentUser() == null) {
+        if (!auth.isSignedIn()) {
             // Not signed in, launch the Sign In activity
             startActivity(new Intent(this, SignInActivity.class));
             finish();
