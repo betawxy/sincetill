@@ -23,6 +23,7 @@ import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.sincetill.android.databinding.ActivityMainBinding;
 
@@ -41,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     private CollectionReference userItemsRef;
     private ArrayList<Item> userItems;
     private ItemsAdapter itemsAdapter;
+
+    private ListenerRegistration registration = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MainActivity.this, ItemActivity.class);
-                intent.putExtra("uid", userItems.get(position).uid);
+                intent.putExtra("uid", mFirebaseAuth.getCurrentUser().getUid());
                 intent.putExtra("id", userItems.get(position).id);
                 startActivity(intent);
             }
@@ -93,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadAndSyncUserItems() {
-        userItemsRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        registration = userItemsRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot snapshots,
                                 @Nullable FirebaseFirestoreException error) {
@@ -150,6 +153,14 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
 
         signInIfNecessary();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (registration != null) {
+            registration.remove();
+        }
     }
 
     @Override
