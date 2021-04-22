@@ -1,9 +1,14 @@
 package com.sincetill.android;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -32,6 +37,8 @@ public class ItemActivity extends AppCompatActivity {
         binding = ActivityItemBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         item = null;
         mFireStore = FirebaseFirestore.getInstance();
 
@@ -41,6 +48,32 @@ public class ItemActivity extends AppCompatActivity {
         if (uid.length() > 0 && id.length() > 0) {
             loadItem(uid, id);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.item_menu, menu);
+        return true;
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+            case R.id.sign_out_menu:
+                signOut();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void signOut() {
+        //TODO
     }
 
     private void loadItem(String uid, String id) {
