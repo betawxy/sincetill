@@ -282,7 +282,13 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(this, SignInActivity.class));
             finish();
             return true;
+        } else if (item.getItemId() == R.id.add_menu) {
+            Intent intent = new Intent(this, EditItemActivity.class);
+            intent.putExtra("id", "");
+            startActivity(intent);
+            return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
