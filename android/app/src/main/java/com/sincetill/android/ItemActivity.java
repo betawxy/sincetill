@@ -135,6 +135,12 @@ public class ItemActivity extends AppCompatActivity {
                 binding.sinceTextView.setVisibility(View.GONE);
                 binding.tillTextView.setVisibility(View.VISIBLE);
             }
+
+            if (!item.isFullDayEvent) {
+                binding.fullDayTextView.setVisibility(View.INVISIBLE);
+            } else {
+                binding.fullDayTextView.setVisibility(View.VISIBLE);
+            }
         }
     }
 
