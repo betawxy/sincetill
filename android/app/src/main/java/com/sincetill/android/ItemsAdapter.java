@@ -86,14 +86,16 @@ public class ItemsAdapter extends ArrayAdapter<Item> implements Filterable {
         viewHolder.imageView.setImageBitmap(filteredItems.get(position).bitmap);
         viewHolder.titleTextView.setText(filteredItems.get(position).title);
         if (Utils.isSince(filteredItems.get(position))) {
+            viewHolder.sinceTextView.setVisibility(View.VISIBLE);
             viewHolder.tillTextView.setVisibility(View.GONE);
         } else {
             viewHolder.sinceTextView.setVisibility(View.GONE);
+            viewHolder.tillTextView.setVisibility(View.VISIBLE);
         }
         if (!filteredItems.get(position).isFullDayEvent) {
-            viewHolder.fullDayTextView.setWidth(0);
-            viewHolder.fullDayTextView.setHeight(0);
             viewHolder.fullDayTextView.setVisibility(View.INVISIBLE);
+        } else {
+            viewHolder.fullDayTextView.setVisibility(View.VISIBLE);
         }
         viewHolder.diffTextView.setItem(filteredItems.get(position));
 
