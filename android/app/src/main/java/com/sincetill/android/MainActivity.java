@@ -1,5 +1,6 @@
 package com.sincetill.android;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.PopupMenu;
 import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
@@ -93,7 +95,48 @@ public class MainActivity extends AppCompatActivity {
             updateUI();
 //            updateServerSide();
         });
+
+        mBinding.sortTypeButton.setOnClickListener(this::showPopupMenu);
     }
+
+    private void showPopupMenu(View v) {
+        PopupMenu popupMenu = new PopupMenu(this, v);
+        popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @SuppressLint("NonConstantResourceId")
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.option_title:
+                        userSettings.sortType = 0;
+                        break;
+                    case R.id.option_ts:
+                        userSettings.sortType = 1;
+                        break;
+                    case R.id.option_ctime:
+                        userSettings.sortType = 2;
+                        break;
+                    case R.id.option_mtime:
+                        userSettings.sortType = 3;
+                        break;
+                    default:
+                        break;
+                }
+                return true;
+            }
+        });
+
+        popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+            @Override
+            public void onDismiss(PopupMenu menu) {
+                updateUI();
+            }
+        });
+
+        popupMenu.show();
+    }
+
 
     private void loadAndSyncUserItems() {
         registration = userItemsRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -172,6 +215,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             mBinding.imageButton.setImageResource(R.drawable.ic_sort_desc);
         }
+
+        mBinding.sortTypeButton.setText(Utils.sortTypeToString(userSettings.sortType));
 
         itemsAdapter.setSortDirection(userSettings.sortDirection);
         itemsAdapter.setSortType(userSettings.sortType);

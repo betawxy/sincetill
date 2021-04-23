@@ -70,4 +70,19 @@ public class Utils {
 
         return builder.toString();
     }
+
+    public static String sortTypeToString(long sortType) {
+        switch ((int)sortType) {
+            case 0:
+                return "Title";
+            case 1:
+                return "Event Time";
+            case 2:
+                return "Create Time";
+            case 3:
+                return "Update Time";
+            default:
+                return null;
+        }
+    }
 }
