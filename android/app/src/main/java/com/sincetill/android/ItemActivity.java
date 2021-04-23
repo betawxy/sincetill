@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -126,6 +127,14 @@ public class ItemActivity extends AppCompatActivity {
             }
             binding.itemImageView.setImageBitmap(item.bitmap);
             binding.itemDiffTextView.setItem(item);
+
+            if (Utils.isSince(item)) {
+                binding.sinceTextView.setVisibility(View.VISIBLE);
+                binding.tillTextView.setVisibility(View.GONE);
+            } else {
+                binding.sinceTextView.setVisibility(View.GONE);
+                binding.tillTextView.setVisibility(View.VISIBLE);
+            }
         }
     }
 
