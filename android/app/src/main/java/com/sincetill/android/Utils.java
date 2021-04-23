@@ -74,7 +74,7 @@ public class Utils {
     public static String sortTypeToString(long sortType) {
         switch ((int)sortType) {
             case 0:
-                return "Title";
+                return "Name";
             case 1:
                 return "Event Time";
             case 2:

@@ -95,10 +95,19 @@ public class MainActivity extends AppCompatActivity {
         mBinding.imageButton.setOnClickListener(v -> {
             userSettings.sortDirection = 1 - userSettings.sortDirection;
             updateUI();
-//            updateServerSide();
+            updateServerSide();
         });
 
         mBinding.sortTypeButton.setOnClickListener(this::showPopupMenu);
+    }
+
+    private void updateServerSide() {
+        mFireStore.collection("users")
+                .document(auth.getCurrentUser().getUid())
+                .update(FieldPath.of("settings", "sortDirection"), userSettings.sortDirection);
+        mFireStore.collection("users")
+                .document(auth.getCurrentUser().getUid())
+                .update(FieldPath.of("settings", "sortType"), userSettings.sortType);
     }
 
     private void showPopupMenu(View v) {
@@ -125,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
                     default:
                         break;
                 }
+                updateServerSide();
                 return true;
             }
         });
