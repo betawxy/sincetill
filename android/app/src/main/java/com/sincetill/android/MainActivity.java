@@ -89,6 +89,14 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+        mBinding.searchInput.setOnSearchClickListener(
+                v -> mBinding.sortTypeButton.setVisibility(View.GONE));
+        mBinding.searchInput.setOnCloseListener(
+                () -> {
+                    mBinding.sortTypeButton.setVisibility(View.VISIBLE);
+                    return false;
+                }
+        );
 
         loadAndSyncUserSettings();
 
