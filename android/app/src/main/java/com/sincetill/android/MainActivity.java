@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ListenerRegistration registration = null;
 
+    private String lastKey = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -209,18 +211,35 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void updateUI() {
-        if (userSettings.sortDirection == 0) {
-            mBinding.imageButton.setImageResource(R.drawable.ic_sort_asc);
-        } else {
-            mBinding.imageButton.setImageResource(R.drawable.ic_sort_desc);
+    private String encodeState() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < userItems.size(); i++) {
+            stringBuilder.append(userItems.get(i).id);
+            stringBuilder.append(",");
         }
+        stringBuilder.append(mBinding.searchInput.getQuery()).append(",")
+                .append(userSettings.sortDirection).append(",")
+                .append(userSettings.sortType).append(",");
+        return stringBuilder.toString();
+    }
 
-        mBinding.sortTypeButton.setText(Utils.sortTypeToString(userSettings.sortType));
+    private void updateUI() {
+        String key = encodeState();
+        if (!key.equals(lastKey)) {
+            lastKey = key;
 
-        itemsAdapter.setSortDirection(userSettings.sortDirection);
-        itemsAdapter.setSortType(userSettings.sortType);
-        itemsAdapter.getFilter().filter(mBinding.searchInput.getQuery());
+            if (userSettings.sortDirection == 0) {
+                mBinding.imageButton.setImageResource(R.drawable.ic_sort_asc);
+            } else {
+                mBinding.imageButton.setImageResource(R.drawable.ic_sort_desc);
+            }
+
+            mBinding.sortTypeButton.setText(Utils.sortTypeToString(userSettings.sortType));
+
+            itemsAdapter.setSortDirection(userSettings.sortDirection);
+            itemsAdapter.setSortType(userSettings.sortType);
+            itemsAdapter.getFilter().filter(mBinding.searchInput.getQuery());
+        }
     }
 
     @Override
