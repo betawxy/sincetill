@@ -26,6 +26,7 @@ public class EditItemActivity extends AppCompatActivity {
     ActivityEditItemBinding binding;
     private FirebaseFirestore mFireStore;
     private Auth auth;
+    private boolean isCreate;
 
     private ListenerRegistration registration = null;
 
@@ -44,6 +45,11 @@ public class EditItemActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String uid = intent.getStringExtra("uid");
         String id = intent.getStringExtra("id");
+        isCreate = id.isEmpty();
+        if (isCreate) {
+            getSupportActionBar().setTitle("Create New Item");
+        }
+
         if (uid.length() > 0 && id.length() > 0) {
             loadItem(uid, id);
         }
