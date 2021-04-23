@@ -62,16 +62,22 @@ public class ItemActivity extends AppCompatActivity {
 
     @SuppressLint("NonConstantResourceId")
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
             case android.R.id.home:
                 this.finish();
                 return true;
             case R.id.sign_out_menu:
                 signOut();
                 return true;
+            case R.id.edit_menu:
+                Intent intent = new Intent(this, EditItemActivity.class);
+                intent.putExtra("uid", auth.getCurrentUser().getUid());
+                intent.putExtra("id", item.id);
+                startActivity(intent);
+                return true;
             default:
-                return super.onOptionsItemSelected(item);
+                return super.onOptionsItemSelected(menuItem);
         }
     }
 

@@ -292,6 +292,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         } else if (item.getItemId() == R.id.add_menu) {
             Intent intent = new Intent(this, EditItemActivity.class);
+            intent.putExtra("uid", auth.getCurrentUser().getUid());
             intent.putExtra("id", "");
             startActivity(intent);
             return true;
