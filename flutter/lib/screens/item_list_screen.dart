@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ItemListScreen extends StatelessWidget {
@@ -7,10 +8,12 @@ class ItemListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final User? user = FirebaseAuth.instance.currentUser;
+
     return Scaffold(
       body: SafeArea(
         child: Container(
-          child: Text('item list'),
+          child: Text(user?.displayName ?? 'Unknown user name'),
         ),
       ),
     );
