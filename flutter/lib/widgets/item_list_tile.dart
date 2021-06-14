@@ -48,7 +48,7 @@ class ItemListTile extends StatelessWidget {
                       color: isSince ? Color(0xFF0FB981) : Color(0xFFED57A1),
                     ),
                     SizedBox(
-                      width: 5,
+                      width: 8,
                     ),
                     Expanded(
                       child: Text(

@@ -15,6 +15,7 @@ class MyChip extends StatelessWidget {
     return Container(
       child: Text(
         label,
+        textAlign: TextAlign.center,
         style: TextStyle(
           fontSize: 12,
           color: color,
@@ -23,8 +24,9 @@ class MyChip extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
       decoration: BoxDecoration(
         color: color.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(2),
+        borderRadius: BorderRadius.circular(5),
       ),
+      constraints: BoxConstraints(minWidth: 40),
     );
   }
 }
