@@ -55,7 +55,7 @@ class ItemListScreen extends StatelessWidget {
                       itemBuilder: (context, index) {
                         if (index == docs.length) {
                           return SizedBox(
-                            height: 90,
+                            height: 88,
                           );
                         }
                         Item item = docs[index].data();

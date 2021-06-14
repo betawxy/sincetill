@@ -67,9 +67,9 @@ class Item {
     [EFormatType.MONTHS, 3600 * 24 * 30, "month"],
     [EFormatType.WEEKS, 3600 * 24 * 7, "week"],
     [EFormatType.DAYS, 3600 * 24, "day"],
-    [EFormatType.HOURS, 3600, "hour"],
-    [EFormatType.MINUTES, 60, "minute"],
-    [EFormatType.SECONDS, 1, "second"],
+    [EFormatType.HOURS, 3600, "h"],
+    [EFormatType.MINUTES, 60, "m"],
+    [EFormatType.SECONDS, 1, "s"],
   ];
 
   String getDateTimeString() {
@@ -99,7 +99,9 @@ class Item {
 
       if (started) {
         var v = (diff / mod).floor();
-        if (v > 1) {
+        if (s.length == 1) {
+          arr.add(v.toString() + s);
+        } else if (v > 1) {
           arr.add(v.toString() + " " + s + "s");
         } else if (v == 1) {
           arr.add(v.toString() + " " + s);

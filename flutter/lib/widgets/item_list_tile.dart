@@ -70,7 +70,7 @@ class ItemListTile extends StatelessWidget {
                 Visibility(
                   child: MyChip(
                     label: 'full day',
-                    color: Color(0xFFF6A217),
+                    color: Color(0xFF006d77),
                   ),
                   visible: item.isFullDayEvent,
                 )
