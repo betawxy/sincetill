@@ -27,12 +27,9 @@ class ItemListTile extends StatelessWidget {
           ),
           title: Row(
             children: [
-              Chip(
-                label: Text(
-                  'since',
-                  style: TextStyle(fontSize: 12),
-                ),
-                labelPadding: EdgeInsets.zero,
+              MyChip(label: 'since'),
+              SizedBox(
+                width: 5,
               ),
               Text(
                 item.title,
@@ -48,6 +45,27 @@ class ItemListTile extends StatelessWidget {
           height: 1,
         ),
       ],
+    );
+  }
+}
+
+class MyChip extends StatelessWidget {
+  const MyChip({Key? key, required this.label}) : super(key: key);
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Text(
+        label,
+        style: TextStyle(fontSize: 12),
+      ),
+      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+      decoration: BoxDecoration(
+        color: Colors.greenAccent.shade100,
+        borderRadius: BorderRadius.circular(2),
+      ),
     );
   }
 }
