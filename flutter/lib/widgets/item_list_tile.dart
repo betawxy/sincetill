@@ -29,21 +29,28 @@ class ItemListTile extends StatelessWidget {
           ),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  MyChip(
-                    label: isSince ? 'since' : 'till',
-                    color: isSince ? Color(0xFF0FB981) : Color(0xFFED57A1),
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    item.title,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
+              Flexible(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    MyChip(
+                      label: isSince ? 'since' : 'till',
+                      color: isSince ? Color(0xFF0FB981) : Color(0xFFED57A1),
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Expanded(
+                      child: Text(
+                        item.title,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
               ),
               Visibility(
                 child: MyChip(
