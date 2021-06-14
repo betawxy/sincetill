@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
         ItemListScreen.route: (context) => ItemListScreen(),
         ItemDetailsScreen.route: (context) => ItemDetailsScreen(),
       },
+      debugShowCheckedModeBanner: false,
     );
   }
 }

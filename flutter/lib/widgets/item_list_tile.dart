@@ -13,7 +13,6 @@ class ItemListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Divider(),
         ListTile(
           // tileColor: Color.fromARGB(0xff, 243, 244, 245),
           leading: Container(
@@ -28,6 +27,9 @@ class ItemListTile extends StatelessWidget {
           subtitle: Text(
             item.ts.toDate().toString(),
           ),
+        ),
+        Divider(
+          height: 1,
         ),
       ],
     );
