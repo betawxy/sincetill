@@ -14,16 +14,32 @@ class ItemListTile extends StatelessWidget {
     return Column(
       children: [
         ListTile(
-          // tileColor: Color.fromARGB(0xff, 243, 244, 245),
           leading: Container(
             width: 60,
             height: 60,
-            child: Image(
-              image: NetworkImage(item.backgroundImage),
-              fit: BoxFit.cover,
+            child: ClipRRect(
+              child: Image(
+                image: NetworkImage(item.backgroundImage),
+                fit: BoxFit.cover,
+              ),
+              borderRadius: BorderRadius.circular(5),
             ),
           ),
-          title: Text(item.title),
+          title: Row(
+            children: [
+              Chip(
+                label: Text(
+                  'since',
+                  style: TextStyle(fontSize: 12),
+                ),
+                labelPadding: EdgeInsets.zero,
+              ),
+              Text(
+                item.title,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
           subtitle: Text(
             item.ts.toDate().toString(),
           ),
