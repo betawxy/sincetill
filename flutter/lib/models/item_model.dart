@@ -20,8 +20,8 @@ class Item {
   final bool isFullDayEvent;
   final FormatType formatType;
   final String backgroundImage;
-  final int ctime;
-  final int mtime;
+  final Timestamp ctime;
+  final Timestamp mtime;
 
   const Item({
     required this.id,
@@ -34,4 +34,31 @@ class Item {
     required this.ctime,
     required this.mtime,
   });
+
+  Item.fromJson(Map<String, dynamic> data)
+      : this(
+          id: data['id']!,
+          uid: data['uid']!,
+          title: data['title']!,
+          isFullDayEvent: data['isFullDayEvent']! as bool,
+          formatType: FormatType.values[data['formatType']!],
+          backgroundImage: data['backgroundImage']!,
+          ts: Timestamp.fromMillisecondsSinceEpoch(data['ts']!),
+          ctime: Timestamp.fromMillisecondsSinceEpoch(data['ctime']!),
+          mtime: Timestamp.fromMillisecondsSinceEpoch(data['mtime']!),
+        );
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'uid': uid,
+      'title': title,
+      'isFullDayEvent': isFullDayEvent,
+      'formatType': formatType.index,
+      'backgroundImage': backgroundImage,
+      'ts': ts,
+      'ctime': ctime,
+      'mtime': mtime,
+    };
+  }
 }
