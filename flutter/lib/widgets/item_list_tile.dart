@@ -54,8 +54,11 @@ class ItemListTile extends StatelessWidget {
               )
             ],
           ),
-          subtitle: Text(
-            item.ts.toDate().toString(),
+          subtitle: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Text(
+              item.getDateTimeString(),
+            ),
           ),
         ),
         Divider(

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
-enum FormatType {
+enum EFormatType {
   SECONDS,
   MINUTES,
   HOURS,
@@ -18,7 +18,7 @@ class Item {
   final String title;
   final Timestamp ts;
   final bool isFullDayEvent;
-  final FormatType formatType;
+  final EFormatType formatType;
   final String backgroundImage;
   final Timestamp ctime;
   final Timestamp mtime;
@@ -41,7 +41,7 @@ class Item {
           uid: data['uid']!,
           title: data['title']!,
           isFullDayEvent: data['isFullDayEvent']! as bool,
-          formatType: FormatType.values[data['formatType']!],
+          formatType: EFormatType.values[data['formatType']!],
           backgroundImage: data['backgroundImage']!,
           ts: Timestamp.fromMillisecondsSinceEpoch(data['ts']!),
           ctime: Timestamp.fromMillisecondsSinceEpoch(data['ctime']!),
@@ -60,5 +60,71 @@ class Item {
       'ctime': ctime,
       'mtime': mtime,
     };
+  }
+
+  static final _tuples = [
+    [EFormatType.YEARS, 3600 * 24 * 365, "year"],
+    [EFormatType.MONTHS, 3600 * 24 * 30, "month"],
+    [EFormatType.WEEKS, 3600 * 24 * 7, "week"],
+    [EFormatType.DAYS, 3600 * 24, "day"],
+    [EFormatType.HOURS, 3600, "hour"],
+    [EFormatType.MINUTES, 60, "minute"],
+    [EFormatType.SECONDS, 1, "second"],
+  ];
+
+  String getDateTimeString() {
+    var diff =
+        this.ts.millisecondsSinceEpoch - Timestamp.now().millisecondsSinceEpoch;
+    diff = (diff ~/ 1000).abs();
+
+    List<String> arr = [];
+    var started = false;
+
+    for (var i = 0; i < _tuples.length; i++) {
+      EFormatType t = _tuples[i][0] as EFormatType;
+      var mod = _tuples[i][1] as int;
+      var s = _tuples[i][2] as String;
+
+      if (t == this.formatType) {
+        started = true;
+      }
+
+      if (this.isFullDayEvent &&
+          t == EFormatType.HOURS &&
+          this.formatType != EFormatType.HOURS &&
+          this.formatType != EFormatType.MINUTES &&
+          this.formatType != EFormatType.SECONDS) {
+        started = false;
+      }
+
+      if (started) {
+        var v = (diff / mod).floor();
+        if (v > 1) {
+          arr.add(v.toString() + " " + s + "s");
+        } else if (v == 1) {
+          arr.add(v.toString() + " " + s);
+        }
+
+        diff %= mod;
+      }
+    }
+
+    if (arr.length > 1) {
+      String last = arr.last;
+      arr.removeLast();
+      String last2 = arr.last;
+      arr.removeLast();
+      arr.add(last2.toString() + " and " + last);
+    }
+
+    if (arr.length == 0) {
+      if (this.isFullDayEvent) {
+        arr.add("today is the day!");
+      } else {
+        arr.add("right now!");
+      }
+    }
+
+    return arr.join(", ");
   }
 }
