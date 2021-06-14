@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:sincetill/models/item_model.dart';
 import 'package:sincetill/screens/auth_screen.dart';
 import 'package:sincetill/store/item_store.dart';
+import 'package:sincetill/widgets/item_list_tile.dart';
 
 class ItemListScreen extends StatelessWidget {
   static const route = '/items';
@@ -32,9 +33,7 @@ class ItemListScreen extends StatelessWidget {
                       itemCount: docs.length,
                       itemBuilder: (context, index) {
                         Item item = docs[index].data();
-                        return ListTile(
-                          title: Text(item.title),
-                        );
+                        return ItemListTile(item: item);
                       },
                     );
                   }
