@@ -5,6 +5,9 @@ import 'package:sincetill/widgets/time_diff_description.dart';
 
 import 'my_chip.dart';
 
+const DEFAULT_IMAGE =
+    "https://firebasestorage.googleapis.com/v0/b/sincetill-app.appspot.com/o/images%2F015ee67c-1997-4340-8c14-ece8078661c7.png?alt=media&token=d671b65b-e619-485e-a1c0-720d00f24e4b";
+
 class ItemListTile extends StatelessWidget {
   const ItemListTile({
     Key? key,
@@ -16,6 +19,8 @@ class ItemListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isSince = item.ts.compareTo(Timestamp.now()) < 0;
+    var imageUrl =
+        item.backgroundImage.isEmpty ? DEFAULT_IMAGE : item.backgroundImage;
     return Column(
       children: [
         ListTile(
@@ -24,7 +29,7 @@ class ItemListTile extends StatelessWidget {
             height: 60,
             child: ClipRRect(
               child: Image(
-                image: NetworkImage(item.backgroundImage),
+                image: NetworkImage(imageUrl),
                 fit: BoxFit.cover,
               ),
               borderRadius: BorderRadius.circular(5),
