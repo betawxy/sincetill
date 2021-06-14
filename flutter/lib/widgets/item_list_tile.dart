@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sincetill/models/item_model.dart';
 
@@ -11,6 +12,7 @@ class ItemListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isSince = item.ts.compareTo(Timestamp.now()) < 0;
     return Column(
       children: [
         ListTile(
@@ -26,15 +28,30 @@ class ItemListTile extends StatelessWidget {
             ),
           ),
           title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              MyChip(label: 'since'),
-              SizedBox(
-                width: 5,
+              Row(
+                children: [
+                  MyChip(
+                    label: isSince ? 'since' : 'till',
+                    color: isSince ? Color(0xFF0FB981) : Color(0xFFED57A1),
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    item.title,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
               ),
-              Text(
-                item.title,
-                overflow: TextOverflow.ellipsis,
-              ),
+              Visibility(
+                child: MyChip(
+                  label: 'full day',
+                  color: Color(0xFFF6A217),
+                ),
+                visible: item.isFullDayEvent,
+              )
             ],
           ),
           subtitle: Text(
@@ -50,20 +67,28 @@ class ItemListTile extends StatelessWidget {
 }
 
 class MyChip extends StatelessWidget {
-  const MyChip({Key? key, required this.label}) : super(key: key);
+  const MyChip({
+    Key? key,
+    required this.label,
+    required this.color,
+  }) : super(key: key);
 
   final String label;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Text(
         label,
-        style: TextStyle(fontSize: 12),
+        style: TextStyle(
+          fontSize: 12,
+          color: color,
+        ),
       ),
       padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
       decoration: BoxDecoration(
-        color: Colors.greenAccent.shade100,
+        color: color.withOpacity(0.1),
         borderRadius: BorderRadius.circular(2),
       ),
     );
