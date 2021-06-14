@@ -22,7 +22,6 @@ class ItemListScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF3730A3),
         leading: IconButton(
           tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
           icon: const Icon(Icons.menu),
@@ -52,8 +51,13 @@ class ItemListScreen extends StatelessWidget {
                   if (snapshot.hasData) {
                     var docs = snapshot.data!.docs.reversed.toList();
                     return ListView.builder(
-                      itemCount: docs.length,
+                      itemCount: docs.length + 1,
                       itemBuilder: (context, index) {
+                        if (index == docs.length) {
+                          return SizedBox(
+                            height: 90,
+                          );
+                        }
                         Item item = docs[index].data();
                         return ItemListTile(item: item);
                       },
@@ -68,6 +72,12 @@ class ItemListScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+          Icons.add,
+        ),
+        onPressed: () {},
       ),
     );
   }

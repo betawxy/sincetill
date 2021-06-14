@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sincetill/models/item_model.dart';
 
 class TimeDiffDescription extends StatefulWidget {
@@ -39,6 +40,7 @@ class _TimeDiffDescriptionState extends State<TimeDiffDescription> {
       padding: const EdgeInsets.only(top: 8.0),
       child: Text(
         widget.item.getDateTimeString(),
+        style: GoogleFonts.robotoCondensed().copyWith(fontSize: 12.86),
       ),
     );
   }

@@ -4,6 +4,8 @@ import 'package:sincetill/screens/item_details_screen.dart';
 import 'package:sincetill/screens/item_list_screen.dart';
 import 'package:sincetill/screens/loading_screen.dart';
 
+import 'constants.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
@@ -23,6 +25,7 @@ class MyApp extends StatelessWidget {
         ItemDetailsScreen.route: (context) => ItemDetailsScreen(),
       },
       debugShowCheckedModeBanner: false,
+      theme: kAppTheme,
     );
   }
 }
