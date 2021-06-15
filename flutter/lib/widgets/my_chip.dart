@@ -21,7 +21,7 @@ class MyChip extends StatelessWidget {
           color: color,
         ),
       ),
-      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
       decoration: BoxDecoration(
         color: color.withOpacity(0.05),
         borderRadius: BorderRadius.circular(3),

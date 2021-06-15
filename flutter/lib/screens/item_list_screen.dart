@@ -79,7 +79,13 @@ class ItemListScreen extends StatelessWidget {
                     Icons.menu,
                     color: Colors.white,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      backgroundColor: Theme.of(context).primaryColor,
+                      builder: (context) => Container(),
+                    );
+                  },
                 ),
                 IconButton(
                   tooltip:
