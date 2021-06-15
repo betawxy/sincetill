@@ -316,6 +316,9 @@ PODS:
     - FirebaseCore (~> 8.0)
     - GTMSessionFetcher/Core (~> 1.5)
   - Flutter (1.0.0)
+  - FMDB (2.7.5):
+    - FMDB/standard (= 2.7.5)
+  - FMDB/standard (2.7.5)
   - google_sign_in (0.0.1):
     - Flutter
     - GoogleSignIn (~> 5.0)
@@ -396,6 +399,9 @@ PODS:
   - path_provider (0.0.1):
     - Flutter
   - PromisesObjC (1.2.12)
+  - sqflite (0.0.2):
+    - Flutter
+    - FMDB (>= 2.7.5)
 
 DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
@@ -406,6 +412,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
+  - sqflite (from `.symlinks/plugins/sqflite/ios`)
 
 SPEC REPOS:
   trunk:
@@ -420,6 +427,7 @@ SPEC REPOS:
     - FirebaseFirestore
     - FirebaseInstallations
     - FirebaseStorage
+    - FMDB
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleSignIn
@@ -447,6 +455,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/google_sign_in/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
+  sqflite:
+    :path: ".symlinks/plugins/sqflite/ios"
 
 SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
@@ -465,6 +475,7 @@ SPEC CHECKSUMS:
   FirebaseInstallations: 7f31798a8198c354eadcb87176d2090b62edc187
   FirebaseStorage: 61bcd27880fa17362f68be67d3683d04bfd7b1c7
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   google_sign_in: 6bd214b9c154f881422f5fe27b66aaa7bbd580cc
   GoogleAppMeasurement: c6bbc9753d046b5456dd4f940057fbad2c28419e
   GoogleDataTransport: 04c3e9a480bbcaa2ec3f5d27f1cdeb6a92f20c8d
@@ -478,6 +489,7 @@ SPEC CHECKSUMS:
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
+  sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
 
 PODFILE CHECKSUM: 8dd5a93ab23a077fc7a7634758268536fcb8703d
 

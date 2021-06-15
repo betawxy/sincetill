@@ -35,7 +35,19 @@ class ItemListTile extends StatelessWidget {
                 borderRadius: BorderRadius.circular(5),
                 child: CachedNetworkImage(
                   imageUrl: imageUrl,
-                  placeholder: (context, url) => CircularProgressIndicator(),
+                  placeholder: (context, url) => Container(
+                    child: Center(
+                      child: Container(
+                        width: 16,
+                        height: 16,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color:
+                              Theme.of(context).primaryColor.withOpacity(0.5),
+                        ),
+                      ),
+                    ),
+                  ),
                   errorWidget: (context, url, error) => Icon(Icons.error),
                   fit: BoxFit.cover,
                 ),
