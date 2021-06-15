@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sincetill/models/item_model.dart';
+import 'package:sincetill/screens/item_details_screen.dart';
 import 'package:sincetill/widgets/time_diff_description.dart';
 
 import 'my_chip.dart';
@@ -92,6 +93,13 @@ class ItemListTile extends StatelessWidget {
               ],
             ),
             subtitle: TimeDiffDescription(item: item),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => ItemDetailsScreen(item: item),
+                ),
+              );
+            },
           ),
         ),
         Divider(
