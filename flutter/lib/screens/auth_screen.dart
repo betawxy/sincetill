@@ -36,7 +36,7 @@ class AuthScreen extends StatelessWidget {
       // Once signed in, return the UserCredential
       await FirebaseAuth.instance.signInWithCredential(credential);
 
-      Navigator.pushNamed(context, ItemListScreen.route);
+      Navigator.pushReplacementNamed(context, ItemListScreen.route);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -53,11 +53,21 @@ class AuthScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Center(
-          child: ElevatedButton(
-            child: Text('Continue with Google'),
-            onPressed: () async {
-              await signInWithGoogle(context);
-            },
+          child: Column(
+            children: [
+              ElevatedButton(
+                child: Text('Continue with Google'),
+                onPressed: () async {
+                  await signInWithGoogle(context);
+                },
+              ),
+              ElevatedButton(
+                child: Text('Continue with Apple'),
+                onPressed: () async {
+                  // TODO: required to pub to appstore
+                },
+              ),
+            ],
           ),
         ),
       ),
