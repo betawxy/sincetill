@@ -22,6 +22,8 @@ class ItemListScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        leading: null,
+        automaticallyImplyLeading: false,
         title: Text(
           'SinceTill',
           textAlign: TextAlign.center,
@@ -83,7 +85,28 @@ class ItemListScreen extends StatelessWidget {
                     showModalBottomSheet(
                       context: context,
                       backgroundColor: Theme.of(context).primaryColor,
-                      builder: (context) => Container(),
+                      builder: (context) => Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            TextButton(
+                              onPressed: () async {
+                                await FirebaseAuth.instance.signOut();
+                                Navigator.pushReplacementNamed(
+                                  context,
+                                  AuthScreen.route,
+                                );
+                              },
+                              child: Text('Sign Out'),
+                              style: ButtonStyle(
+                                foregroundColor: MaterialStateProperty.all(
+                                  Theme.of(context).accentColor,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
                     );
                   },
                 ),

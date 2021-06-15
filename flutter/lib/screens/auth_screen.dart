@@ -54,6 +54,7 @@ class AuthScreen extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(
                 child: Text('Continue with Google'),
