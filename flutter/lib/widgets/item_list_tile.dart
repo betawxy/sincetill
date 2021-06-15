@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -31,11 +32,13 @@ class ItemListTile extends StatelessWidget {
               width: 60,
               height: 60,
               child: ClipRRect(
-                child: Image(
-                  image: NetworkImage(imageUrl),
+                borderRadius: BorderRadius.circular(5),
+                child: CachedNetworkImage(
+                  imageUrl: imageUrl,
+                  placeholder: (context, url) => CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
                   fit: BoxFit.cover,
                 ),
-                borderRadius: BorderRadius.circular(5),
               ),
             ),
             title: Row(
