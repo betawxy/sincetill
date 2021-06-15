@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sincetill/models/item_model.dart';
+import 'package:sincetill/screens/add_item_screen.dart';
 import 'package:sincetill/screens/auth_screen.dart';
 import 'package:sincetill/store/item_store.dart';
 import 'package:sincetill/widgets/item_list_tile.dart';
@@ -63,7 +64,9 @@ class ItemListScreen extends StatelessWidget {
         child: Icon(
           Icons.add,
         ),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, AddItemScreen.route);
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       bottomNavigationBar: BottomAppBar(
@@ -86,6 +89,7 @@ class ItemListScreen extends StatelessWidget {
                       context: context,
                       backgroundColor: Theme.of(context).primaryColor,
                       builder: (context) => Container(
+                        height: MediaQuery.of(context).size.height * .3,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -100,7 +104,7 @@ class ItemListScreen extends StatelessWidget {
                               child: Text('Sign Out'),
                               style: ButtonStyle(
                                 foregroundColor: MaterialStateProperty.all(
-                                  Theme.of(context).accentColor,
+                                  Color(0xffedf6f9),
                                 ),
                               ),
                             )

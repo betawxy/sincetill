@@ -8,7 +8,7 @@ import 'package:sincetill/widgets/time_diff_description.dart';
 import 'my_chip.dart';
 
 const DEFAULT_IMAGE =
-    "https://firebasestorage.googleapis.com/v0/b/sincetill-app.appspot.com/o/images%2F015ee67c-1997-4340-8c14-ece8078661c7.png?alt=media&token=d671b65b-e619-485e-a1c0-720d00f24e4b";
+    "https://images.unsplash.com/photo-1567964183446-cfd9803becac?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mjh8fG1vdW50JTIwcmFpbmllcnxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60";
 
 class ItemListTile extends StatelessWidget {
   const ItemListTile({
@@ -29,8 +29,8 @@ class ItemListTile extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 4.0),
           child: ListTile(
             leading: Container(
-              width: 60,
-              height: 60,
+              width: 55,
+              height: 55,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: CachedNetworkImage(

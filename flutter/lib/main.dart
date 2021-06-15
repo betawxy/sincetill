@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sincetill/screens/add_item_screen.dart';
 import 'package:sincetill/screens/auth_screen.dart';
 import 'package:sincetill/screens/item_details_screen.dart';
 import 'package:sincetill/screens/item_list_screen.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
         AuthScreen.route: (context) => AuthScreen(),
         ItemListScreen.route: (context) => ItemListScreen(),
         ItemDetailsScreen.route: (context) => ItemDetailsScreen(),
+        AddItemScreen.route: (context) => AddItemScreen(),
       },
       debugShowCheckedModeBanner: false,
       theme: kAppTheme,
