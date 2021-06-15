@@ -22,24 +22,13 @@ class ItemListScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-          icon: const Icon(Icons.menu),
-          onPressed: () {},
-        ),
         title: Text(
           'SinceTill',
+          textAlign: TextAlign.center,
           style: GoogleFonts.courgette().copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
-        actions: [
-          IconButton(
-            tooltip: MaterialLocalizations.of(context).selectAllButtonLabel,
-            icon: const Icon(Icons.search),
-            onPressed: () {},
-          ),
-        ],
       ),
       body: SafeArea(
         child: Column(
@@ -51,13 +40,8 @@ class ItemListScreen extends StatelessWidget {
                   if (snapshot.hasData) {
                     var docs = snapshot.data!.docs.reversed.toList();
                     return ListView.builder(
-                      itemCount: docs.length + 1,
+                      itemCount: docs.length,
                       itemBuilder: (context, index) {
-                        if (index == docs.length) {
-                          return SizedBox(
-                            height: 88,
-                          );
-                        }
                         Item item = docs[index].data();
                         return ItemListTile(item: item);
                       },
@@ -78,6 +62,38 @@ class ItemListScreen extends StatelessWidget {
           Icons.add,
         ),
         onPressed: () {},
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        color: Theme.of(context).primaryColor,
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            child: Row(
+              children: [
+                IconButton(
+                  tooltip:
+                      MaterialLocalizations.of(context).openAppDrawerTooltip,
+                  icon: const Icon(
+                    Icons.menu,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  tooltip:
+                      MaterialLocalizations.of(context).selectAllButtonLabel,
+                  icon: const Icon(
+                    Icons.search,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {},
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
