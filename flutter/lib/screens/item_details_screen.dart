@@ -29,6 +29,10 @@ class ItemDetailsScreen extends StatelessWidget {
             image: DecorationImage(
               image: imageProvider,
               fit: BoxFit.cover,
+              colorFilter: ColorFilter.mode(
+                Colors.black38,
+                BlendMode.dstATop,
+              ),
             ),
           ),
           child: Container(
