@@ -71,11 +71,13 @@ class ItemDetails extends StatelessWidget {
               MyChip(
                 label: isSince ? 'since' : 'till',
                 color: isSince ? Color(0xFF0FB981) : Color(0xFFED57A1),
+                sizeFactor: 1.86,
               ),
               Visibility(
                 child: MyChip(
                   label: 'full day',
                   color: Color(0xFF006d77),
+                  sizeFactor: 1.86,
                 ),
                 visible: item.isFullDayEvent,
               ),
@@ -110,7 +112,7 @@ class ItemDetails extends StatelessWidget {
                 ),
                 Flexible(
                   child: FractionallySizedBox(
-                    heightFactor: 0.2,
+                    heightFactor: 0.286,
                   ),
                 ),
               ],

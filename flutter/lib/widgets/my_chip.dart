@@ -5,10 +5,12 @@ class MyChip extends StatelessWidget {
     Key? key,
     required this.label,
     required this.color,
+    this.sizeFactor = 1,
   }) : super(key: key);
 
   final String label;
   final Color color;
+  final double sizeFactor;
 
   @override
   Widget build(BuildContext context) {
@@ -17,16 +19,19 @@ class MyChip extends StatelessWidget {
         label,
         textAlign: TextAlign.center,
         style: TextStyle(
-          fontSize: 12,
+          fontSize: 12 * sizeFactor,
           color: color,
         ),
       ),
-      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+      padding: EdgeInsets.symmetric(
+        horizontal: 5 * sizeFactor,
+        vertical: 3 * sizeFactor,
+      ),
       decoration: BoxDecoration(
         color: color.withOpacity(0.05),
-        borderRadius: BorderRadius.circular(3),
+        borderRadius: BorderRadius.circular(3 * sizeFactor),
       ),
-      constraints: BoxConstraints(minWidth: 40),
+      constraints: BoxConstraints(minWidth: 40 * sizeFactor),
     );
   }
 }
