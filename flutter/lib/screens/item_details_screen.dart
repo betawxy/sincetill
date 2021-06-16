@@ -26,25 +26,27 @@ class ItemDetailsScreen extends StatelessWidget {
       ),
       body: Hero(
         tag: 'hero-${item.id}',
-        child: CachedNetworkImage(
-          imageUrl: item.backgroundImage.isEmpty
-              ? kDefaultImageUrl
-              : item.backgroundImage,
-          imageBuilder: (context, imageProvider) => Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: imageProvider,
-                fit: BoxFit.cover,
-                colorFilter: ColorFilter.mode(
-                  Colors.black38,
-                  BlendMode.dstATop,
+        child: Material(
+          child: CachedNetworkImage(
+            imageUrl: item.backgroundImage.isEmpty
+                ? kDefaultImageUrl
+                : item.backgroundImage,
+            imageBuilder: (context, imageProvider) => Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: imageProvider,
+                  fit: BoxFit.cover,
+                  colorFilter: ColorFilter.mode(
+                    Colors.black38,
+                    BlendMode.dstATop,
+                  ),
                 ),
               ),
-            ),
-            child: Container(
-              width: double.infinity,
-              height: double.infinity,
-              child: ItemDetails(item: item),
+              child: Container(
+                width: double.infinity,
+                height: double.infinity,
+                child: ItemDetails(item: item),
+              ),
             ),
           ),
         ),
