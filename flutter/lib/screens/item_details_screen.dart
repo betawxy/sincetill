@@ -91,7 +91,7 @@ class ItemDetails extends StatelessWidget {
                   item.title,
                   textAlign: TextAlign.center,
                   style: GoogleFonts.lato().copyWith(
-                    color: Color(0xFFef233c).withOpacity(.8),
+                    color: Theme.of(context).accentColor,
                     fontWeight: FontWeight.w600,
                     fontSize: 40,
                   ),
