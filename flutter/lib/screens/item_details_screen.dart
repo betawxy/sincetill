@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sincetill/models/item_model.dart';
 import 'package:sincetill/widgets/appbar_title.dart';
+import 'package:sincetill/widgets/my_chip.dart';
 
 import '../constants.dart';
 
@@ -38,11 +40,56 @@ class ItemDetailsScreen extends StatelessWidget {
           child: Container(
             width: double.infinity,
             height: double.infinity,
-            child: Center(
-              child: Text(item.title),
-            ),
+            child: ItemDetails(item: item),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class ItemDetails extends StatelessWidget {
+  const ItemDetails({
+    Key? key,
+    required this.item,
+  }) : super(key: key);
+
+  final Item item;
+
+  @override
+  Widget build(BuildContext context) {
+    bool isSince = item.ts.compareTo(Timestamp.now()) < 0;
+
+    return Padding(
+      padding: const EdgeInsets.all(40.0),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              MyChip(
+                label: isSince ? 'since' : 'till',
+                color: isSince ? Color(0xFF0FB981) : Color(0xFFED57A1),
+              ),
+              Visibility(
+                child: MyChip(
+                  label: 'full day',
+                  color: Color(0xFF006d77),
+                ),
+                visible: item.isFullDayEvent,
+              ),
+            ],
+          ),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(item.title),
+                Text(item.getDateTimeString()),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
