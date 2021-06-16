@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:sincetill/models/item_model.dart';
 import 'package:sincetill/screens/add_item_screen.dart';
 import 'package:sincetill/screens/auth_screen.dart';
 import 'package:sincetill/store/item_store.dart';
+import 'package:sincetill/widgets/appbar_title.dart';
 import 'package:sincetill/widgets/item_list_tile.dart';
 
 class ItemListScreen extends StatelessWidget {
@@ -25,13 +25,7 @@ class ItemListScreen extends StatelessWidget {
       appBar: AppBar(
         leading: null,
         automaticallyImplyLeading: false,
-        title: Text(
-          'SinceTill',
-          textAlign: TextAlign.center,
-          style: GoogleFonts.courgette().copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        title: AppBarTitle(),
       ),
       body: SafeArea(
         child: Column(

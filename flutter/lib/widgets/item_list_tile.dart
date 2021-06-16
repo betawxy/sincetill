@@ -6,10 +6,8 @@ import 'package:sincetill/models/item_model.dart';
 import 'package:sincetill/screens/item_details_screen.dart';
 import 'package:sincetill/widgets/time_diff_description.dart';
 
+import '../constants.dart';
 import 'my_chip.dart';
-
-const DEFAULT_IMAGE =
-    "https://images.unsplash.com/photo-1567964183446-cfd9803becac?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mjh8fG1vdW50JTIwcmFpbmllcnxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60";
 
 class ItemListTile extends StatelessWidget {
   const ItemListTile({
@@ -23,7 +21,7 @@ class ItemListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isSince = item.ts.compareTo(Timestamp.now()) < 0;
     var imageUrl =
-        item.backgroundImage.isEmpty ? DEFAULT_IMAGE : item.backgroundImage;
+        item.backgroundImage.isEmpty ? kDefaultImageUrl : item.backgroundImage;
     return Column(
       children: [
         Padding(

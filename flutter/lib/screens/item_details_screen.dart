@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sincetill/models/item_model.dart';
+import 'package:sincetill/widgets/appbar_title.dart';
+
+import '../constants.dart';
 
 class ItemDetailsScreen extends StatelessWidget {
   static const route = '/item';
@@ -13,10 +16,26 @@ class ItemDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: SafeArea(
+      appBar: AppBar(
+        title: AppBarTitle(),
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage(
+              item.backgroundImage.isEmpty
+                  ? kDefaultImageUrl
+                  : item.backgroundImage,
+            ),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Container(
-          child: Text(item.title),
+          width: double.infinity,
+          height: double.infinity,
+          child: Center(
+            child: Text(item.title),
+          ),
         ),
       ),
     );
