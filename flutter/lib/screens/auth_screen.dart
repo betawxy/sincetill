@@ -57,7 +57,7 @@ class AuthScreen extends StatelessWidget {
     required String name,
   }) {
     return Container(
-      width: 250,
+      width: 220,
       height: 45,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
@@ -75,7 +75,12 @@ class AuthScreen extends StatelessWidget {
             SizedBox(
               width: 20,
             ),
-            Text('Continue with $name'),
+            Expanded(
+              child: Text(
+                'Continue with $name',
+                textAlign: TextAlign.center,
+              ),
+            ),
           ],
         ),
         onPressed: onPressed,
@@ -83,41 +88,50 @@ class AuthScreen extends StatelessWidget {
     );
   }
 
+  Widget _appleSignIn(BuildContext context) {
+    return signInButton(
+      context: context,
+      name: 'Apple',
+      color: Color(0xFF151515),
+      icon: FaIcon(
+        FontAwesomeIcons.apple,
+        size: 24,
+      ),
+      onPressed: () async {
+        // TODO: required to pub to appstore
+      },
+    );
+  }
+
+  Widget _googleSignIn(BuildContext context) {
+    return signInButton(
+      context: context,
+      name: 'Google',
+      color: Color(0xFF3E80F6),
+      icon: FaIcon(
+        FontAwesomeIcons.google,
+        size: 20,
+      ),
+      onPressed: () async {
+        await signInWithGoogle(context);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    bool isIos = Theme.of(context).platform == TargetPlatform.iOS;
     return Scaffold(
       body: SafeArea(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              signInButton(
-                context: context,
-                name: 'Google',
-                color: Color(0xFF3E80F6),
-                icon: FaIcon(
-                  FontAwesomeIcons.google,
-                  size: 20,
-                ),
-                onPressed: () async {
-                  await signInWithGoogle(context);
-                },
-              ),
+              isIos ? _appleSignIn(context) : _googleSignIn(context),
               SizedBox(
                 height: 16,
               ),
-              signInButton(
-                context: context,
-                name: 'Apple',
-                color: Color(0xFF151515),
-                icon: FaIcon(
-                  FontAwesomeIcons.apple,
-                  size: 24,
-                ),
-                onPressed: () async {
-                  // TODO: required to pub to appstore
-                },
-              ),
+              isIos ? _googleSignIn(context) : _appleSignIn(context),
             ],
           ),
         ),
