@@ -8,9 +8,11 @@ class TimeDiffDescription extends StatefulWidget {
   const TimeDiffDescription({
     Key? key,
     required this.item,
+    this.style,
   }) : super(key: key);
 
   final Item item;
+  final TextStyle? style;
 
   @override
   _TimeDiffDescriptionState createState() => _TimeDiffDescriptionState();
@@ -40,7 +42,8 @@ class _TimeDiffDescriptionState extends State<TimeDiffDescription> {
       padding: const EdgeInsets.only(top: 8.0),
       child: Text(
         widget.item.getDateTimeString(),
-        style: GoogleFonts.robotoCondensed().copyWith(fontSize: 12.86),
+        style: widget.style ??
+            GoogleFonts.robotoCondensed().copyWith(fontSize: 12.86),
       ),
     );
   }

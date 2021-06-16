@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sincetill/models/item_model.dart';
 import 'package:sincetill/widgets/appbar_title.dart';
 import 'package:sincetill/widgets/my_chip.dart';
+import 'package:sincetill/widgets/time_diff_description.dart';
 
 import '../constants.dart';
 
@@ -101,9 +102,8 @@ class ItemDetails extends StatelessWidget {
                     heightFactor: 0.1,
                   ),
                 ),
-                Text(
-                  item.getDateTimeString(),
-                  textAlign: TextAlign.center,
+                TimeDiffDescription(
+                  item: item,
                   style: GoogleFonts.robotoCondensed().copyWith(
                     color: Color(0xFF343a40).withOpacity(.8),
                     fontWeight: FontWeight.w600,
