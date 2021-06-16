@@ -57,7 +57,7 @@ class AuthScreen extends StatelessWidget {
     required String name,
   }) {
     return Container(
-      width: 220,
+      width: 240,
       height: 45,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
