@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sincetill/models/item_model.dart';
 import 'package:sincetill/widgets/appbar_title.dart';
 import 'package:sincetill/widgets/my_chip.dart';
@@ -84,8 +85,34 @@ class ItemDetails extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(item.title),
-                Text(item.getDateTimeString()),
+                Text(
+                  item.title,
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.lato().copyWith(
+                    color: Color(0xFFef233c).withOpacity(.8),
+                    fontWeight: FontWeight.w600,
+                    fontSize: 40,
+                  ),
+                ),
+                Flexible(
+                  child: FractionallySizedBox(
+                    heightFactor: 0.1,
+                  ),
+                ),
+                Text(
+                  item.getDateTimeString(),
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.robotoCondensed().copyWith(
+                    color: Color(0xFF343a40).withOpacity(.8),
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20,
+                  ),
+                ),
+                Flexible(
+                  child: FractionallySizedBox(
+                    heightFactor: 0.2,
+                  ),
+                ),
               ],
             ),
           ),
