@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:sincetill/models/item_model.dart';
 
 class AddItemScreen extends StatefulWidget {
   static const route = '/add';
@@ -25,49 +27,75 @@ class _AddItemScreenState extends State<AddItemScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextFormField(
-                onSaved: (value) {
-                  this._title = value;
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Title is required';
-                  }
-                  return null;
-                },
-                decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
-                  filled: true,
+              FormBuilderTextField(
+                name: 'title',
+                decoration: InputDecoration(
                   labelText: 'Title *',
                 ),
+                onChanged: (value) {},
+                // valueTransformer: (text) => num.tryParse(text),
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(context),
+                ]),
+                keyboardType: TextInputType.text,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 24.0),
-                    child: Text(
-                      'Full Day Event',
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColor,
+              FormBuilderSwitch(
+                name: 'isFullDayEvent',
+                title: Text('Full Day Event'),
+                initialValue: false,
+                onChanged: (value) {},
+              ),
+              FormBuilderDateTimePicker(
+                name: 'date',
+                // onChanged: _onChanged,
+                inputType: InputType.date,
+                decoration: InputDecoration(
+                  labelText: 'Date',
+                ),
+                initialValue: DateTime.now(),
+              ),
+              FormBuilderDateTimePicker(
+                name: 'time',
+                // onChanged: _onChanged,
+                inputType: InputType.time,
+                decoration: InputDecoration(
+                  labelText: 'Time',
+                ),
+                initialTime: TimeOfDay(hour: 8, minute: 0),
+                // initialValue: DateTime.now(),
+                // enabled: true,
+              ),
+              FormBuilderDropdown(
+                name: 'format_type',
+                decoration: InputDecoration(
+                  labelText: 'Show As',
+                ),
+                // initialValue: 'Male',
+                allowClear: true,
+                hint: Text('Select Format'),
+                validator: FormBuilderValidators.compose(
+                    [FormBuilderValidators.required(context)]),
+                items: EFormatType.values
+                    .map(
+                      (formatType) => DropdownMenuItem(
+                        value: formatType,
+                        child: Text(
+                          formatType.toString().split('.').last.capitalize(),
+                        ),
                       ),
-                    ),
-                  ),
-                  Switch(
-                    value: _isFullDayEvent,
-                    onChanged: (value) {
-                      setState(() {
-                        _isFullDayEvent = value;
-                      });
-                    },
-                    activeColor: Theme.of(context).primaryColor,
-                  ),
-                ],
+                    )
+                    .toList(),
               ),
             ],
           ),
         ),
       ),
     );
+  }
+}
+
+extension on String {
+  String capitalize() {
+    return this[0].toUpperCase() + this.substring(1).toLowerCase();
   }
 }
