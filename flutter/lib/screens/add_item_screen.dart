@@ -33,7 +33,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   labelText: 'Title *',
                 ),
                 onChanged: (value) {},
-                // valueTransformer: (text) => num.tryParse(text),
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(context),
                 ]),
@@ -47,7 +46,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
               ),
               FormBuilderDateTimePicker(
                 name: 'date',
-                // onChanged: _onChanged,
                 inputType: InputType.date,
                 decoration: InputDecoration(
                   labelText: 'Date',
@@ -56,21 +54,17 @@ class _AddItemScreenState extends State<AddItemScreen> {
               ),
               FormBuilderDateTimePicker(
                 name: 'time',
-                // onChanged: _onChanged,
                 inputType: InputType.time,
                 decoration: InputDecoration(
                   labelText: 'Time',
                 ),
                 initialTime: TimeOfDay(hour: 8, minute: 0),
-                // initialValue: DateTime.now(),
-                // enabled: true,
               ),
               FormBuilderDropdown(
                 name: 'format_type',
                 decoration: InputDecoration(
                   labelText: 'Show As',
                 ),
-                // initialValue: 'Male',
                 allowClear: true,
                 hint: Text('Select Format'),
                 validator: FormBuilderValidators.compose(
@@ -85,6 +79,31 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       ),
                     )
                     .toList(),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  Column(
+                    children: [
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.camera_alt_rounded),
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.photo),
+                      ),
+                    ],
+                  ),
+                  Flexible(
+                    child: Placeholder(
+                      strokeWidth: 1,
+                      fallbackHeight: 200,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
