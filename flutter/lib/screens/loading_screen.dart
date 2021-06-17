@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:sincetill/screens/auth_screen.dart';
-import 'package:sincetill/screens/item_list_screen.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+
+import 'auth_screen.dart';
+import 'item_list_screen.dart';
 
 class LoadingScreen extends StatefulWidget {
   static const route = '/loading';
@@ -36,7 +38,12 @@ class _LoadingScreenState extends State<LoadingScreen> {
         }
 
         if (snapshot.connectionState != ConnectionState.done) {
-          return wrapper(Text('loading...'));
+          return wrapper(
+            SpinKitPulse(
+              color: Theme.of(context).primaryColor,
+              size: 50.0,
+            ),
+          );
         }
 
         if (FirebaseAuth.instance.currentUser == null) {
