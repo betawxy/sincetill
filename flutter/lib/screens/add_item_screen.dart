@@ -30,98 +30,100 @@ class _AddItemScreenState extends State<AddItemScreen> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(40.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              FormBuilderTextField(
-                name: 'title',
-                decoration: InputDecoration(
-                  labelText: 'Title *',
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                FormBuilderTextField(
+                  name: 'title',
+                  decoration: InputDecoration(
+                    labelText: 'Title *',
+                  ),
+                  onChanged: (value) {},
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(context),
+                  ]),
+                  keyboardType: TextInputType.text,
                 ),
-                onChanged: (value) {},
-                validator: FormBuilderValidators.compose([
-                  FormBuilderValidators.required(context),
-                ]),
-                keyboardType: TextInputType.text,
-              ),
-              FormBuilderSwitch(
-                name: 'isFullDayEvent',
-                title: Text('Full Day Event'),
-                initialValue: false,
-                onChanged: (value) {},
-              ),
-              FormBuilderDateTimePicker(
-                name: 'date',
-                inputType: InputType.date,
-                decoration: InputDecoration(
-                  labelText: 'Date',
+                FormBuilderSwitch(
+                  name: 'isFullDayEvent',
+                  title: Text('Full Day Event'),
+                  initialValue: false,
+                  onChanged: (value) {},
                 ),
-                initialValue: DateTime.now(),
-              ),
-              FormBuilderDateTimePicker(
-                name: 'time',
-                inputType: InputType.time,
-                decoration: InputDecoration(
-                  labelText: 'Time',
+                FormBuilderDateTimePicker(
+                  name: 'date',
+                  inputType: InputType.date,
+                  decoration: InputDecoration(
+                    labelText: 'Date',
+                  ),
+                  initialValue: DateTime.now(),
                 ),
-                initialTime: TimeOfDay(hour: 8, minute: 0),
-              ),
-              FormBuilderDropdown(
-                name: 'format_type',
-                decoration: InputDecoration(
-                  labelText: 'Show As',
+                FormBuilderDateTimePicker(
+                  name: 'time',
+                  inputType: InputType.time,
+                  decoration: InputDecoration(
+                    labelText: 'Time',
+                  ),
+                  initialTime: TimeOfDay(hour: 8, minute: 0),
                 ),
-                hint: Text('Select Format'),
-                validator: FormBuilderValidators.compose(
-                    [FormBuilderValidators.required(context)]),
-                items: EFormatType.values
-                    .map(
-                      (formatType) => DropdownMenuItem(
-                        value: formatType,
-                        child: Text(
-                          formatType.toString().split('.').last.capitalize(),
+                FormBuilderDropdown(
+                  name: 'format_type',
+                  decoration: InputDecoration(
+                    labelText: 'Show As',
+                  ),
+                  hint: Text('Select Format'),
+                  validator: FormBuilderValidators.compose(
+                      [FormBuilderValidators.required(context)]),
+                  items: EFormatType.values
+                      .map(
+                        (formatType) => DropdownMenuItem(
+                          value: formatType,
+                          child: Text(
+                            formatType.toString().split('.').last.capitalize(),
+                          ),
                         ),
-                      ),
-                    )
-                    .toList(),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                children: [
-                  Column(
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.photo_camera),
-                        onPressed: _pickImageFromCamera,
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.photo),
-                        onPressed: _pickImageFromGallery,
-                      ),
-                    ],
-                  ),
-                  Flexible(
-                    child: this._imageFile == null
-                        ? Placeholder(
-                            strokeWidth: 1,
-                            fallbackHeight: 200,
-                          )
-                        : Image.file(this._imageFile!),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {},
-                  child: Text('Add'),
+                      )
+                      .toList(),
                 ),
-              ),
-            ],
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children: [
+                    Column(
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.photo_camera),
+                          onPressed: _pickImageFromCamera,
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.photo),
+                          onPressed: _pickImageFromGallery,
+                        ),
+                      ],
+                    ),
+                    Flexible(
+                      child: this._imageFile == null
+                          ? Placeholder(
+                              strokeWidth: 1,
+                              fallbackHeight: 200,
+                            )
+                          : Image.file(this._imageFile!),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Center(
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: Text('Add'),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
