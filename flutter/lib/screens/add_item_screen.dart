@@ -129,12 +129,19 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       ],
                     ),
                     Flexible(
-                      child: this._imageFile == null
-                          ? Placeholder(
-                              strokeWidth: 1,
-                              fallbackHeight: 200,
-                            )
-                          : Image.file(this._imageFile!),
+                      child: Container(
+                        width: double.infinity,
+                        // TODO: change to background
+                        child: AspectRatio(
+                          aspectRatio: 1 / 1,
+                          child: this._imageFile == null
+                              ? Placeholder(
+                                  strokeWidth: 1,
+                                  fallbackHeight: 200,
+                                )
+                              : Image.file(this._imageFile!),
+                        ),
+                      ),
                     ),
                   ],
                 ),
