@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:sincetill/models/item_model.dart';
 
 class AddItemScreen extends StatefulWidget {
@@ -14,6 +17,9 @@ class AddItemScreen extends StatefulWidget {
 class _AddItemScreenState extends State<AddItemScreen> {
   String? _title;
   bool _isFullDayEvent = false;
+
+  File? _imageFile;
+  final _picker = ImagePicker();
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +71,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
                 decoration: InputDecoration(
                   labelText: 'Show As',
                 ),
-                allowClear: true,
                 hint: Text('Select Format'),
                 validator: FormBuilderValidators.compose(
                     [FormBuilderValidators.required(context)]),
@@ -88,28 +93,59 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   Column(
                     children: [
                       IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.camera_alt_rounded),
+                        icon: Icon(Icons.photo_camera),
+                        onPressed: _pickImageFromCamera,
                       ),
                       IconButton(
-                        onPressed: () {},
                         icon: Icon(Icons.photo),
+                        onPressed: _pickImageFromGallery,
                       ),
                     ],
                   ),
                   Flexible(
-                    child: Placeholder(
-                      strokeWidth: 1,
-                      fallbackHeight: 200,
-                    ),
+                    child: this._imageFile == null
+                        ? Placeholder(
+                            strokeWidth: 1,
+                            fallbackHeight: 200,
+                          )
+                        : Image.file(this._imageFile!),
                   ),
                 ],
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: Text('Add'),
+                ),
               ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Future<void> _pickImageFromCamera() async {
+    final PickedFile? pickedFile =
+        await _picker.getImage(source: ImageSource.camera);
+    if (pickedFile != null) {
+      setState(() {
+        this._imageFile = File(pickedFile.path);
+      });
+    }
+  }
+
+  Future<void> _pickImageFromGallery() async {
+    final PickedFile? pickedFile =
+        await _picker.getImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        this._imageFile = File(pickedFile.path);
+      });
+    }
   }
 }
 
