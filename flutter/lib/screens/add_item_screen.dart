@@ -15,10 +15,12 @@ class AddItemScreen extends StatefulWidget {
 }
 
 class _AddItemScreenState extends State<AddItemScreen> {
-  String? _title;
+  late String _title;
   bool _isFullDayEvent = false;
-
+  var _formatType = EFormatType.DAYS;
+  var _ts = DateTime.now();
   File? _imageFile;
+
   final _picker = ImagePicker();
 
   @override
@@ -27,10 +29,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
       appBar: AppBar(
         title: Text('Add Item'),
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(40.0),
-          child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(40.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -39,7 +41,11 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   decoration: InputDecoration(
                     labelText: 'Title *',
                   ),
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    if (value != null) {
+                      _title = value;
+                    }
+                  },
                   validator: FormBuilderValidators.compose([
                     FormBuilderValidators.required(context),
                   ]),
@@ -49,7 +55,13 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   name: 'isFullDayEvent',
                   title: Text('Full Day Event'),
                   initialValue: false,
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    if (value != null) {
+                      setState(() {
+                        _isFullDayEvent = value;
+                      });
+                    }
+                  },
                 ),
                 FormBuilderDateTimePicker(
                   name: 'date',
@@ -57,16 +69,23 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   decoration: InputDecoration(
                     labelText: 'Date',
                   ),
-                  initialValue: DateTime.now(),
+                  initialValue: _ts,
+                  onChanged: (value) {
+                    if (value != null) _ts = value;
+                  },
                 ),
-                FormBuilderDateTimePicker(
-                  name: 'time',
-                  inputType: InputType.time,
-                  decoration: InputDecoration(
-                    labelText: 'Time',
+                if (!_isFullDayEvent)
+                  FormBuilderDateTimePicker(
+                    name: 'time',
+                    inputType: InputType.time,
+                    decoration: InputDecoration(
+                      labelText: 'Time',
+                    ),
+                    initialValue: _ts,
+                    onChanged: (value) {
+                      if (value != null) _ts = value;
+                    },
                   ),
-                  initialTime: TimeOfDay(hour: 8, minute: 0),
-                ),
                 FormBuilderDropdown(
                   name: 'format_type',
                   decoration: InputDecoration(
@@ -75,6 +94,12 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   hint: Text('Select Format'),
                   validator: FormBuilderValidators.compose(
                       [FormBuilderValidators.required(context)]),
+                  initialValue: _formatType,
+                  onChanged: (value) {
+                    if (value != null) {
+                      _formatType = value as EFormatType;
+                    }
+                  },
                   items: EFormatType.values
                       .map(
                         (formatType) => DropdownMenuItem(
