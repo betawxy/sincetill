@@ -101,7 +101,16 @@ class _AddItemScreenState extends State<AddItemScreen> {
                         ),
                         initialValue: _ts,
                         onChanged: (value) {
-                          if (value != null) _ts = value;
+                          if (value != null) {
+                            _ts = DateTime(
+                              value.year,
+                              value.month,
+                              value.day,
+                              _ts.hour,
+                              _ts.minute,
+                              _ts.second,
+                            );
+                          }
                         },
                       ),
                       if (!_isFullDayEvent)
@@ -113,7 +122,16 @@ class _AddItemScreenState extends State<AddItemScreen> {
                           ),
                           initialValue: _ts,
                           onChanged: (value) {
-                            if (value != null) _ts = value;
+                            if (value != null) {
+                              _ts = DateTime(
+                                _ts.year,
+                                _ts.month,
+                                _ts.day,
+                                value.hour,
+                                value.minute,
+                                value.second,
+                              );
+                            }
                           },
                         ),
                       FormBuilderDropdown(
