@@ -7,8 +7,6 @@ import 'package:sincetill/widgets/appbar_title.dart';
 import 'package:sincetill/widgets/my_chip.dart';
 import 'package:sincetill/widgets/time_diff_description.dart';
 
-import '../constants.dart';
-
 class ItemDetailsScreen extends StatelessWidget {
   static const route = '/item';
 
@@ -27,30 +25,54 @@ class ItemDetailsScreen extends StatelessWidget {
       body: Hero(
         tag: 'hero-${item.id}',
         child: Material(
-          child: CachedNetworkImage(
-            imageUrl: item.backgroundImage.isEmpty
-                ? kDefaultImageUrl
-                : item.backgroundImage,
-            imageBuilder: (context, imageProvider) => Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: imageProvider,
-                  fit: BoxFit.cover,
-                  colorFilter: ColorFilter.mode(
-                    Colors.black38,
-                    BlendMode.dstATop,
-                  ),
-                ),
-              ),
-              child: Container(
-                width: double.infinity,
-                height: double.infinity,
-                child: ItemDetails(item: item),
-              ),
-            ),
+          child: ItemBackgroundImage(item: item),
+        ),
+      ),
+    );
+  }
+}
+
+class ItemBackgroundImage extends StatelessWidget {
+  const ItemBackgroundImage({
+    Key? key,
+    required this.item,
+  }) : super(key: key);
+
+  final Item item;
+
+  Container _container(ImageProvider imageProvider) {
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: imageProvider,
+          fit: BoxFit.cover,
+          colorFilter: ColorFilter.mode(
+            Colors.black38,
+            BlendMode.dstATop,
           ),
         ),
       ),
+      child: Container(
+        width: double.infinity,
+        height: double.infinity,
+        child: ItemDetails(item: item),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (item.backgroundImage.isEmpty) {
+      return _container(
+        AssetImage(
+          'images/bg.jpeg',
+        ),
+      );
+    }
+
+    return CachedNetworkImage(
+      imageUrl: item.backgroundImage,
+      imageBuilder: (context, imageProvider) => _container(imageProvider),
     );
   }
 }
