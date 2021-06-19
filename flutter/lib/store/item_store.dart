@@ -18,7 +18,9 @@ class ItemStore {
   }
 
   Future<DocumentReference<Item>> addToStore(Item item) async {
-    return await _getItemsRef().add(item);
+    var res = _getItemsRef().doc(item.id);
+    await res.set(item);
+    return res;
   }
 
   Stream<QuerySnapshot<Item>> get items async* {

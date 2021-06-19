@@ -56,9 +56,9 @@ class Item {
       'isFullDayEvent': isFullDayEvent,
       'formatType': formatType.index,
       'backgroundImage': backgroundImage,
-      'ts': ts,
-      'ctime': ctime,
-      'mtime': mtime,
+      'ts': ts.millisecondsSinceEpoch,
+      'ctime': ctime.millisecondsSinceEpoch,
+      'mtime': mtime.millisecondsSinceEpoch,
     };
   }
 

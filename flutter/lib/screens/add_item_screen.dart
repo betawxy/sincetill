@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sincetill/models/item_model.dart';
+import 'package:sincetill/store/item_store.dart';
 
+import '../utils.dart';
 import 'auth_screen.dart';
 
 class AddItemScreen extends StatefulWidget {
@@ -185,7 +187,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                 ),
                 Center(
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (_title == null || _title!.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
@@ -195,7 +197,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                         return;
                       }
                       var item = Item(
-                        id: '',
+                        id: genUniqueId(),
                         uid: user.uid,
                         title: _title!,
                         isFullDayEvent: _isFullDayEvent,
@@ -207,6 +209,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       );
 
                       print(item.toJson());
+
+                      await ItemStore(user.uid).addToStore(item);
                     },
                     child: Text('Add'),
                   ),
