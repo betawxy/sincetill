@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
@@ -32,6 +33,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
   ImageProvider _imageProvider = AssetImage('images/bg.jpeg');
 
   final _picker = ImagePicker();
+  firebase_storage.FirebaseStorage storage =
+      firebase_storage.FirebaseStorage.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -234,13 +237,37 @@ class _AddItemScreenState extends State<AddItemScreen> {
                           );
                           return;
                         }
+
+                        var itemId = genUniqueId();
+                        var backgroundImage = '';
+
+                        if (_imageFile != null) {
+                          try {
+                            var ref = storage
+                                .ref('images')
+                                .child(user.uid)
+                                .child('$itemId.jpg');
+                            await ref.putFile(_imageFile!);
+                            backgroundImage = await ref.getDownloadURL();
+                          } catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'Failed to upload image',
+                                ),
+                              ),
+                            );
+                            return;
+                          }
+                        }
+
                         var item = Item(
-                          id: genUniqueId(),
+                          id: itemId,
                           uid: user.uid,
                           title: _title!,
                           isFullDayEvent: _isFullDayEvent,
                           formatType: _formatType,
-                          backgroundImage: '',
+                          backgroundImage: backgroundImage,
                           ts: Timestamp.fromDate(_ts),
                           ctime: Timestamp.now(),
                           mtime: Timestamp.now(),
