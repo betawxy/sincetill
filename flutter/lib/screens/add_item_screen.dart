@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:sincetill/models/item_model.dart';
@@ -254,11 +255,26 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
                           if (_imageFile != null) {
                             try {
+                              File? compressedFile;
+
+                              try {
+                                compressedFile = await FlutterImageCompress
+                                    .compressAndGetFile(
+                                  _imageFile!.absolute.path,
+                                  _imageFile!.absolute.path + '_compressed.jpg',
+                                  quality: 90,
+                                  minWidth: 1024,
+                                  minHeight: 1024,
+                                );
+                              } on Exception catch (e) {
+                                debugPrint(e.toString());
+                              }
+
                               var ref = storage
                                   .ref('images')
                                   .child(user.uid)
-                                  .child('$itemId.jpg');
-                              await ref.putFile(_imageFile!);
+                                  .child('${itemId}_$_title.jpg');
+                              await ref.putFile(compressedFile ?? _imageFile!);
                               backgroundImage = await ref.getDownloadURL();
                             } catch (e) {
                               ScaffoldMessenger.of(context).showSnackBar(
