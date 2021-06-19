@@ -6,7 +6,6 @@ import 'package:sincetill/models/item_model.dart';
 import 'package:sincetill/screens/item_details_screen.dart';
 import 'package:sincetill/widgets/time_diff_description.dart';
 
-import '../constants.dart';
 import 'my_chip.dart';
 
 class ItemListTile extends StatelessWidget {
@@ -20,8 +19,6 @@ class ItemListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isSince = item.ts.compareTo(Timestamp.now()) < 0;
-    var imageUrl =
-        item.backgroundImage.isEmpty ? kDefaultImageUrl : item.backgroundImage;
     return Column(
       children: [
         Padding(
@@ -35,25 +32,7 @@ class ItemListTile extends StatelessWidget {
                 child: Hero(
                   tag: 'hero-${item.id}',
                   child: Material(
-                    child: CachedNetworkImage(
-                      imageUrl: imageUrl,
-                      placeholder: (context, url) => Container(
-                        child: Center(
-                          child: Container(
-                            width: 16,
-                            height: 16,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: Theme.of(context)
-                                  .primaryColor
-                                  .withOpacity(0.5),
-                            ),
-                          ),
-                        ),
-                      ),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
-                      fit: BoxFit.cover,
-                    ),
+                    child: ItemImage(item: item),
                   ),
                 ),
               ),
@@ -110,6 +89,42 @@ class ItemListTile extends StatelessWidget {
           height: 1,
         ),
       ],
+    );
+  }
+}
+
+class ItemImage extends StatelessWidget {
+  const ItemImage({
+    Key? key,
+    required this.item,
+  }) : super(key: key);
+
+  final Item item;
+
+  @override
+  Widget build(BuildContext context) {
+    if (item.backgroundImage.isEmpty) {
+      return Image.asset(
+        'images/bg.jpeg',
+        fit: BoxFit.cover,
+      );
+    }
+    return CachedNetworkImage(
+      imageUrl: item.backgroundImage,
+      placeholder: (context, url) => Container(
+        child: Center(
+          child: Container(
+            width: 16,
+            height: 16,
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              color: Theme.of(context).primaryColor.withOpacity(0.5),
+            ),
+          ),
+        ),
+      ),
+      errorWidget: (context, url, error) => Icon(Icons.error),
+      fit: BoxFit.cover,
     );
   }
 }

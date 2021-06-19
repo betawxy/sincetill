@@ -226,8 +226,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
                         mtime: Timestamp.now(),
                       );
 
-                      print(item.toJson());
-
                       await ItemStore(user.uid).addToStore(item);
                     },
                     child: Text('Add'),
