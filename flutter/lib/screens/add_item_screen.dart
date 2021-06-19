@@ -182,16 +182,36 @@ class _AddItemScreenState extends State<AddItemScreen> {
                           height: 20,
                         ),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Column(
+                            Text(
+                              'Change background',
+                              style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                              ),
+                            ),
+                            Row(
                               children: [
-                                IconButton(
-                                  icon: Icon(Icons.photo_camera),
+                                ElevatedButton(
+                                  child: Icon(Icons.photo_camera),
                                   onPressed: _pickImageFromCamera,
+                                  style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all(
+                                      Colors.black12,
+                                    ),
+                                  ),
                                 ),
-                                IconButton(
-                                  icon: Icon(Icons.photo),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                ElevatedButton(
+                                  child: Icon(Icons.photo),
                                   onPressed: _pickImageFromGallery,
+                                  style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all(
+                                      Colors.black12,
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
