@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bordered_text/bordered_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sincetill/models/item_model.dart';
@@ -40,10 +41,19 @@ class _TimeDiffDescriptionState extends State<TimeDiffDescription> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
-      child: Text(
-        widget.item.getDateTimeString(),
-        style: widget.style ??
-            GoogleFonts.robotoCondensed().copyWith(fontSize: 12.86),
+      child: Stack(
+        alignment: Alignment.centerLeft,
+        children: [
+          BorderedText(
+            strokeWidth: 1.0,
+            strokeColor: Colors.white,
+            child: Text(
+              widget.item.getDateTimeString(),
+              style: widget.style ??
+                  GoogleFonts.robotoCondensed().copyWith(fontSize: 12.86),
+            ),
+          )
+        ],
       ),
     );
   }

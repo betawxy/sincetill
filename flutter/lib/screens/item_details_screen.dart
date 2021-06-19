@@ -1,3 +1,4 @@
+import 'package:bordered_text/bordered_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -101,16 +102,17 @@ class ItemDetails extends StatelessWidget {
         alignment: Alignment.bottomCenter,
         border: 2,
         linearGradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Color(0xFFffffff).withOpacity(0.1),
-              Color(0xFFFFFFFF).withOpacity(0.05),
-            ],
-            stops: [
-              0.1,
-              1,
-            ]),
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFFffffff).withOpacity(0.1),
+            Color(0xFFFFFFFF).withOpacity(0.05),
+          ],
+          stops: [
+            0.1,
+            1,
+          ],
+        ),
         borderGradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -145,15 +147,19 @@ class ItemDetails extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      item.title,
-                      textAlign: TextAlign.center,
-                      maxLines: 5,
-                      overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.lato().copyWith(
-                        color: Theme.of(context).accentColor,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 40,
+                    BorderedText(
+                      strokeWidth: 2.0,
+                      strokeColor: Colors.white,
+                      child: Text(
+                        item.title,
+                        textAlign: TextAlign.center,
+                        maxLines: 5,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.lato().copyWith(
+                          color: Theme.of(context).accentColor,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 40,
+                        ),
                       ),
                     ),
                     Flexible(
