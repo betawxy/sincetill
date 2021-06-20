@@ -26,4 +26,8 @@ class ItemStore {
   Stream<QuerySnapshot<Item>> get items async* {
     yield* _getItemsRef().orderBy('ts').snapshots();
   }
+
+  Future<void> delete(Item item) async {
+    return _getItemsRef().doc(item.id).delete();
+  }
 }

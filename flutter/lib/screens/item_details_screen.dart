@@ -1,7 +1,10 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:sincetill/models/item_model.dart';
+import 'package:sincetill/store/item_store.dart';
 import 'package:sincetill/widgets/appbar_title.dart';
 import 'package:sincetill/widgets/item_bg_image_wrapper.dart';
 import 'package:sincetill/widgets/item_details_card.dart';
@@ -17,6 +20,11 @@ class ItemDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final User? user = FirebaseAuth.instance.currentUser;
+
+    firebase_storage.FirebaseStorage storage =
+        firebase_storage.FirebaseStorage.instance;
+
     return Scaffold(
       appBar: AppBar(
         title: AppBarTitle(),
@@ -42,12 +50,33 @@ class ItemDetailsScreen extends StatelessWidget {
             foregroundColor: Colors.white,
             label: 'Delete',
             labelStyle: TextStyle(fontSize: 16.0),
-            onTap: () {
-              showOkCancelAlertDialog(
+            onTap: () async {
+              var res = await showOkCancelAlertDialog(
                 context: context,
                 title: 'Delete "${item.title}"?',
                 isDestructiveAction: true,
               );
+              if (res == OkCancelResult.ok && user != null) {
+                try {
+                  await storage
+                      .ref('images')
+                      .child(user.uid)
+                      .child('${item.id}_${item.title}.jpg')
+                      .delete();
+                } catch (e) {}
+                try {
+                  await ItemStore(user.uid).delete(item);
+                  Navigator.pop(context);
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'Failed to delete item.',
+                      ),
+                    ),
+                  );
+                }
+              }
             },
           ),
           SpeedDialChild(
