@@ -95,7 +95,7 @@ class ItemDetailsScreen extends StatelessWidget {
               ).then(
                 (value) async {
                   var updatedItem =
-                      await ItemStore(item.uid).queryItem(item.id);
+                      await ItemStore(user!.uid).queryItem(item.id);
                   if (updatedItem != null) {
                     Navigator.pushReplacement(
                       context,
