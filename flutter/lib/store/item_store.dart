@@ -36,4 +36,9 @@ class ItemStore {
     await res.update(item.toJson());
     return res;
   }
+
+  Future<Item?> queryItem(String id) async {
+    DocumentSnapshot<Item> snapshot = await _getItemsRef().doc(id).get();
+    return snapshot.data();
+  }
 }

@@ -93,7 +93,19 @@ class ItemDetailsScreen extends StatelessWidget {
                   builder: (context) => EditItemScreen(item: item),
                 ),
               ).then(
-                (value) => Navigator.pop(context),
+                (value) async {
+                  var updatedItem =
+                      await ItemStore(item.uid).queryItem(item.id);
+                  if (updatedItem != null) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ItemDetailsScreen(item: updatedItem),
+                      ),
+                    );
+                  }
+                },
               );
             },
           ),
