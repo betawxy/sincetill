@@ -4,7 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:sincetill/models/item_model.dart';
-import 'package:sincetill/screens/item_edit_screen.dart';
+import 'package:sincetill/screens/edit_item_screen.dart';
 import 'package:sincetill/store/item_store.dart';
 import 'package:sincetill/widgets/appbar_title.dart';
 import 'package:sincetill/widgets/item_bg_image_wrapper.dart';
@@ -90,7 +90,7 @@ class ItemDetailsScreen extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ItemEditScreen(item: item),
+                  builder: (context) => EditItemScreen(item: item),
                 ),
               );
             },
