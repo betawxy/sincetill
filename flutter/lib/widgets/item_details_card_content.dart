@@ -51,7 +51,7 @@ class ItemDetailsCardContent extends StatelessWidget {
                   child: Text(
                     item.title,
                     textAlign: TextAlign.center,
-                    maxLines: 5,
+                    maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.lato().copyWith(
                       color: Theme.of(context).accentColor,

@@ -16,10 +16,14 @@ class ItemDetailsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return FractionallySizedBox(
       widthFactor: 0.816,
-      heightFactor: 0.618,
+      heightFactor: 0.8,
+      alignment: Alignment.topCenter,
       child: GlassmorphicContainer(
         width: double.infinity,
         height: double.infinity,
+        margin: EdgeInsets.only(
+          top: MediaQuery.of(context).size.height * .1,
+        ),
         borderRadius: 20,
         blur: 8,
         alignment: Alignment.bottomCenter,
