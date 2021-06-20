@@ -30,4 +30,10 @@ class ItemStore {
   Future<void> delete(Item item) async {
     return _getItemsRef().doc(item.id).delete();
   }
+
+  Future<DocumentReference<Item>> updateItem(Item item) async {
+    var res = _getItemsRef().doc(item.id);
+    await res.update(item.toJson());
+    return res;
+  }
 }

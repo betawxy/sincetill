@@ -1,13 +1,16 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:sincetill/models/item_model.dart';
+import 'package:sincetill/store/item_store.dart';
 import 'package:sincetill/widgets/form/item_background_form.dart';
 
 import 'auth_screen.dart';
@@ -205,7 +208,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                     ),
                     Center(
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: _editButtonOnPressed,
                         child: Text('Update'),
                       ),
                     ),
@@ -217,6 +220,91 @@ class _EditItemScreenState extends State<EditItemScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _editButtonOnPressed() async {
+    final User user = FirebaseAuth.instance.currentUser!;
+
+    if (_title.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Title should not be empty.'),
+        ),
+      );
+      return;
+    }
+
+    setState(() {
+      _saving = true;
+    });
+
+    var backgroundImage = widget.item.backgroundImage;
+
+    if (_imageFile != null) {
+      try {
+        File? compressedFile;
+
+        try {
+          compressedFile = await FlutterImageCompress.compressAndGetFile(
+            _imageFile!.absolute.path,
+            _imageFile!.absolute.path + '_compressed.jpg',
+            quality: 90,
+            minWidth: 1024,
+            minHeight: 1024,
+          );
+        } on Exception catch (e) {
+          debugPrint(e.toString());
+        }
+
+        var ref = storage
+            .ref('images')
+            .child(user.uid)
+            .child('${widget.item.id}_$_title.jpg');
+
+        await ref.putFile(compressedFile ?? _imageFile!);
+
+        backgroundImage = await ref.getDownloadURL();
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Failed to update image',
+            ),
+          ),
+        );
+      }
+    }
+
+    var item = Item(
+      id: widget.item.id,
+      uid: user.uid,
+      title: _title,
+      isFullDayEvent: _isFullDayEvent,
+      formatType: _formatType,
+      backgroundImage: backgroundImage,
+      ts: Timestamp.fromDate(_ts),
+      ctime: widget.item.ctime,
+      mtime: Timestamp.now(),
+    );
+
+    try {
+      await ItemStore(user.uid).updateItem(item);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Failed to update item.',
+          ),
+        ),
+      );
+      return;
+    }
+
+    setState(() {
+      _saving = false;
+    });
+
+    Navigator.pop(context);
   }
 
   Future<void> _pickImage(ImageSource source) async {
