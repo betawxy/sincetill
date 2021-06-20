@@ -8,6 +8,7 @@ import 'package:sincetill/screens/auth_screen.dart';
 import 'package:sincetill/store/item_store.dart';
 import 'package:sincetill/widgets/appbar_title.dart';
 import 'package:sincetill/widgets/item_list_tile.dart';
+import 'package:sincetill/widgets/menu_button.dart';
 
 class ItemListScreen extends StatelessWidget {
   static const route = '/items';
@@ -80,43 +81,7 @@ class ItemListScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 4.0),
             child: Row(
               children: [
-                IconButton(
-                  tooltip:
-                      MaterialLocalizations.of(context).openAppDrawerTooltip,
-                  icon: const Icon(
-                    Icons.menu,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    showModalBottomSheet(
-                      context: context,
-                      backgroundColor: Theme.of(context).primaryColor,
-                      builder: (context) => Container(
-                        height: MediaQuery.of(context).size.height * .3,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            TextButton(
-                              onPressed: () async {
-                                await FirebaseAuth.instance.signOut();
-                                Navigator.pushReplacementNamed(
-                                  context,
-                                  AuthScreen.route,
-                                );
-                              },
-                              child: Text('Sign Out'),
-                              style: ButtonStyle(
-                                foregroundColor: MaterialStateProperty.all(
-                                  Color(0xffedf6f9),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
+                MenuButton(),
                 IconButton(
                   tooltip:
                       MaterialLocalizations.of(context).selectAllButtonLabel,
