@@ -92,6 +92,8 @@ class ItemDetailsScreen extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) => EditItemScreen(item: item),
                 ),
+              ).then(
+                (value) => Navigator.pop(context),
               );
             },
           ),
