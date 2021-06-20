@@ -24,8 +24,6 @@ class AddItemScreen extends StatefulWidget {
 }
 
 class _AddItemScreenState extends State<AddItemScreen> {
-  final _formKey = GlobalKey<FormBuilderState>();
-
   String? _title;
   bool _isFullDayEvent = false;
   var _formatType = EFormatType.DAYS;
@@ -74,162 +72,146 @@ class _AddItemScreenState extends State<AddItemScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    FormBuilder(
-                      key: _formKey,
-                      autovalidateMode: AutovalidateMode.disabled,
-                      initialValue: {
-                        'title': '',
-                        'isFullDayEvent': false,
-                        'age': '13',
-                        'gender': 'Male'
+                    FormBuilderTextField(
+                      name: 'title',
+                      decoration: InputDecoration(
+                        labelText: 'Title *',
+                      ),
+                      onChanged: (value) {
+                        if (value != null) {
+                          _title = value;
+                        }
                       },
-                      skipDisabled: true,
-                      child: Column(
-                        children: [
-                          FormBuilderTextField(
-                            name: 'title',
-                            decoration: InputDecoration(
-                              labelText: 'Title *',
-                            ),
-                            onChanged: (value) {
-                              if (value != null) {
-                                _title = value;
-                              }
-                            },
-                            validator: FormBuilderValidators.compose([
-                              FormBuilderValidators.required(context),
-                            ]),
-                            keyboardType: TextInputType.text,
-                          ),
-                          FormBuilderSwitch(
-                            name: 'isFullDayEvent',
-                            title: Text(
-                              'Full Day Event',
-                              style: TextStyle(
-                                color: Theme.of(context).primaryColor,
+                      validator: FormBuilderValidators.compose(
+                        [FormBuilderValidators.required(context)],
+                      ),
+                      keyboardType: TextInputType.text,
+                    ),
+                    FormBuilderSwitch(
+                      name: 'isFullDayEvent',
+                      title: Text(
+                        'Full Day Event',
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                      initialValue: _isFullDayEvent,
+                      onChanged: (value) {
+                        if (value != null) {
+                          setState(() {
+                            _isFullDayEvent = value;
+                          });
+                        }
+                      },
+                    ),
+                    FormBuilderDateTimePicker(
+                      name: 'date',
+                      inputType: InputType.date,
+                      decoration: InputDecoration(
+                        labelText: 'Date',
+                      ),
+                      initialValue: _ts,
+                      onChanged: (value) {
+                        if (value != null) {
+                          _ts = DateTime(
+                            value.year,
+                            value.month,
+                            value.day,
+                            _ts.hour,
+                            _ts.minute,
+                            _ts.second,
+                          );
+                        }
+                      },
+                    ),
+                    if (!_isFullDayEvent)
+                      FormBuilderDateTimePicker(
+                        name: 'time',
+                        inputType: InputType.time,
+                        decoration: InputDecoration(
+                          labelText: 'Time',
+                        ),
+                        initialValue: _ts,
+                        onChanged: (value) {
+                          if (value != null) {
+                            _ts = DateTime(
+                              _ts.year,
+                              _ts.month,
+                              _ts.day,
+                              value.hour,
+                              value.minute,
+                              value.second,
+                            );
+                          }
+                        },
+                      ),
+                    FormBuilderDropdown(
+                      name: 'format_type',
+                      decoration: InputDecoration(
+                        labelText: 'Show As',
+                      ),
+                      hint: Text('Select Format'),
+                      validator: FormBuilderValidators.compose(
+                          [FormBuilderValidators.required(context)]),
+                      initialValue: _formatType,
+                      onChanged: (value) {
+                        if (value != null) {
+                          _formatType = value as EFormatType;
+                        }
+                      },
+                      items: EFormatType.values
+                          .map(
+                            (formatType) => DropdownMenuItem(
+                              value: formatType,
+                              child: Text(
+                                formatType
+                                    .toString()
+                                    .split('.')
+                                    .last
+                                    .capitalize(),
                               ),
                             ),
-                            onChanged: (value) {
-                              if (value != null) {
-                                setState(() {
-                                  _isFullDayEvent = value;
-                                });
-                              }
-                            },
+                          )
+                          .toList(),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Change background',
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
                           ),
-                          FormBuilderDateTimePicker(
-                            name: 'date',
-                            inputType: InputType.date,
-                            decoration: InputDecoration(
-                              labelText: 'Date',
-                            ),
-                            initialValue: _ts,
-                            onChanged: (value) {
-                              if (value != null) {
-                                _ts = DateTime(
-                                  value.year,
-                                  value.month,
-                                  value.day,
-                                  _ts.hour,
-                                  _ts.minute,
-                                  _ts.second,
-                                );
-                              }
-                            },
-                          ),
-                          if (!_isFullDayEvent)
-                            FormBuilderDateTimePicker(
-                              name: 'time',
-                              inputType: InputType.time,
-                              decoration: InputDecoration(
-                                labelText: 'Time',
-                              ),
-                              initialValue: _ts,
-                              onChanged: (value) {
-                                if (value != null) {
-                                  _ts = DateTime(
-                                    _ts.year,
-                                    _ts.month,
-                                    _ts.day,
-                                    value.hour,
-                                    value.minute,
-                                    value.second,
-                                  );
-                                }
-                              },
-                            ),
-                          FormBuilderDropdown(
-                            name: 'format_type',
-                            decoration: InputDecoration(
-                              labelText: 'Show As',
-                            ),
-                            hint: Text('Select Format'),
-                            validator: FormBuilderValidators.compose(
-                                [FormBuilderValidators.required(context)]),
-                            initialValue: _formatType,
-                            onChanged: (value) {
-                              if (value != null) {
-                                _formatType = value as EFormatType;
-                              }
-                            },
-                            items: EFormatType.values
-                                .map(
-                                  (formatType) => DropdownMenuItem(
-                                    value: formatType,
-                                    child: Text(
-                                      formatType
-                                          .toString()
-                                          .split('.')
-                                          .last
-                                          .capitalize(),
-                                    ),
-                                  ),
-                                )
-                                .toList(),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Change background',
-                                style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
+                        ),
+                        Row(
+                          children: [
+                            ElevatedButton(
+                              child: Icon(Icons.photo_camera),
+                              onPressed: _pickImageFromCamera,
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(
+                                  Colors.black12,
                                 ),
                               ),
-                              Row(
-                                children: [
-                                  ElevatedButton(
-                                    child: Icon(Icons.photo_camera),
-                                    onPressed: _pickImageFromCamera,
-                                    style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                        Colors.black12,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  ElevatedButton(
-                                    child: Icon(Icons.photo),
-                                    onPressed: _pickImageFromGallery,
-                                    style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                        Colors.black12,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            ElevatedButton(
+                              child: Icon(Icons.photo),
+                              onPressed: _pickImageFromGallery,
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(
+                                  Colors.black12,
+                                ),
                               ),
-                            ],
-                          ),
-                        ],
-                      ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: 30,
