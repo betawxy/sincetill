@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
@@ -49,6 +50,12 @@ class _EditItemScreenState extends State<EditItemScreen> {
       _isFullDayEvent = widget.item.isFullDayEvent;
       _formatType = widget.item.formatType;
       _ts = widget.item.ts.toDate();
+
+      if (widget.item.backgroundImage.isNotEmpty) {
+        _imageProvider = CachedNetworkImageProvider(
+          widget.item.backgroundImage,
+        );
+      }
     });
   }
 
