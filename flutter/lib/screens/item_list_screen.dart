@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:sincetill/models/item_model.dart';
 import 'package:sincetill/screens/add_item_screen.dart';
 import 'package:sincetill/screens/auth_screen.dart';
@@ -44,9 +45,17 @@ class ItemListScreen extends StatelessWidget {
                       },
                     );
                   }
-                  // todo error handling etc
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Something went wrong.'),
+                    );
+                  }
                   return Center(
-                    child: Text('loading...'),
+                    child: SpinKitPulse(
+                      color: Colors.blue,
+                      size: 50.0,
+                      duration: Duration(milliseconds: 500),
+                    ),
                   );
                 },
               ),
