@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:sincetill/models/item_model.dart';
 import 'package:sincetill/store/item_store.dart';
+import 'package:sincetill/widgets/form/item_background_form.dart';
 
 import '../utils.dart';
 import 'auth_screen.dart';
@@ -177,135 +178,15 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     SizedBox(
                       height: 20,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Change background',
-                          style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            ElevatedButton(
-                              child: Icon(Icons.photo_camera),
-                              onPressed: _pickImageFromCamera,
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(
-                                  Colors.black12,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            ElevatedButton(
-                              child: Icon(Icons.photo),
-                              onPressed: _pickImageFromGallery,
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(
-                                  Colors.black12,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                    ItemBackgroundForm(
+                      pickImage: _pickImage,
                     ),
                     SizedBox(
                       height: 30,
                     ),
                     Center(
                       child: ElevatedButton(
-                        onPressed: () async {
-                          if (_title == null || _title!.isEmpty) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text('Title should not be empty.'),
-                              ),
-                            );
-                            return;
-                          }
-
-                          setState(() {
-                            _saving = true;
-                          });
-
-                          var itemId = genUniqueId();
-                          var backgroundImage = '';
-
-                          if (_imageFile != null) {
-                            try {
-                              File? compressedFile;
-
-                              try {
-                                compressedFile = await FlutterImageCompress
-                                    .compressAndGetFile(
-                                  _imageFile!.absolute.path,
-                                  _imageFile!.absolute.path + '_compressed.jpg',
-                                  quality: 90,
-                                  minWidth: 1024,
-                                  minHeight: 1024,
-                                );
-                              } on Exception catch (e) {
-                                debugPrint(e.toString());
-                              }
-
-                              var ref = storage
-                                  .ref('images')
-                                  .child(user.uid)
-                                  .child('${itemId}_$_title.jpg');
-                              await ref.putFile(compressedFile ?? _imageFile!);
-                              backgroundImage = await ref.getDownloadURL();
-                            } catch (e) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Failed to upload image',
-                                  ),
-                                ),
-                              );
-
-                              setState(() {
-                                _saving = false;
-                              });
-
-                              return;
-                            }
-                          }
-
-                          var item = Item(
-                            id: itemId,
-                            uid: user.uid,
-                            title: _title!,
-                            isFullDayEvent: _isFullDayEvent,
-                            formatType: _formatType,
-                            backgroundImage: backgroundImage,
-                            ts: Timestamp.fromDate(_ts),
-                            ctime: Timestamp.now(),
-                            mtime: Timestamp.now(),
-                          );
-
-                          try {
-                            await ItemStore(user.uid).addToStore(item);
-                          } catch (e) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  'Failed to create item.',
-                                ),
-                              ),
-                            );
-                            return;
-                          }
-
-                          setState(() {
-                            _saving = false;
-                          });
-
-                          Navigator.pop(context);
-                        },
+                        onPressed: _addButtonOnPressed,
                         child: Text('Add'),
                       ),
                     ),
@@ -319,22 +200,98 @@ class _AddItemScreenState extends State<AddItemScreen> {
     );
   }
 
-  Future<void> _pickImageFromCamera() async {
-    final PickedFile? pickedFile =
-        await _picker.getImage(source: ImageSource.camera);
-    if (pickedFile != null) {
-      setState(() {
-        this._imageFile = File(pickedFile.path);
-        if (this._imageFile != null) {
-          this._imageProvider = FileImage(this._imageFile!);
-        }
-      });
+  Future<void> _addButtonOnPressed() async {
+    final User user = FirebaseAuth.instance.currentUser!;
+
+    if (_title == null || _title!.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Title should not be empty.'),
+        ),
+      );
+      return;
     }
+
+    setState(() {
+      _saving = true;
+    });
+
+    var itemId = genUniqueId();
+    var backgroundImage = '';
+
+    if (_imageFile != null) {
+      try {
+        File? compressedFile;
+
+        try {
+          compressedFile = await FlutterImageCompress.compressAndGetFile(
+            _imageFile!.absolute.path,
+            _imageFile!.absolute.path + '_compressed.jpg',
+            quality: 90,
+            minWidth: 1024,
+            minHeight: 1024,
+          );
+        } on Exception catch (e) {
+          debugPrint(e.toString());
+        }
+
+        var ref = storage
+            .ref('images')
+            .child(user.uid)
+            .child('${itemId}_$_title.jpg');
+        await ref.putFile(compressedFile ?? _imageFile!);
+        backgroundImage = await ref.getDownloadURL();
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Failed to upload image',
+            ),
+          ),
+        );
+
+        setState(() {
+          _saving = false;
+        });
+
+        return;
+      }
+    }
+
+    var item = Item(
+      id: itemId,
+      uid: user.uid,
+      title: _title!,
+      isFullDayEvent: _isFullDayEvent,
+      formatType: _formatType,
+      backgroundImage: backgroundImage,
+      ts: Timestamp.fromDate(_ts),
+      ctime: Timestamp.now(),
+      mtime: Timestamp.now(),
+    );
+
+    try {
+      await ItemStore(user.uid).addToStore(item);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Failed to create item.',
+          ),
+        ),
+      );
+      return;
+    }
+
+    setState(() {
+      _saving = false;
+    });
+
+    Navigator.pop(context);
   }
 
-  Future<void> _pickImageFromGallery() async {
-    final PickedFile? pickedFile =
-        await _picker.getImage(source: ImageSource.gallery);
+  Future<void> _pickImage(ImageSource source) async {
+    final PickedFile? pickedFile = await _picker.getImage(source: source);
     if (pickedFile != null) {
       setState(() {
         this._imageFile = File(pickedFile.path);
