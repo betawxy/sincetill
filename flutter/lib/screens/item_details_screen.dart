@@ -1,3 +1,4 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:sincetill/models/item_model.dart';
@@ -41,7 +42,13 @@ class ItemDetailsScreen extends StatelessWidget {
             foregroundColor: Colors.white,
             label: 'Delete',
             labelStyle: TextStyle(fontSize: 16.0),
-            onTap: () => print('Delete'),
+            onTap: () {
+              showOkCancelAlertDialog(
+                context: context,
+                title: 'Delete "${item.title}"?',
+                isDestructiveAction: true,
+              );
+            },
           ),
           SpeedDialChild(
             child: Icon(Icons.edit),
