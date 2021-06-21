@@ -36,7 +36,14 @@ class _SearchScreenState extends State<SearchScreen> {
             isDense: true,
             filled: true,
             fillColor: Colors.white,
-            border: InputBorder.none,
+            contentPadding: EdgeInsets.all(8),
+            border: OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: const BorderRadius.all(
+                Radius.circular(3.0),
+              ),
+              gapPadding: 0,
+            ),
           ),
           onChanged: (value) {
             setState(() {
