@@ -131,9 +131,16 @@ class AuthScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(
-                  'images/st.png',
+                Container(
                   width: 200,
+                  height: 200,
+                  child: AnimatedOpacity(
+                    opacity: 1,
+                    duration: Duration(seconds: 2),
+                    child: Image(
+                      image: AssetImage('images/st.png'),
+                    ),
+                  ),
                 ),
                 SizedBox(
                   height: 40,
