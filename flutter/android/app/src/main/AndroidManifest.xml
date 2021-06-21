@@ -2,7 +2,7 @@
     package="com.withbeta.sincetill">
    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
    <application
-        android:label="sincetill"
+        android:label="SinceTill"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
