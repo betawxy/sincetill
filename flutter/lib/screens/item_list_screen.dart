@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:sincetill/models/item_model.dart';
 import 'package:sincetill/screens/add_item_screen.dart';
 import 'package:sincetill/screens/auth_screen.dart';
+import 'package:sincetill/screens/search_screen.dart';
 import 'package:sincetill/store/item_store.dart';
 import 'package:sincetill/widgets/appbar_title.dart';
 import 'package:sincetill/widgets/item_list_tile.dart';
@@ -89,7 +90,9 @@ class ItemListScreen extends StatelessWidget {
                     Icons.search,
                     color: Colors.white,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, SearchScreen.route);
+                  },
                 ),
               ],
             ),

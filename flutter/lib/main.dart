@@ -3,6 +3,7 @@ import 'package:sincetill/screens/add_item_screen.dart';
 import 'package:sincetill/screens/auth_screen.dart';
 import 'package:sincetill/screens/item_list_screen.dart';
 import 'package:sincetill/screens/loading_screen.dart';
+import 'package:sincetill/screens/search_screen.dart';
 
 import 'constants.dart';
 
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
         ItemListScreen.route: (context) => ItemListScreen(),
         // ItemDetailsScreen.route: (context) => ItemDetailsScreen(),
         AddItemScreen.route: (context) => AddItemScreen(),
+        SearchScreen.route: (context) => SearchScreen(),
       },
       debugShowCheckedModeBanner: false,
       theme: kAppTheme,
