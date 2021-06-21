@@ -124,12 +124,20 @@ class AuthScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isIos = Theme.of(context).platform == TargetPlatform.iOS;
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
           child: IntrinsicWidth(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Image.asset(
+                  'images/st.png',
+                  width: 200,
+                ),
+                SizedBox(
+                  height: 40,
+                ),
                 isIos ? _appleSignIn(context) : _googleSignIn(context),
                 SizedBox(
                   height: 16,
