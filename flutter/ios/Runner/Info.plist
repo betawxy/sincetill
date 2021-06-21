@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Pick photos as event background
+	<string>Pick photos as event background</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Take photos as event background</string>
 	<key>CFBundleExecutable</key>
