@@ -40,7 +40,7 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
           onChanged: (value) {
             setState(() {
-              pattern = value;
+              pattern = value.toLowerCase();
               filteredItems = filterItems(widget.items, pattern);
             });
           },
@@ -68,5 +68,9 @@ class _SearchScreenState extends State<SearchScreen> {
 List<Item> filterItems(List<Item> items, String pattern) {
   if (pattern.isEmpty) return [];
 
-  return items;
+  return items
+      .where(
+        (e) => e.title.toLowerCase().contains(pattern),
+      )
+      .toList();
 }
