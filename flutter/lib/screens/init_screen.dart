@@ -6,16 +6,16 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'auth_screen.dart';
 import 'item_list_screen.dart';
 
-class LoadingScreen extends StatefulWidget {
+class InitScreen extends StatefulWidget {
   static const route = '/loading';
 
-  const LoadingScreen({Key? key}) : super(key: key);
+  const InitScreen({Key? key}) : super(key: key);
 
   @override
-  _LoadingScreenState createState() => _LoadingScreenState();
+  _InitScreenState createState() => _InitScreenState();
 }
 
-class _LoadingScreenState extends State<LoadingScreen> {
+class _InitScreenState extends State<InitScreen> {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
   Widget wrapper(Widget child) {

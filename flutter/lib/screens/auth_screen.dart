@@ -57,7 +57,6 @@ class AuthScreen extends StatelessWidget {
     required String name,
   }) {
     return Container(
-      width: 240,
       height: 45,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
@@ -76,9 +75,12 @@ class AuthScreen extends StatelessWidget {
               width: 20,
             ),
             Expanded(
-              child: Text(
-                'Continue with $name',
-                textAlign: TextAlign.center,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Text(
+                  'Continue with $name',
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
           ],
@@ -124,15 +126,17 @@ class AuthScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              isIos ? _appleSignIn(context) : _googleSignIn(context),
-              SizedBox(
-                height: 16,
-              ),
-              isIos ? _googleSignIn(context) : _appleSignIn(context),
-            ],
+          child: IntrinsicWidth(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                isIos ? _appleSignIn(context) : _googleSignIn(context),
+                SizedBox(
+                  height: 16,
+                ),
+                isIos ? _googleSignIn(context) : _appleSignIn(context),
+              ],
+            ),
           ),
         ),
       ),
