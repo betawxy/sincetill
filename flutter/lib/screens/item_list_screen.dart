@@ -90,8 +90,14 @@ class ItemListScreen extends StatelessWidget {
                     Icons.search,
                     color: Colors.white,
                   ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, SearchScreen.route);
+                  onPressed: () async {
+                    var items = await ItemStore(user.uid).allItems();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SearchScreen(items: items),
+                      ),
+                    );
                   },
                 ),
               ],
