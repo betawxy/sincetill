@@ -1,7 +1,12 @@
+import 'dart:convert';
+import 'dart:math';
+
+import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:sincetill/screens/item_list_screen.dart';
 
 class AuthScreen extends StatelessWidget {
@@ -47,6 +52,67 @@ class AuthScreen extends StatelessWidget {
     }
 
     return null;
+  }
+
+  String generateNonce([int length = 32]) {
+    final charset =
+        '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
+    final random = Random.secure();
+    return List.generate(length, (_) => charset[random.nextInt(charset.length)])
+        .join();
+  }
+
+  /// Returns the sha256 hash of [input] in hex notation.
+  String sha256ofString(String input) {
+    final bytes = utf8.encode(input);
+    final digest = sha256.convert(bytes);
+    return digest.toString();
+  }
+
+  Future<void> signInWithApple(BuildContext context) async {
+    try {
+      final rawNonce = generateNonce();
+      final nonce = sha256ofString(rawNonce);
+
+      final appleCredential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.fullName,
+        ],
+        nonce: nonce,
+      );
+
+      print(appleCredential);
+
+      final oauthCredential = OAuthProvider("apple.com").credential(
+        idToken: appleCredential.identityToken,
+        rawNonce: rawNonce,
+      );
+
+      print(oauthCredential.accessToken);
+
+      final authResult =
+          await FirebaseAuth.instance.signInWithCredential(oauthCredential);
+
+      final displayName =
+          '${appleCredential.givenName} ${appleCredential.familyName}';
+      final userEmail = '${appleCredential.email}';
+
+      final firebaseUser = authResult.user;
+
+      if (firebaseUser == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to sign in with Apple: $e'),
+          ),
+        );
+      } else {
+        await firebaseUser.updateDisplayName(displayName);
+      }
+
+      Navigator.pushReplacementNamed(context, ItemListScreen.route);
+    } catch (e) {
+      print(e);
+    }
   }
 
   Widget signInButton({
@@ -100,7 +166,7 @@ class AuthScreen extends StatelessWidget {
         size: 24,
       ),
       onPressed: () async {
-        // TODO: required to pub to appstore
+        await signInWithApple(context);
       },
     );
   }
