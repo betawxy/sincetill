@@ -211,11 +211,11 @@ class AuthScreen extends StatelessWidget {
                 SizedBox(
                   height: 40,
                 ),
-                isIos ? _appleSignIn(context) : _googleSignIn(context),
+                if (isIos) _appleSignIn(context),
                 SizedBox(
                   height: 16,
                 ),
-                isIos ? _googleSignIn(context) : _appleSignIn(context),
+                _googleSignIn(context),
               ],
             ),
           ),
