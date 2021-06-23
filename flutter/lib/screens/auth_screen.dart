@@ -125,6 +125,11 @@ class _AuthScreenState extends State<AuthScreen> {
 
       Navigator.pushReplacementNamed(context, ItemListScreen.route);
     } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to sign in with Apple: $e'),
+        ),
+      );
       print(e);
     }
 
