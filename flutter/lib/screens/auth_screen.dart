@@ -54,7 +54,12 @@ class _AuthScreenState extends State<AuthScreen> {
       // Once signed in, return the UserCredential
       await FirebaseAuth.instance.signInWithCredential(credential);
 
-      Navigator.pushReplacementNamed(context, ItemListScreen.route);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ItemListScreen(),
+        ),
+      );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -123,7 +128,12 @@ class _AuthScreenState extends State<AuthScreen> {
         await firebaseUser.updateDisplayName(displayName);
       }
 
-      Navigator.pushReplacementNamed(context, ItemListScreen.route);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ItemListScreen(),
+        ),
+      );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

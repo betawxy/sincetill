@@ -27,9 +27,11 @@ class MenuButton extends StatelessWidget {
                 TextButton(
                   onPressed: () async {
                     await FirebaseAuth.instance.signOut();
-                    Navigator.pushReplacementNamed(
+                    Navigator.pushReplacement(
                       context,
-                      AuthScreen.route,
+                      MaterialPageRoute(
+                        builder: (context) => AuthScreen(),
+                      ),
                     );
                   },
                   child: Text('Sign Out'),

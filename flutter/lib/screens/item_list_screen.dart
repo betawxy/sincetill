@@ -70,7 +70,12 @@ class ItemListScreen extends StatelessWidget {
           Icons.add,
         ),
         onPressed: () {
-          Navigator.pushNamed(context, AddItemScreen.route);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddItemScreen(),
+            ),
+          );
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
