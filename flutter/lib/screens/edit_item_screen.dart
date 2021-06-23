@@ -74,6 +74,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
       ),
       body: LoadingOverlay(
         isLoading: _saving,
+        color: Theme.of(context).primaryColor,
         child: Container(
           width: double.infinity,
           height: double.infinity,

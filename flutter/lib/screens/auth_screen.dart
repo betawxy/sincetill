@@ -211,6 +211,7 @@ class _AuthScreenState extends State<AuthScreen> {
       backgroundColor: Colors.white,
       body: LoadingOverlay(
         isLoading: loading,
+        color: Theme.of(context).primaryColor,
         child: SafeArea(
           child: Center(
             child: IntrinsicWidth(
