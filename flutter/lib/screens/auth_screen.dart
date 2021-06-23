@@ -6,13 +6,21 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:loading_overlay/loading_overlay.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:sincetill/screens/item_list_screen.dart';
 
-class AuthScreen extends StatelessWidget {
+class AuthScreen extends StatefulWidget {
   static const route = '/auth';
 
   const AuthScreen({Key? key}) : super(key: key);
+
+  @override
+  _AuthScreenState createState() => _AuthScreenState();
+}
+
+class _AuthScreenState extends State<AuthScreen> {
+  bool loading = false;
 
   Future<void> signInWithGoogle(BuildContext context) async {
     try {
@@ -39,6 +47,10 @@ class AuthScreen extends StatelessWidget {
         idToken: googleAuth.idToken,
       );
 
+      setState(() {
+        loading = true;
+      });
+
       // Once signed in, return the UserCredential
       await FirebaseAuth.instance.signInWithCredential(credential);
 
@@ -51,6 +63,9 @@ class AuthScreen extends StatelessWidget {
       );
     }
 
+    setState(() {
+      loading = false;
+    });
     return null;
   }
 
@@ -81,21 +96,20 @@ class AuthScreen extends StatelessWidget {
         nonce: nonce,
       );
 
-      print(appleCredential);
-
       final oauthCredential = OAuthProvider("apple.com").credential(
         idToken: appleCredential.identityToken,
         rawNonce: rawNonce,
       );
 
-      print(oauthCredential.accessToken);
+      setState(() {
+        loading = true;
+      });
 
       final authResult =
           await FirebaseAuth.instance.signInWithCredential(oauthCredential);
 
       final displayName =
           '${appleCredential.givenName} ${appleCredential.familyName}';
-      final userEmail = '${appleCredential.email}';
 
       final firebaseUser = authResult.user;
 
@@ -113,6 +127,10 @@ class AuthScreen extends StatelessWidget {
     } catch (e) {
       print(e);
     }
+
+    setState(() {
+      loading = false;
+    });
   }
 
   Widget signInButton({
@@ -191,32 +209,35 @@ class AuthScreen extends StatelessWidget {
     bool isIos = Theme.of(context).platform == TargetPlatform.iOS;
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Center(
-          child: IntrinsicWidth(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 200,
-                  height: 200,
-                  child: AnimatedOpacity(
-                    opacity: 1,
-                    duration: Duration(seconds: 2),
-                    child: Image(
-                      image: AssetImage('images/st.png'),
+      body: LoadingOverlay(
+        isLoading: loading,
+        child: SafeArea(
+          child: Center(
+            child: IntrinsicWidth(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 200,
+                    height: 200,
+                    child: AnimatedOpacity(
+                      opacity: 1,
+                      duration: Duration(seconds: 2),
+                      child: Image(
+                        image: AssetImage('images/st.png'),
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 40,
-                ),
-                if (isIos) _appleSignIn(context),
-                SizedBox(
-                  height: 16,
-                ),
-                _googleSignIn(context),
-              ],
+                  SizedBox(
+                    height: 40,
+                  ),
+                  if (isIos) _appleSignIn(context),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  _googleSignIn(context),
+                ],
+              ),
             ),
           ),
         ),
