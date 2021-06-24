@@ -121,7 +121,7 @@ class _AuthScreenState extends State<AuthScreen> {
       if (firebaseUser == null) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to sign in with Apple: $e'),
+            content: Text('Failed to sign in with Apple'),
           ),
         );
       } else {
